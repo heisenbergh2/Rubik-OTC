@@ -1,0 +1,73 @@
+TextWindow < MainWindowHigh
+  id: textWindow
+  size: 313 445
+  font: $var-cip-font-new
+  color: #909090
+  text-offset: 0 2
+
+  UIItem
+    id: textItem
+    size: 34 34
+    virtual: true
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: -8
+    margin-left: -1
+
+  Label
+    id: description
+    anchors.left: textItem.right
+    anchors.right: parent.right
+    anchors.verticalCenter: textItem.verticalCenter
+    margin-left: 9
+    font: $var-cip-font-new
+    color: $var-text-cip-color
+    text-auto-resize: true
+    text-align: left
+    text-wrap: true
+
+  Panel
+    id: textPanel
+    size: 281 316
+    anchors.top: textItem.bottom
+    anchors.left: parent.left
+    margin-top: 10
+
+    MultilineTextEdit
+      id: textEdit
+      font: $var-cip-font-new
+      vertical-scrollbar: textScroll
+      anchors.fill: parent
+      padding: 5 16 5 5
+      text-wrap: true
+
+    VerticalQtScrollBar
+      id: textScroll
+      anchors.top: textEdit.top
+      anchors.bottom: textEdit.bottom
+      anchors.right: textEdit.right
+      margin: 1 1 1 0
+      step: 16
+      pixels-scroll: true
+
+  HorizontalSeparator
+    anchors.bottom: okButton.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-bottom: 11
+
+  Button
+    id: okButton
+    size: 43 20
+    text-offset: 0 0
+    anchors.bottom: parent.bottom
+    anchors.right: next.left
+    margin-right: 6
+
+  Button
+    id: cancelButton
+    size: 43 20
+    text-offset: 0 0
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    margin-right: 0

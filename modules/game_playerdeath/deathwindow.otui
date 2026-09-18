@@ -1,0 +1,49 @@
+NewMainWindow
+  id: deathWindow
+  !text: tr('You are Dead')
+  size: 369 217
+
+  Label
+    id: labelText
+    width: 345
+    height: 183
+    anchors.left: parent.left
+    anchors.top: parent.top
+    font: $var-cip-font
+    auto-resize: true
+    margin-left: 11
+    margin-top: 11
+
+  HorizontalSeparator
+    size: 337 2
+    anchors.bottom: parent.bottom
+    margin-bottom: 41
+    margin-left: 12
+    anchors.left: parent.left
+
+  Button
+    id: buttonStore
+    !text: tr('Store')
+    size: 43 20
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    margin-left: 210
+    margin-bottom: 12
+
+  Button
+    id: buttonOk
+    !text: tr('Ok')
+    size: 43 20
+    anchors.left: prev.left
+    anchors.bottom: parent.bottom
+    margin-left: 48
+    margin-bottom: 12
+
+  Button
+    id: buttonCancel
+    !text: tr('Cancel')
+    size: 43 20
+    anchors.left: prev.left
+    anchors.bottom: parent.bottom
+    margin-left: 48
+    margin-bottom: 12

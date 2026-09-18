@@ -1,0 +1,234 @@
+PingWidget < UIWidget
+  UIWidget
+    id: panelPingFps
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 110
+    focusable: false
+    UIWidget
+      id:imgPing
+      image-source: /images/ui/up
+      anchors.left: parent.left
+      anchors.top: prev.bottom
+      focusable: false
+    Label
+      id: lblping
+      height: 12
+      width: 33
+      margin-left: 2
+      anchors.left: Img_ping.right
+      text-horizontal-auto-resize: true
+      text-auto-resize: true
+      focusable: false
+      font: verdana-11px-rounded
+    Label
+      id: lblfps
+      height: 12
+      anchors.left: lblping.left
+      anchors.top: prev.bottom
+      text-horizontal-auto-resize: true
+      text-auto-resize: true
+      text-align: center
+      focusable: false
+      font: verdana-11px-rounded
+
+TopMenuPanel
+  id: topMenu
+  anchors.top: parent.top
+  anchors.horizontalCenter: parent.horizontalCenter
+  width: 1024
+  height: 33
+  image-source: /images/ui/2pixel_up_frame_borderimage
+  image-border: 5
+  margin-top: -2
+
+  TopMenuButtonsPanel
+    id: topLeftTogglesPanel
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    padding-top: 5
+    padding-bottom: 8
+
+  TopMenuButtonsPanel
+    id: topLeftButtonsPanel
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.right: topLeftTogglesPanel.left
+    padding-top: 5
+    padding-bottom: 8
+    margin-right: -6
+
+  UIWidget
+    id: topLeftOnlinePlayers
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.horizontalCenter: parent.horizontalCenter
+    height: 32
+    layout:
+      type: horizontalBox
+      spacing: 5
+      fit-children: true
+
+    UIWidget
+      image-source: /images/icons/icon_players
+      size: 11 14
+      fixed-size: true
+      image-fixed-ratio: true
+      margin-right: -1
+      margin-top: 3
+
+    Label
+      id: topLeftOnlinePlayersLabel
+      !text: '0 ' .. tr('Players online')
+      text-horizontal-auto-resize: true
+      text-auto-resize: true
+      fixed-size: true
+      margin-top: 2
+      height: 14
+      text-align: left
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+  UIWidget
+    id: topLeftTwitch
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.left: parent.left
+    margin-left: 5
+    size: 110 32
+
+    UIWidget
+      id: twitchIcon
+      image-source: /images/icons_big/icon_twitch
+      anchors.top: parent.top
+      margin-top: 6
+      margin-left: 2
+      anchors.left: parent.left
+      size: 47 16
+
+    Panel
+      image-source: /images/icons/icon_streamers
+      anchors.top: parent.top
+      anchors.left: prev.right
+      margin-left: 6
+      margin-top: 4
+      size: 11 7
+
+    Label
+      id: topLeftTwitchStreamersLabel
+      !text: '0'
+      anchors.left: prev.right
+      margin-left: 5
+      margin-bottom: 1 
+      anchors.verticalCenter: prev.verticalCenter
+      width: 50
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Panel
+      image-source: /images/icons/icon_viewers
+      anchors.bottom: parent.bottom
+      anchors.left: twitchIcon.right
+      margin-left: 6
+      margin-bottom: 8
+      size: 11 7
+
+    Label
+      id: topLeftTwitchViewersLabel
+      !text: '0'
+      anchors.left: prev.right
+      margin-left: 5
+      margin-bottom: 1
+      anchors.verticalCenter: prev.verticalCenter
+      width: 50
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+  UIWidget
+    id: topLeftYoutube
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.left: topLeftTwitch.right
+    margin-left: 16 
+    margin-bottom: 2
+    size: 105 32
+
+    UIWidget
+      id: youtubeIcon
+      image-source: /images/icons_big/icon_youtube
+      anchors.verticalCenter: parent.verticalCenter
+      anchors.left: parent.left
+      size: 71 16
+
+    Panel
+      image-source: /images/icons/icon_streamers
+      anchors.top: parent.top
+      anchors.left: prev.right
+      margin-left: 6
+      margin-top: 6
+      size: 11 7
+
+    Label
+      id: topLeftYoutubeStreamersLabel
+      !text: '0'
+      anchors.left: prev.right
+      margin-left: 5
+      margin-bottom: 1
+      anchors.verticalCenter: prev.verticalCenter
+      width: 50
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Panel
+      image-source: /images/icons/icon_viewers
+      anchors.bottom: parent.bottom
+      anchors.left: youtubeIcon.right
+      margin-left: 6
+      margin-bottom: 6
+      size: 11 7
+
+    Label
+      id: topLeftYoutubeViewersLabel
+      !text: '0'
+      anchors.left: prev.right
+      margin-left: 5
+      margin-bottom: 1
+      anchors.verticalCenter: prev.verticalCenter
+      width: 50
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+  TopMenuButtonsPanel
+    id: leftButtonsPanel
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.left: prev.right
+
+  TopMenuFrameCounterLabel
+    id: fpsLabel
+    phantom: false
+    visible: false
+    text-auto-resize: true
+    anchors.top: parent.top
+    anchors.left: leftButtonsPanel.right
+
+  TopMenuPingLabel
+    color: white
+    id: pingLabel
+    visible: false
+    text-auto-resize: true
+    anchors.top: fpsLabel.bottom
+    anchors.left: fpsLabel.left
+
+  TopMenuButtonsPanel
+    id: rightButtonsPanel
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    padding-left: 0
+
+  TopMenuButtonsPanel
+    id: rightGameButtonsPanel
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.right: prev.left
+    visible: false

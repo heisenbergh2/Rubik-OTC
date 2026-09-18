@@ -1,0 +1,226 @@
+UIWidget
+  anchors.fill: parent
+  visible: false
+
+  Label
+    !text: 'Graphics Engine:'
+    anchors.left: parent.left
+    margin-top: 6
+    color: #c0c0c0
+    anchors.top: parent.top
+    font: $var-cip-font-lowspace
+
+  QtComboBox
+    id: graphicsEngine
+    width: 200
+    margin-left: 17
+    margin-top: 1
+    text-offset: -11 1
+    anchors.top: parent.top
+    anchors.left: prev.right
+    mouse-scroll: false
+
+  UIWidget
+    id: graphicsEngineHelp
+    image-source: /images/icons/show_gui_help_grey
+    image-color: #ffffffff
+    size: 12 12
+    anchors.right: parent.right
+    anchors.verticalCenter: graphicsEngine.verticalCenter
+    margin-right: 6
+
+  Label
+    !text: 'Antialiasing Mode:'
+    anchors.left: parent.left
+    color: #c0c0c0
+    anchors.top: graphicsEngine.bottom
+    margin-top: 11
+    font: $var-cip-font-lowspace
+
+  QtComboBox
+    id: antialiasingMode
+    width: 200
+    text-offset: -10 1
+    margin-left: 7
+    margin-top: 26
+    anchors.top: parent.top
+    anchors.left: prev.right
+    mouse-scroll: false
+
+  UIWidget
+    id: antialiasingModeHelp
+    image-source: /images/icons/show_gui_help_grey
+    image-color: #ffffffff
+    size: 12 12
+    anchors.right: parent.right
+    anchors.verticalCenter: antialiasingMode.verticalCenter
+    margin-right: 6
+    !tooltip: tr('If you select "Antialiasing", the Tibia graphics will appear in a smoother look. However, if you are a fan of retro games, you should choose "None" to enjoy a pixelated old-school look. "Smooth Retro" combines the other two modes - it is offering a smooth pixelated look.')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: antialiasingMode.bottom
+    margin-top: 6
+    margin-left: 1
+    margin-right: 1 
+    height: 22
+
+    OptionCheckBoxMarked
+      id: fullscreen
+      margin-top: -1
+      text-offset: 16 0
+      !text: 'Full Screen Mode'
+      !tooltip: 'You can play Tibia both in a full screen mode and in a windowed mode. In full screen mode, Tibia will take up the whole screen, while it is possible to modify the client\'s size if the windowed mode is activated. You can toggle between the two modes by using this option. Alternatively, pressing the shortcut Ctrl+F will have the same effect.'
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-left: 1
+    margin-right: 1
+    margin-top: 6
+    height: 22
+
+    OptionCheckBox
+      id: dontStretchShrink
+      margin-top: -1
+      text-offset: 16 0
+      !text: 'Scale Using Only Integral Multiples'
+      !tooltip: 'Enable this option to use only integral multiples as scale factor (e.g. 50%, 100%, 200%) when scaling the game window. This way you keep the original pixelated look of Tibia when you do not use Antialiasing.'
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-left: 1
+    margin-right: 1
+    margin-top: 6
+    height: 76
+
+    OptionCheckBoxMarked
+      id: vsync
+      margin-top: -1
+      text-offset: 16 0
+      !text: tr('V-Sync')
+      !tooltip: tr('It might help to uncheck this option if your frame rate is low.\nHowever, disabling V-Sync can lead to screen tearing.')
+
+    OptionCheckBoxMarked
+      id: noFrameRateLimit
+      anchors.top: prev.bottom
+      margin-top: 5
+      text-offset: 16 0
+      !text: tr('No Frame Rate Limit')
+      !tooltip: tr('If you check this option, the client will try to produce as many frames as possible. If you find your computer\'s performance is bad when running Tibia, you should rather try to set a frame rate limit.')
+
+    OptionScaleScroll
+      id: backgroundFrameRate
+      !text: tr('Framerate limit: %s', '240')
+      text-offset: 17 0
+      anchors.top: prev.bottom
+      margin-top: 5
+      &minimumScrollValue: 10
+      &maximumScrollValue: 240
+      &scrollSize: 21
+      @onSetup: |
+        local noLimit = modules.client_options.getOption('noFrameRateLimit')
+        local value = modules.client_options.getOption('backgroundFrameRate')
+        if value <= 0 or value > 240 then
+          value = 240
+        end
+
+        self:setText(tr('Frame Rate Limit: %s', value))
+        local valueBar = self:recursiveGetChildById('valueBar')
+        if valueBar then
+          valueBar:setMarginTop(1)
+          valueBar:setMarginRight(18)
+          valueBar:setWidth(175)
+        end
+        if noLimit then
+          self:setColor('#707070ff')
+          if valueBar then
+            valueBar:setEnabled(false)
+            valueBar:setValue(value)
+          end
+        end
+
+    UIWidget
+      id: backgroundFrameRateHelp
+      image-source: /images/icons/show_gui_help_grey
+      image-color: #ffffffff
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: backgroundFrameRate.verticalCenter
+      margin-right: 1
+      margin-top: 1
+      !tooltip: tr('By using this slider, you can modify the preset frame rate limit from 10 to 240 fps (frames per second). Above that, enable "No Frame Rate Limit" for unlimited FPS. If you find your computer\'s performance is bad when running Tibia, you should try reducing the frame rate. Note that this function is not available if you have checked "No Frame Rate Limit".')
+
+    Label
+      id: currentFrameRate
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: backgroundFrameRate.bottom
+      margin-top: 7
+      text-offset: 17 0
+      color: #c0c0c0
+      font: $var-cip-font-lowspace
+      !text: tr('Current Frame Rate: 0.00 fps')
+
+    UIWidget
+      id: currentFrameRateHelp
+      image-source: /images/icons/show_gui_help_grey
+      image-color: #ffffffff
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: currentFrameRate.verticalCenter
+      margin-right: 1
+      margin-top: -1
+      !tooltip: tr('If you are logged into the game, you can see your current frame rate here. Press Alt+F8 to show or hide your current frame rate in the game window.')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 7
+    margin-left: 1
+    margin-right: 1
+    height: 22
+
+    OptionCheckBoxMarked
+      id: optimizeFps
+      margin-top: -1
+      text-offset: 16 0
+      !text: tr('Optimize FPS')
+      !tooltip: tr('Try to optimize when the frame rate is below 60. VISUAL PROBLEMS MAY OCCUR')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-left: 1
+    margin-right: 1
+    margin-top: 6
+    height: 22
+
+    OptionCheckBoxMarked
+      id: forceEffectOptimization
+      margin-top: -1
+      text-offset: 16 0
+      !text: tr('Force Effect Optimization')
+      !tooltip: tr('Will avoid drawing effects on certain occasions.')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-left: 1
+    margin-right: 1
+    margin-top: 6
+    height: 22
+
+    OptionCheckBoxMarked
+      id: asyncTxtLoading
+      margin-top: -1
+      text-offset: 16 0
+      !text: tr('Async texture loading')
+      !tooltip: tr('This option makes textures load asynchronously and uses less RAM.')

@@ -1,0 +1,118 @@
+HealthProgressArc < UIProgressArc
+  size: 14 300
+  arc-layout: left
+  start-angle: 225
+  total-span: 90
+  ring-thickness: 24
+  empty-track: true
+  track-color: #0000003C
+  fill-color: #ffffffff
+  arc-border: true
+  arc-border-color: #000000
+  arc-border-width: 1
+  arc-border-antialias: true
+  arc-border-aa-width: 1
+  arc-border-aa-opacity: 0.6
+  arc-cut-antialias: true
+  arc-cut-aa-width: 1
+  phantom: true
+
+ManaProgressArc < UIProgressArc
+  size: 14 300
+  arc-layout: right
+  start-angle: 45
+  total-span: 90
+  fill-from-end: true
+  empty-track: true
+  ring-thickness: 24
+  track-color: #0000003C
+  fill-color: #0000FFBF
+  arc-border: true
+  arc-border-color: #000000
+  arc-border-width: 1
+  arc-border-antialias: true
+  arc-border-aa-width: 1
+  arc-border-aa-opacity: 0.6
+  arc-cut-antialias: true
+  arc-cut-aa-width: 1
+  phantom: true
+
+ManaShieldProgressArc < UIProgressArc
+  size: 14 300
+  arc-layout: left
+  start-angle: 225
+  total-span: 90
+  ring-thickness: 24
+  empty-track: true
+  track-color: #0000003C
+  fill-color: #9800C1BF
+  arc-border: true
+  arc-border-color: #000000
+  arc-border-width: 1
+  arc-border-antialias: true
+  arc-border-aa-width: 1
+  arc-border-aa-opacity: 0.6
+  arc-cut-antialias: true
+  arc-cut-aa-width: 1
+  opacity: 0.7
+  phantom: true
+
+HarmonyProgressArc < UIProgressArc
+  size: 14 300
+  arc-layout: left
+  start-angle: 225
+  total-span: 90
+  ring-thickness: 24
+  arc-slot-count: 5
+  empty-track: true
+  track-color: #0000003C
+  fill-color: #FF9854BF
+  arc-border: true
+  arc-border-color: #000000
+  arc-border-width: 1
+  arc-border-antialias: true
+  arc-border-aa-width: 1
+  arc-border-aa-opacity: 0.6
+  arc-cut-antialias: true
+  arc-cut-aa-width: 1
+  opacity: 0.7
+  phantom: true
+
+SereneStatusCircle < UIProgressArc
+  size: 15 15
+  arc-layout: centered
+  start-angle: 0
+  total-span: 360
+  percent: 0
+  ring-thickness: 999
+  empty-track: true
+  track-color: #0000003C
+  fill-color: #D437FFBF
+  arc-border: true
+  arc-border-color: #000000
+  arc-border-width: 1
+  arc-border-antialias: true
+  arc-border-aa-width: 1
+  arc-border-aa-opacity: 0.6
+  opacity: 0.7
+  phantom: true
+
+ArcConditionIcon < UIWidget
+  size: 9 9
+  phantom: true
+
+ArcConditionsBar < UIConditionsPanel
+  phantom: true
+  focusable: false
+  fill-color: #00000080
+  edge-antialias: true
+  edge-aa-width: 2
+  edge-aa-opacity: 0.9
+
+  UIWidget
+    id: icons
+    anchors.fill: parent
+    phantom: true
+    layout:
+      type: verticalBox
+      spacing: 0

@@ -1,0 +1,129 @@
+TargetAssignPreview < Panel
+  height: 46
+  phantom: true
+  focusable: false
+
+  UICreature
+    id: previewCreatureSprite
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    phantom: true
+    size: 32 32
+    margin-top: -14
+
+  Label
+    id: previewCreatureName
+    anchors.left: prev.right
+    anchors.right: parent.right
+    anchors.top: parent.top
+    margin-left: 5
+    margin-top: -4
+    font: $var-cip-font-new
+    color: #C0C0C0
+    text-auto-resize: true
+
+MainWindowHigh
+  id: targetAssignWindow
+  !text: tr('Add Target')
+  size: 375 608
+  font: $var-cip-font-new
+  color: #909090
+  text-offset: 0 2
+  @onEscape: modules.game_helper.closeTargetAssignWindow()
+  @onEnter: modules.game_helper.targetAssignOk()
+
+  TargetAssignPreview
+    id: targetPreview
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+
+  HorizontalSeparator
+    id: splitter
+    anchors.top: targetPreview.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: -15
+    height: 2
+
+  TextEdit
+    id: filterTextEdit
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 11
+    margin-left: 1
+    margin-right: 1
+    !placeholder: tr('Type to search')
+    placeholder-color: #707070
+    padding: 3 18 1 4
+    @onTextChange: modules.game_helper.filterTargetMonsters(self:getText())
+
+  UIWidget
+    id: filterEraseButton
+    anchors.right: filterTextEdit.right
+    anchors.verticalCenter: filterTextEdit.verticalCenter
+    margin-right: 1
+    image-source: /images/ui/button-erase-18x18-up
+    @onClick: modules.game_helper.clearTargetMonsterFilter()
+    $pressed:
+      image-source: /images/ui/button-erase-18x18-down
+
+  Panel
+    id: targetMonstersListFrame
+    anchors.top: filterTextEdit.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 444
+    margin-top: 11
+    image-source: /images/ui/1pixel-down-frame
+    image-border: 3
+    border-width: 0
+
+    TextList
+      id: targetMonstersPanel
+      vertical-scrollbar: targetMonstersPanelScrollbar
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      padding: 1
+      border-width: 0
+      background-color: alpha
+
+    VerticalQtScrollBar
+      id: targetMonstersPanelScrollbar
+      anchors.top: targetMonstersPanel.top
+      anchors.bottom: targetMonstersPanel.bottom
+      anchors.right: targetMonstersPanel.right
+      step: 34
+      pixels-scroll: true
+      margin: 1 1 1 0
+
+  HorizontalSeparator
+    id: separatorBottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: okButton.top
+    margin-bottom: 10
+    height: 2
+
+  Button
+    id: okButton
+    size: 43 20
+    anchors.right: cancelButton.left
+    anchors.bottom: parent.bottom
+    text: Add
+    text-offset: 0 0
+    margin-right: 6
+    enabled: false
+    @onClick: modules.game_helper.targetAssignOk()
+
+  Button
+    id: cancelButton
+    size: 43 20
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    text: Cancel
+    text-offset: 0 0
+    @onClick: modules.game_helper.closeTargetAssignWindow()

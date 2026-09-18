@@ -1,0 +1,420 @@
+ConsoleLabel < UITextEdit
+  font: $var-cip-font-new
+  height: 15
+  color: #f0f000
+  margin-left: 0
+  margin-bottom: 0
+  text-wrap: true
+  text-auto-resize: true
+  selection-color: #ffffff
+  selection-background-color: #808080
+  change-cursor-image: false
+  cursor-visible: false
+  editable: false
+  draggable: true
+  selectable: false
+  focusable: false
+
+ConsolePhantomLabel < UILabel
+  font: $var-cip-font-new
+  height: 15
+  color: #f0f000
+  text-wrap: true
+  text-auto-resize: true
+  selection-color: #111416
+  selection-background-color: #808080
+
+ConsoleTabBar < MoveableTabBar
+  height: 14
+  padding: 0 5
+  border-width-top: 0
+  margin-top:1
+  margin-right: 0
+
+ConsoleTabBarPanel < MoveableTabBarPanel
+  id: consoleTab
+
+  ScrollablePanel
+    id: consoleBuffer
+    anchors.fill: parent
+    image-source: /images/ui/3pixel-frame-borderimage
+    image-border: 4
+    margin-right: 1
+    padding: 1
+    padding-right: 12
+    padding-left: 4
+    padding-top: 3
+    padding-bottom: 2
+    vertical-scrollbar: consoleScrollBar
+    layout:
+      type: verticalBox
+      align-bottom: true
+    inverted-scroll: true
+
+  VerticalQtScrollBar
+    id: consoleScrollBar
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    step: 14
+    pixels-scroll: true
+    margin-top: 3
+    margin-right: 4
+    margin-bottom: 3
+
+ConsoleTabBarButton < UIButton
+  size: 96 18
+  image-source: /images/ui/console_button
+  image-clip: 0 18 96 18
+  color: #7f7f7fff
+  font: $var-cip-font-outline
+  &ignoreTextResize: true
+  anchors.top: parent.top
+  anchors.left: parent.left
+  padding: 5
+  tab-spacing: 0
+
+  $checked:
+    image-clip: 0 0 96 18
+    color: #dfdfdfff
+
+  $on !checked:
+    image-clip: 0 18 96 18
+    color: #7f7f7fff
+
+Panel
+  id: consolePanel
+  anchors.fill: parent
+  margin-top: 3
+
+  UIWidget
+    image-source: /images/ui/2pixel_up_frame_borderimage
+    image-border: 3
+    anchors.fill: parent
+    margin-top: 16
+    focusable: false
+
+  Panel
+    id: consoleContentPanel
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.horizontalCenter
+    anchors.bottom: consoleTextEdit.top
+    margin-left: 3
+    margin-right: 2
+    margin-bottom: 2
+    margin-top: 19
+    padding: 1
+    focusable: false
+
+  Panel
+    id: readOnlyPanel
+    anchors.top: parent.top
+    anchors.left: parent.horizontalCenter
+    anchors.right: parent.right
+    anchors.bottom: consoleTextEdit.top
+    margin-left: 2
+    margin-right: 6
+    margin-bottom: 4
+    margin-top: 20
+    padding: 1
+    focusable: false
+
+    ScrollablePanel
+      id: panel
+      anchors.fill: parent
+      vertical-scrollbar: consoleScrollBarReadOnlyPanel
+      image-source: /images/ui/3pixel-frame-borderimage
+      image-border: 4
+      padding: 1
+      padding-right: 12
+      padding-left: 4
+      padding-top: 4
+      padding-bottom: 4
+      inverted-scroll: true
+      layout:
+        type: verticalBox
+        align-bottom: true
+
+    VerticalQtScrollBar
+      id: consoleScrollBarReadOnlyPanel
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      anchors.right: parent.right
+      step: 14
+      pixels-scroll: true
+      margin-top: 4
+      margin-bottom: 4
+      margin-right: 4
+
+  ConsoleTabBar
+    id: consoleTabBar
+    anchors.left: parent.left
+    anchors.bottom: consoleContentPanel.top
+    anchors.right: closeChannelButton.left
+    margin-right: 20
+    margin-left: 13
+    margin-bottom: 6
+    tab-spacing: 0
+    movable: true
+
+  TabButton
+    id: prevChannelButton
+    image-source: /images/ui/console_flash_left
+    image-clip: 36 0 18 18
+    anchors.left: parent.left
+    anchors.top: consoleTabBar.top
+    size: 18 18
+    enabled: false
+    &dynamicNavigation: 96
+
+    $disabled:
+      image-clip: 36 0 18 18
+
+    $!disabled:
+      image-clip: 0 0 18 18
+
+    $pressed !disabled:
+      image-clip: 18 0 18 18
+
+  TabButton
+    id: nextChannelButton
+    image-source: /images/ui/console_flash_right
+    image-clip: 36 0 18 18
+    anchors.left: consoleTabBar.right
+    anchors.top: consoleTabBar.top
+    margin-right: 1
+    size: 0 18
+    enabled: false
+    &dynamicNavigation: 96
+
+    $disabled:
+      image-clip: 36 0 18 18
+      width: 0
+
+    $!disabled:
+      image-clip: 0 0 18 18
+      width: 18
+
+    $pressed !disabled:
+      image-clip: 18 0 18 18
+
+  TabButton
+    id: extendedViewDraggable
+    !tooltip: tr('Enable/ Disable draggable chat')
+    image-source: /images/ui/console_buttons
+    image-clip: 0 64 16 16
+    anchors.right: extendedViewHide.left
+    anchors.bottom: consoleContentPanel.top
+    margin-bottom: 4
+    margin-right: 1
+    size: 16 16
+    visible: false
+
+    @onClick: |
+      self:setChecked(not self:isChecked())
+      extendedViewDraggable(self:isChecked())
+
+    $checked:
+      image-clip: 16 64 16 16
+    $!checked:
+      image-clip: 0 64 16 16
+    $pressed:
+      image-clip: 16 64 16 16
+
+  TabButton
+    id: extendedViewHide
+    !tooltip: tr('Hide Chat')
+    image-source: /images/ui/console_buttons
+    image-clip: 0 80 16 16
+    anchors.right: closeChannelButton.left
+    anchors.bottom: consoleContentPanel.top
+    margin-bottom: 4
+    margin-right: 1
+    visible: false
+    size: 16 16
+    @onClick: |
+      self:setChecked(not self:isChecked())
+      extendedViewHide(self:isChecked())
+
+    $checked:
+      image-clip: 16 80 16 16
+    $!checked:
+      image-clip: 0 80 16 16
+    $pressed:
+      image-clip: 16 80 16 16
+
+  TabButton
+    id: closeChannelButton
+    !tooltip: tr('Close this channel') .. ' (Ctrl+E)'
+    image-source: /images/ui/console_buttons
+    image-clip: 0 48 16 16
+    anchors.right: serverMessageButton.left
+    anchors.bottom: consoleContentPanel.top
+    margin-bottom: 4
+    margin-right: 1
+    size: 16 16
+    @onClick: removeCurrentTab()
+
+    $hover !disabled:
+      image-clip: 0 48 16 16
+
+    $pressed:
+      image-clip: 16 48 16 16
+
+  TabButton
+    id: serverMessageButton
+    !tooltip: tr('Show server messages in this channel') .. ' (Ctrl+M)'
+    image-source: /images/ui/console_buttons
+    image-clip: 0 16 16 16
+    anchors.right: channelsButton.left
+    anchors.bottom: consoleContentPanel.top
+    margin-bottom: 4
+    margin-right: 1
+    size: 16 16
+    @onClick:
+
+    $hover !disabled:
+      image-clip: 0 16 16 16
+
+    $pressed:
+      image-clip: 16 16 16 16
+
+  TabButton
+    id: channelsButton
+    !tooltip: tr('Open new channel') .. ' (Ctrl+O)'
+    image-source: /images/ui/console_buttons
+    image-clip: 0 0 16 16
+    anchors.right: ignoreButton.left
+    anchors.bottom: consoleContentPanel.top
+    margin-bottom: 4
+    margin-right: 1
+    size: 16 16
+    @onClick: g_game.requestChannels()
+
+    $hover !disabled:
+      image-clip: 0 0 16 16
+
+    $pressed:
+      image-clip: 16 0 16 16
+
+  TabButton
+    id: ignoreButton
+    !tooltip: tr('Ignore players')
+    image-source: /images/ui/console_buttons
+    image-clip: 0 32 16 16
+    anchors.right: exivaButton.left
+    anchors.bottom: consoleContentPanel.top
+    margin-bottom: 4
+    margin-right: 1
+    size: 16 16
+    @onClick: onClickIgnoreButton()
+
+    $hover !disabled:
+      image-clip: 0 32 16 16
+
+    $pressed:
+      image-clip: 16 32 16 16
+
+  TabButton
+    id: exivaButton
+    !tooltip: tr('Exiva Options are only available on Optional PvP game worlds')
+    image-source: /images/ui/console_buttons
+    image-clip: 0 96 16 16
+    anchors.right: readOnlyButton.left
+    anchors.bottom: consoleContentPanel.top
+    margin-bottom: 4
+    margin-right: 3
+    size: 16 16
+    @onClick:
+
+    $hover !disabled:
+      image-clip: 0 96 16 16
+
+    $pressed:
+      image-clip: 16 96 16 16
+
+  UIButton
+    id: readOnlyButton
+    text: ""
+    anchors.right: parent.right
+    anchors.top: parent.top
+    margin-top: -1
+    margin-right: 2
+    size: 96 18
+    image-clip: 0 0 96 18
+    icon: /images/game/console/readOnly
+    color: #dfdfdfff
+    font: $var-cip-font
+    padding: 5
+    tab-spacing: 0
+    &ignoreTextResize: true
+    text-auto-resize: false
+    $checked:
+      image-clip: 0 0 96 18
+      color: #dfdfdfff
+
+    $on !checked:
+      image-clip: 0 0 96 18
+      color: #dfdfdfff
+
+  UIButton
+    id: sayModeButton
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    margin-left: 4
+    margin-bottom: 4
+    size: 16 16
+    image-source: /images/ui/adjust_chat
+    image-clip: 0 0 16 16
+    padding-top: -1
+    !tooltip: tr('Adjust chat distance')
+    &sayMode: 2
+    @onClick: sayModeChange()
+
+  TextEdit
+    id: consoleTextEdit
+    anchors.left: sayModeButton.right
+    anchors.right: toggleChat.left
+    anchors.bottom: parent.bottom
+    margin-right: 2
+    margin-left: 3
+    margin-bottom: 4
+    shift-navigation: true
+    max-length: 255
+    color: #f4f4f4
+    font: $var-cip-font-new
+    height: 16
+    text-align: left
+    padding-left: 5
+    padding-bottom: 0
+    @onTextChange: |
+      local p = self:getParent():getChildById('placeholderLabel')
+      p:setVisible(self:getText():len() == 0)
+
+  UILabel
+    id: placeholderLabel
+    text: Type here to chat
+    color: #888888
+    font: verdana-11px-antialised
+    anchors.left: consoleTextEdit.left
+    anchors.top: consoleTextEdit.top
+    margin-left: 5
+    margin-top: 1
+    focusable: false
+    phantom: true
+    visible: true
+
+  TopToggleButton
+    id: toggleChat
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-bottom: 3
+    margin-right: 3
+    size: 66 18
+    font: cipsoftFont
+    !text: tr('Chat Off')
+    text-offset: 0 1
+    &isChecked: false
+    @onClick: |
+      toggleChat()

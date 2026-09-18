@@ -1,0 +1,22 @@
+Panel
+  id: background
+  image-source: /images/background
+  image-smooth: false
+  image-fixed-ratio: true
+  anchors.top: parent.top
+  anchors.left: parent.left
+  anchors.right: parent.right
+  anchors.bottom: parent.bottom
+  margin-top: -90
+
+  focusable: false 
+
+  UIWidget
+    id: serverLogo
+    size: 250 250
+    anchors.centerIn: parent
+    image-source: /images/clientlogo
+    margin-bottom: 187
+    change-cursor-image: true
+    @onClick: g_platform.openUrl("https://tibia.com/")
+    @onHoverChange: g_mouse.pushCursor("pointer")

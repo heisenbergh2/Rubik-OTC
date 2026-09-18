@@ -1,0 +1,108 @@
+name: Build - Windows Server
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+env:
+  CMAKE_BUILD_PARALLEL_LEVEL: 2
+  VCPKG_BINARY_SOURCES: "clear;files,${{ github.workspace }}/.vcpkg-binary-cache,readwrite"
+
+jobs:
+  build:
+    name: Server 2016+ Release
+    runs-on: windows-2022
+    timeout-minutes: 180
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Read vcpkg baseline
+        id: baseline
+        shell: pwsh
+        run: |
+          $json = Get-Content vcpkg.json -Raw | ConvertFrom-Json
+          $commit = $json.'builtin-baseline'
+          if ($commit -notmatch '^[0-9a-f]{40}$') {
+            throw 'vcpkg builtin-baseline must be a full commit SHA.'
+          }
+          "commit=$commit" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          New-Item -ItemType Directory -Force -Path .vcpkg-binary-cache | Out-Null
+
+      - name: Restore compiled dependencies
+        id: dependencies
+        uses: actions/cache/restore@v6
+        with:
+          path: |
+            ${{ github.workspace }}/.vcpkg-binary-cache
+            ${{ github.workspace }}/vcpkg/downloads
+          key: vcpkg-windows-x64-static-${{ hashFiles('vcpkg.json') }}-complete-v1
+          restore-keys: |
+            vcpkg-windows-x64-static-${{ hashFiles('vcpkg.json') }}-
+            vcpkg-windows-x64-static-
+
+      - name: Compiler cache
+        uses: hendrikmuhs/ccache-action@v1.2.23
+        with:
+          max-size: "1G"
+          variant: sccache
+          key: sccache-windows-server-2016
+          restore-keys: sccache-windows-server-2016
+
+      - name: Install pinned vcpkg
+        uses: lukka/run-vcpkg@b1a0dd252f06b9e25b3c022a9a03bd7a427fb6a2
+        with:
+          vcpkgDirectory: ${{ github.workspace }}/vcpkg
+          vcpkgGitCommitId: ${{ steps.baseline.outputs.commit }}
+          vcpkgJsonGlob: vcpkg.json
+
+      - name: Set up CMake and Ninja
+        uses: lukka/get-cmake@v3.31.6
+
+      - name: Set up MSVC environment
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Configure and build for Windows Server
+        shell: pwsh
+        run: |
+          cmake --preset windows-release -DTOGGLE_BIN_FOLDER=ON -DOTCLIENT_WINDOWS_TARGET=0x0A00 -DOTCLIENT_BUILD_TESTS=OFF
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          cmake --build --preset windows-release --parallel 2
+          exit $LASTEXITCODE
+
+      - name: Save compiled dependencies
+        if: ${{ always() && steps.baseline.outcome == 'success' && steps.dependencies.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v6
+        with:
+          path: |
+            ${{ github.workspace }}/.vcpkg-binary-cache
+            ${{ github.workspace }}/vcpkg/downloads
+          key: vcpkg-windows-x64-static-${{ hashFiles('vcpkg.json') }}-${{ github.run_id }}-${{ github.run_attempt }}
+
+      - name: Stage Windows Server artifact
+        shell: pwsh
+        run: |
+          $source = Join-Path $env:GITHUB_WORKSPACE 'build/windows-release/bin'
+          $exe = Join-Path $source 'otclient.exe'
+          if (-not (Test-Path -LiteralPath $exe)) {
+            throw "Windows Server executable was not found at $exe."
+          }
+          New-Item -ItemType Directory -Force -Path artifacts/WindowsServer | Out-Null
+          Copy-Item -LiteralPath $exe -Destination artifacts/WindowsServer/RubikOTC-Server.exe
+          Get-ChildItem -LiteralPath $source -File | Where-Object Extension -In '.pdb', '.ilk', '.dll' | Copy-Item -Destination artifacts/WindowsServer
+
+          $headers = & dumpbin.exe /nologo /headers artifacts/WindowsServer/RubikOTC-Server.exe
+          if ($LASTEXITCODE -ne 0 -or @($headers -match 'subsystem \(Windows GUI\)').Count -eq 0) {
+            throw 'Server release must be a GUI executable without a console window.'
+          }
+
+      - name: Upload Windows Server artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: RubikOTC-windows-server-2016-release
+          path: artifacts/WindowsServer
+          if-no-files-found: error
+          retention-days: 14

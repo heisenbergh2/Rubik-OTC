@@ -1,0 +1,204 @@
+ItemPanel < Panel
+  size: 147 34
+  @updateItemPanelSize: |
+    function(self)
+      local height = 34
+      for _, child in pairs(self.dropMonster:getChildren()) do
+        height = height + child:getHeight()
+      end
+
+      self:setHeight(height)
+    end
+
+  UIItem
+    id: itemSlot
+    size: 34 34
+    anchors.left: parent.left
+    anchors.top: parent.top
+    image-source:
+    margin-top: 3
+    margin-left: 5
+    phantom: true
+    virtual: true
+
+  Label
+    id: itemName
+    !text: tr('Item Name')
+    anchors.top: parent.top
+    anchors.left: prev.right
+    margin-top: 5
+    margin-left: 5
+    text-auto-resize: true
+    color: $var-text-cip-color-white
+    font: $var-cip-font
+
+  Label
+    id: dropLabel
+    !text: tr('Loot Drops:')
+    anchors.top: prev.bottom
+    anchors.left: itemSlot.right
+    margin-left: 5
+    text-auto-resize: true
+    color: $var-text-cip-color
+    font: $var-cip-font
+
+  Label
+    id: drops
+    !text: tr('0')
+    anchors.top: prev.top
+    anchors.left: prev.right
+    margin-left: 5
+    text-auto-resize: true
+    color: $var-text-cip-color
+    font: $var-cip-font
+
+  Panel
+    id: dropMonster
+    width: 147
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    visible: true
+    layout:
+      type: verticalBox
+      fit-children: true
+
+MonsterPanel < Panel
+  size: 147 16
+  UIWidget
+    id: hierarchy
+    size: 7 7
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 5
+    margin-left: 13
+    image-source: /images/ui/hierarchy-branch
+  UICreature
+    id: monster
+    size: 16 16
+    anchors.left: prev.right
+    anchors.top: parent.top
+    margin-top: 1
+    margin-left: 2
+    phantom: true
+  Label
+    id: name
+    !text: tr('Name')
+    anchors.top: prev.top
+    anchors.left: monster.right
+    margin-left: 5
+    text-auto-resize: true
+    color: $var-text-cip-color
+    font: $var-cip-font
+  Label
+    id: drops
+    !text: tr('(0)')
+    anchors.top: prev.top
+    anchors.left: prev.right
+    margin-left: 5
+    text-auto-resize: true
+    color: $var-text-cip-color
+    font: $var-cip-font
+
+MiniWindow
+  id: dropTrackerMiniWindow
+  height: 61
+  &save: true
+  @onSetup: |
+    do
+      for _, id in ipairs({ 'newWindowButton', 'toggleFilterButton' }) do
+        local w = self:recursiveGetChildById(id)
+        if w then
+          w:setVisible(false)
+          w:setOn(false)
+        end
+      end
+
+      local contextMenuButton = self:recursiveGetChildById("contextMenuButton")
+      if contextMenuButton then
+        contextMenuButton:setMarginRight(-7)
+        contextMenuButton.onMousePress = function(widget, mousePosition, mouseButton)
+          if mouseButton == MouseLeftButton then
+            onDropTrackerExtra(mousePosition)
+            return true
+          end
+        end
+      end
+    end
+
+  UIWidget
+    id: miniwindowIcon
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 2
+    margin-left: 4
+    size: 12 12
+    image-source: /modules/game_analysers/images/icon-loottracker-widget
+    image-smooth: false
+  
+  Label
+    id: miniwindowTitle
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 1
+    margin-left: 20
+    font: verdana-11px-monochrome
+    height: 13
+    !text: tr('Drop Tracker')
+    color: #909090
+
+  ScrollablePanel
+    id: contentsPanel
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: miniwindowScrollBar.left
+    anchors.bottom: parent.bottom
+    margin-left: 5
+    margin-top: 16
+    margin-right: 1
+    margin-bottom: 5
+    vertical-scrollbar: miniwindowScrollBar
+
+    Panel
+      id: dropItems
+      width: 150
+      anchors.top: parent.top
+      anchors.left: parent.left
+      visible: true
+      layout:
+        type: verticalBox
+        fit-children: true
+
+    UIButton
+      id: trackedDropButton
+      size: 108 20
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 12
+      margin-left: 24
+      image-source: /assets/images/game/analyzer/addtracked
+      image-clip: 0 0 108 20
+
+      $pressed:
+        image-clip: 0 20 108 20
+
+      @onClick: modules.game_cyclopedia.show("items")
+
+  UIWidget
+    id: miniborder
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    image-source: /images/ui/miniborder-bottom-left
+    size: 14 14
+    margin-left: 3
+    margin-bottom: 3
+
+  ResizeBorder
+    id: bottomResizeBorder
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 3
+    minimum: 64
+    margin-left: 3
+    margin-right: 3

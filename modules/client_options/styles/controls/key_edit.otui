@@ -1,0 +1,119 @@
+MainWindowHigh
+  !text: tr('Edit Hotkey')
+  size: 400 215
+  text-offset: 0 1
+  margin-top: -20
+  color: #909090
+  @onEscape: cancelKeyEditWindow()
+
+  Label
+    id: chatMode
+    !text: tr('Mode: "Chat On"')
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: -7
+    text-align: center
+    font: $var-cip-font-new
+    color: #C0C0C0
+    text-auto-resize: true
+
+  Panel
+    image-source: /images/ui/1pixel-down-frame
+    image-border: 1
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: chatMode.bottom
+    margin-top: 11
+    height: 33
+
+    Label
+      id: keyCombo
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      font: $var-cip-font-new
+      color: #C0C0C0
+      text-auto-resize: true
+      text-align: left
+
+  Label
+    id: info
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-left: -2
+    margin-top: 11
+    font: $var-cip-font-new
+    color: #C0C0C0
+    text-auto-resize: true
+    text-wrap: true
+
+  Label
+    id: alone
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: info.bottom
+    margin-top: 6
+    font: $var-cip-font-new
+    color: #C0C0C0
+    text-auto-resize: true
+    text-wrap: true
+    text-align: center
+    !text: tr("This action must be bound to a single key.")
+    visible: false
+
+  Label
+    id: used
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: info.bottom
+    margin-top: 6
+    font: $var-cip-font-new
+    color: #F75F5F
+    text-auto-resize: true
+    text-wrap: true
+    text-align: center
+    !text: tr("This hotkey is already in use.")
+    visible: false
+
+  HorizontalSeparator
+    id: separator
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: buttons.top
+    margin-bottom: 11
+
+  Panel
+    id: buttons
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    height: 20
+
+    Button
+      id: ok
+      !text: tr('Ok')
+      size: 43 20
+      text-offset: 0 0
+      margin-right: 6
+      anchors.bottom: parent.bottom
+      anchors.right: clear.left
+
+    Button
+      id: clear
+      !text: tr('Clear')
+      size: 43 20
+      text-offset: 0 0
+      margin-right: 6
+      anchors.bottom: parent.bottom
+      anchors.right: cancel.left
+
+    Button
+      id: cancel
+      !text: tr('Cancel')
+      size: 43 20
+      text-offset: 0 0
+      anchors.bottom: parent.bottom
+      anchors.right: parent.right
+      @onClick: cancelKeyEditWindow()

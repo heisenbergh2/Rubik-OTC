@@ -1,0 +1,282 @@
+SpellListWindow < UIMiniWindow
+  font: verdana-11px-antialised
+  color: #959595
+  icon-rect: 4 4 12 12
+  width: 175
+  height: 365
+  text-offset: 20 1
+  text-align: topLeft
+  image-source: /images/ui/window
+  image-border: 20
+  image-border-top: 19
+  image-border-bottom: 4
+  focusable: true
+  &minimizedHeight: 19
+  icon-offset-y: -2
+  &type: 'spellList'
+  &save: true
+  @onOpen: modules.game_spelllist.onSpellListWindowOpen()
+  @onClose: modules.game_spelllist.onSpellListWindowClose()
+
+  $on:
+    image-border-top: 19
+    image-border-bottom: 10
+    image-border: 4
+
+  UIWidget
+    id: miniwindowTopBar
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.left: parent.left
+    margin-right: 3
+    margin-left: 3
+    margin-top: 3
+    size: 258 14
+    phantom: true
+
+  UIButton
+    id: closeButton
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin-top: 2
+    margin-right: 3
+    size: 12 12
+    image-source: /images/ui/miniwindow_buttons
+    image-clip: 72 0 12 12
+
+    $hover:
+      image-clip: 72 0 12 12
+
+    $pressed:
+      image-clip: 72 12 12 12
+
+  UIButton
+    id: minimizeButton
+    anchors.top: closeButton.top
+    anchors.right: closeButton.left
+    margin-right: 1
+    size: 12 12
+    image-source: /images/ui/miniwindow_buttons
+    image-clip: 48 0 12 12
+
+    $hover:
+      image-clip: 48 0 12 12
+
+    $pressed:
+      image-clip: 48 12 12 12
+
+    $on:
+      image-clip: 60 0 12 12
+
+    $on hover:
+      image-clip: 60 0 12 12
+
+    $on pressed:
+      image-clip: 60 12 12 12
+
+  UIButton
+    id: extraButton
+    anchors.top: minimizeButton.top
+    anchors.right: minimizeButton.left
+    margin-right: 10
+    size: 12 12
+    image-source: /images/ui/miniwindow_buttons
+    image-clip: 12 0 12 12
+    @onClick: modules.game_spelllist.onExtraMenu()
+
+    $hover:
+      image-clip: 12 0 12 12
+
+    $pressed:
+      image-clip: 12 12 12 12
+
+  VerticalQtScrollBar
+    id: miniwindowScrollBar
+    anchors.top: searchRow.bottom
+    anchors.bottom: setupPanel.top
+    anchors.right: parent.right
+    step: 34
+    margin-right: 4
+    margin-top: 1
+    margin-bottom: 1
+    pixels-scroll: true
+    parent-scroll: false
+
+  UIWidget
+    id: setupPanel
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 157
+    margin-left: 3
+    margin-right: 3
+    focusable: false
+
+    HorizontalSeparator
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-left: 1
+      margin-right: 1
+      margin-top: -1
+
+    UIWidget
+      id: spellName
+      !text: tr('')
+      font: $var-cip-font
+      color: $var-text-cip-color-white
+      text-auto-resize: true
+      anchors.top: prev.bottom
+      anchors.horizontalCenter: parent.horizontalCenter
+      text-align: center
+      margin-left: -1
+
+    Label
+      id: formula
+      !text: tr('')
+      font: $var-cip-font
+      size: 83 30
+      color: $var-text-cip-color-white
+      text-wrap: true
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-left: 84
+      margin-top: -2
+
+    UIWidget
+      id: vocation
+      !text: tr('')
+      font: $var-cip-font
+      color: $var-text-cip-color-white
+      text-auto-resize: true
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-left: 84
+      margin-top: -4
+
+    UIWidget
+      id: group
+      !text: tr('')
+      font: $var-cip-font
+      color: $var-text-cip-color-white
+      text-auto-resize: true
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-left: 84
+      margin-top: -2
+
+    UIWidget
+      id: type
+      !text: tr('')
+      font: $var-cip-font
+      color: $var-text-cip-color-white
+      text-auto-resize: true
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-left: 84
+      margin-top: -2
+
+    UIWidget
+      id: magicType
+      !text: tr('-')
+      font: $var-cip-font
+      color: $var-text-cip-color-white
+      text-auto-resize: true
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-left: 84
+      margin-top: -2
+
+    UIWidget
+      id: cooldown
+      !text: tr('')
+      font: $var-cip-font
+      color: $var-text-cip-color-white
+      text-auto-resize: true
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-left: 84
+      margin-top: -2
+
+    UIWidget
+      id: mana
+      !text: tr('')
+      font: $var-cip-font
+      color: $var-text-cip-color-white
+      text-auto-resize: true
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-left: 84
+      margin-top: -2
+
+    UIWidget
+      id: lvlMin
+      !text: tr('')
+      font: $var-cip-font
+      color: $var-text-cip-color-white
+      text-auto-resize: true
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-left: 84
+      margin-top: -2
+
+    UIWidget
+      id: formulaLabel
+      size: 56 9
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-left: 23
+      margin-top: 15
+      image-source: /images/ui/labels/formulaLabel
+
+    UIWidget
+      id: detailsLabel
+      size: 75 82
+      anchors.top: formulaLabel.bottom
+      anchors.left: parent.left
+      margin-left: 4
+      margin-top: 18
+      image-source: /images/ui/labels/spellLabel
+      image-clip: 0 0 75 82
+
+    Button
+      id: showMoreButton
+      size: 86 20
+      !text: tr('Show More')
+      anchors.top: detailsLabel.bottom
+      anchors.horizontalCenter: parent.horizontalCenter
+      margin-top: 6
+      color: #C0C0C0
+      text-offset: 0 0
+      text-align: center
+      change-cursor-image: false
+      enabled: false
+      @onClick: modules.game_spelllist.onShowMore()
+
+  ResizeBorder
+    id: bottomResizeBorder
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 3
+    minimum: 230
+    margin-left: 3
+    margin-right: 3
+
+  SpellListContents
+
+SpellListContents < ScrollablePanel
+  id: contentsPanel
+  size: 168 214
+  anchors.top: searchRow.bottom
+  anchors.left: parent.left
+  anchors.right: miniwindowScrollBar.left
+  anchors.bottom: setupPanel.top
+  margin-left: 2
+  margin-bottom: 1
+  margin-top: 2
+  padding-right: 1
+  padding-left: 2
+  padding-bottom: 1
+  layout: verticalBox
+  vertical-scrollbar: miniwindowScrollBar

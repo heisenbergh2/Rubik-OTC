@@ -1,0 +1,431 @@
+StoreHistoryData < UIWidget
+  height: 15
+  focusable: true
+
+  Label
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.bottom : parent.bottom
+    id: date
+    width: 148
+    text-align: left
+    font: $var-cip-font-new
+    color: #c0c0c0
+    phantom: false
+    margin-left: 2
+
+  UIWidget
+    anchors.top: parent.top
+    anchors.left: prev.right
+    anchors.bottom: parent.bottom
+    image-source: /images/ui/separator_vertical
+    margin-bottom: -1
+
+  Label
+    anchors.top: parent.top
+    anchors.left: prev.right
+    anchors.bottom : parent.bottom
+    id: Balance
+    width: 90
+    text-align: right
+    font: $var-cip-font-new
+    phantom: true
+    text-offset: -22 0
+    icon-align: right
+    icon-offset: -4 0
+
+  UIWidget
+    anchors.top: parent.top
+    anchors.left: prev.right
+    anchors.bottom: parent.bottom
+    image-source: /images/ui/separator_vertical
+    margin-bottom: -1
+    
+  Label
+    anchors.top: parent.top
+    anchors.left: prev.right
+    anchors.bottom : parent.bottom
+    id: Description
+    width: 306
+    text-align: left
+    font: $var-cip-font-new
+    color: #c0c0c0
+    phantom: true
+    margin-left: 2
+
+StoreBuyButton < UIButton
+  size: 144 20
+  font: cipsoftFont
+  color: #ffffff
+  text-align: center
+  text-offset: 0 1
+  image-source: /game_store/images/button-buy
+  image-clip: 0 0 144 20
+
+  $hover !disabled:
+    image-clip: 0 0 144 20
+
+  $pressed:
+    image-clip: 0 20 144 20
+    text-offset: 1 2
+
+  $disabled:
+    image-clip: 0 40 144 20
+    color: #b0b0b0
+    change-cursor-image: false
+
+OfferPanel2 < Panel
+  StoreBuyButton
+    id: btnBuy
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    !text: tr('Buy')
+
+  Panel
+    id: lblPrice
+    size: 144 20
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin: 3 0 0 0
+    image-source: /images/ui/button-verydarkgrey-down
+    image-border: 5
+    image-clip: 0 0 98 40
+
+    Panel
+      id: lblPriceRow
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.verticalCenter: parent.verticalCenter
+      height: 16
+      margin-top: 1
+      layout:
+        type: horizontalBox
+        spacing: 1
+        fit-children: true
+
+      Label
+        id: lblPriceText
+        height: 16
+        text-auto-resize: true
+        text-align: left
+        font: $var-cip-font-new
+        color: #c0c0c0
+
+      UIWidget
+        id: lblPriceCoin
+        size: 12 12
+        fixed-size: true
+        image-fixed-ratio: true
+  
+stackOfferPanel < Panel
+  Label
+    id: count
+    anchors.bottom: parent.bottom
+    anchors.right: lblPrice.left
+    margin: 0 7 3 0
+    color: #c0c0c0
+    font: $var-cip-font-new
+    text-align: center
+    text-auto-resize: true
+
+  StoreFlatPanel
+    id: lblPrice
+    size: 100 20
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    text-align: right
+    text-offset: -16 1
+    color: #c0c0c0
+    image-source: /images/ui/button-verydarkgrey-down
+    image-border: 5
+    image-clip: 0 0 98 40
+    font: $var-cip-font-new
+    icon: /images/icons/icon-tibiacoin
+    icon-align: right
+    icon-offset: -3 1
+  
+StoreFlatPanel < UIWidget
+  phantom: true
+  auto-focus: first
+  image-source: /game_store/images/panel
+  image-border: 3
+
+StoreLightFlatPanel < UIWidget
+  phantom: true
+  auto-focus: first
+  image-source:  /game_store/images/panel_container
+  image-border: 3
+
+StoreButton < UIButton
+  font: verdana-11px-antialised
+  color: #dfdfdfff
+  size: 106 23
+  text-offset: 0 0
+  image-source:  /game_store/images/button
+  image-color: #dfdfdf
+  image-clip: 0 0 22 23
+  image-border: 3
+  padding: 5 10 5 10
+  opacity: 1.0
+
+  $hover !disabled:
+    image-clip: 0 23 22 23
+
+  $pressed:
+    image-clip: 0 46 22 23
+    text-offset: 1 1
+
+  $disabled:
+    color: #dfdfdf88
+    opacity: 0.8
+
+StoreWindow < UIWindow
+  anchors.centerIn: parent
+  font: $var-cip-font-new
+  size: 200 200
+  opacity: 1
+  color: #dfdfdf
+  text-offset: 0 6
+  text-align: top
+  image-source:/images/ui/window-high
+  image-border: 6
+  image-border-top: 27
+  padding-top: 29
+  padding-left: 16
+  padding-right: 16
+  padding-bottom: 15
+
+  $disabled:
+    color: #dfdfdf88
+
+  $dragging:
+    opacity: 1
+
+StoreFlatLabel < UILabel
+  font: $var-cip-font-new
+  color: #dfdfdf
+  size: 86 20
+  text-offset: 3 3
+  image-source:  /game_store/images/panel_flat
+  image-border: 1
+
+  $disabled:
+    color: #dfdfdf88
+
+storeCategory < UIWidget
+  size: 166 22
+  fixed-size: true
+  text-align: left
+  image-source: /images/ui/1pixel-down-frame
+  image-border: 5
+
+  UIWidget
+    id: Button
+    size: 164 20
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-left: 1
+    margin-top: 1
+    image-source: /images/ui/button-grey-up
+    image-border: 5
+    opacity: 1.0
+    $pressed:
+      image-source: /images/ui/button-grey-down
+    $checked:
+      image-source: /images/ui/button-grey-down
+    UIWidget
+      id: Icon
+      size: 13 13
+      anchors.left: parent.left
+      anchors.verticalCenter: parent.verticalCenter
+      margin-left: 10
+      phantom: true
+      $checked:
+        margin-left: 8
+        margin-top: 2
+      $!checked:
+        margin-left: 6
+        margin-top: 0
+
+    Label
+      id: Title
+      anchors.left: Icon.right
+      anchors.verticalCenter: Icon.verticalCenter
+      margin-left: 5
+      text-offset: 0 1
+      text-align: center
+      text-auto-resize: true
+      !text: tr('General Stats')
+      font: $var-cip-font
+      color: $var-text-cip-color
+      $pressed:
+        text-offset: 7 2
+      $checked:
+        text-offset: 7 2
+      $!checked:
+        text-offset: 0 1
+
+    UIWidget
+      id: Arrow
+      size: 7 7
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 6
+      phantom: true
+      image-source: /images/ui/icon-arrow7x7-down
+      visible: false
+
+confirmarSHOP < UIMessageBox
+  icon-rect: 4 4 16 16
+  size: 350 153
+  image-source: /images/ui/window-high
+  image-border: 25
+  image-border-top: 20
+  image-border-bottom: 4
+  &minimizedHeight: 17
+  anchors.centerIn: parent
+  draggable: false
+  clipping: false
+
+  $on:
+    image-border-bottom: 2
+
+  UIWidget
+    id: miniwindowTopBar
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.left: parent.left
+    margin-right: 3
+    margin-left: 3
+    margin-top: 2
+    height: 18
+    phantom: true
+
+  Label
+    id: title
+    font: $var-cip-font-new
+    color: #909090
+    text-offset: 0 2
+    text-align: top
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 18
+    !text: tr('Purchase completed successfully')
+
+  OnePixelDownFrame
+    id: messageFrame
+    size: 200 108
+    anchors.left: parent.left
+    anchors.top: parent.top
+    margin-top: 29
+    margin-left: 16
+    background-color: #363636
+
+    Label
+      id: Box
+      size: 192 100
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-top: 1
+      margin-left: 1
+      font: $var-cip-font-new
+      color: #c0c0c0
+      text-wrap: true
+      text-auto-resize: true
+      text-align: topLeft
+
+  UIButton
+    id: buttonAnimation
+    size: 108 108
+    anchors.left: messageFrame.right
+    anchors.top: messageFrame.top
+    margin-left: 11
+    image-source: /images/ui/button-blue-up
+    image-border: 3
+    change-cursor-image: true
+    cursor: pointer
+
+    $pressed:
+      image-source: /images/ui/button-blue-down
+
+    UIWidget
+      id: animation
+      anchors.fill: parent
+      phantom: true
+      size: 108 108
+      image-source: /images/animations/animation-purchasecomplete-idle
+
+  UIWidget
+    id: dragonHeader
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: -68
+    size: 192 70
+    phantom: true
+    image-source: /images/animations/animation-dragonheader
+
+BorderBox < UIWidget
+  border-width-top: 1
+  border-color-top: black
+  border-width-left: 1
+  border-color-left: black
+  border-width-bottom: 1
+  border-color-bottom: #747474
+  border-width-right: 1
+  border-color-right: #747474
+
+StorePackageContentsHeader < Label
+  height: 14
+  margin-top: 6
+  margin-bottom: 2
+  font: $var-cip-font-new
+  color: #f4f4f4
+  text-auto-resize: true
+
+StorePackageContentsRow < UIWidget
+  height: 64
+  margin-top: 1
+
+  UIWidget
+    id: preview
+    size: 64 64
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    clipping: true
+    fixed-creature-size: true
+    base-scale: true
+
+  Label
+    id: name
+    font: $var-cip-font-new
+    color: #f4f4f4
+    text-auto-resize: true
+    anchors.left: preview.right
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 6
+    margin-top: 1
+
+StoreDescriptionLine < UIWidget
+  height: 14
+
+  UIWidget
+    id: icon
+    size: 13 13
+    anchors.left: parent.left
+    anchors.top: parent.top
+    visible: false
+    image-source: /images/icons/store-icons-inline
+    image-smooth: true
+    margin-top: -2
+
+  Label
+    id: text
+    font: verdana-11px-monochrome
+    color: #f4f4f4
+    text-wrap: true
+    text-auto-resize: true
+    anchors.left: parent.left
+    anchors.right: parent.right

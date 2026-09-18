@@ -1,0 +1,135 @@
+ImbuementTrackerMenuOption < ThickCheckBox
+  text-offset: 18 1
+  text-align: left
+  color: white
+  background-color: alpha
+  font: $var-cip-font-outline
+  padding: 3 6
+  height: 19
+
+  $hover:
+    background-color: #808080
+
+  $disabled:
+    color: #c0c0c0ff
+
+ImbuementTrackerMenu < GamePopupMenu
+  id: imbuementTrackerMenu
+  font: $var-cip-font-outline
+  width: 371
+
+  ImbuementTrackerMenuOption
+    id: showLessThan1h
+    !text: tr('Show imbuements that last less than 1h')
+
+  ImbuementTrackerMenuOption
+    id: showBetween1hAnd3h
+    !text: tr('Show imbuements that last between 1h and 3h')
+
+  ImbuementTrackerMenuOption
+    id: showMoreThan3h
+    !text: tr('Show imbuements that last more than 3h')
+
+  ImbuementTrackerMenuOption
+    id: showNoImbuements
+    !text: tr('Show items with no active imbuement')
+
+ImbuementSlot < Panel
+  phantom: false
+  image-source: /images/game/imbuing/slot-tracker-filled
+  image-size: 34 34
+  size: 34 34
+
+  UIWidget
+    id: icon
+    anchors.centerIn: parent
+    size: 32 32
+    image-source: /images/game/imbuing/imbuement-icons
+    image-clip: 0 0 64 64
+    image-size: 32 32
+    image-smooth: true
+    phantom: true
+
+  Label
+    id: duration
+    text-align: center
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.left: parent.left
+    font: $var-cip-font-outline
+    text-offset: -1 0
+    phantom: true
+
+ImbuementSlotInactive < Panel
+  phantom: false
+  image-source: /images/game/imbuing/slot-tracker-empty
+  size: 34 34
+
+InventoryItem < Panel
+  height: 34
+  margin-top: 3
+  margin-left: 3
+  layout: anchor
+
+  Item
+    id: item
+    width: 34
+    height: 34
+    anchors.left: parent.left
+    anchors.top: parent.top
+    margin-right: 6
+
+  Panel
+    id: imbuementSlots
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    anchors.left: prev.right
+    layout: horizontalBox
+    margin-left: 1
+
+ImbuementTracker < MiniWindow
+  id: imbuementTracker
+  @onOpen: modules.game_imbuementtracker.onMiniWindowOpen()
+  @onClose: modules.game_imbuementtracker.onMiniWindowClose()
+  &save: true
+
+  UIWidget
+    id: miniwindowIcon
+    anchors.top: miniwindowHeader.top
+    anchors.left: miniwindowHeader.left
+    margin-top: 2
+    margin-left: 4
+    size: 12 12
+    image-source: /images/icons/icon-imbuementtracker-widget
+    image-smooth: false
+
+  Label
+    id: miniwindowTitle
+    anchors.top: miniwindowHeader.top
+    anchors.left: miniwindowHeader.left
+    anchors.right: miniwindowHeader.right
+    margin-top: 2
+    margin-left: 20
+    margin-right: 50
+    font: verdana-11px-monochrome
+    height: 13
+    !text: tr('Imbuements')
+    text-offset: 0 -1
+    color: #909090
+
+  MiniWindowContents
+    id: contentsPanel
+    anchors.top: miniwindowTopBar.bottom
+    anchors.left: parent.left
+    anchors.right: miniwindowScrollBar.left
+    anchors.bottom: parent.bottom
+    margin-left: 3
+    margin-top: -2
+    margin-right: 1
+    vertical-scrollbar: miniwindowScrollBar
+    padding-left: 5
+    padding-right: 5
+    padding-bottom: 3
+    padding-top: 1
+    layout: verticalBox

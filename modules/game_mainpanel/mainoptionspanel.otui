@@ -1,0 +1,148 @@
+PhantomMiniWindow
+  id: mainoptionspanel
+  height: 22
+  &panelHeight: 22
+  on: true
+
+  UIWidget
+    id: offPanel
+    anchors.fill: parent
+    margin-top: 2
+    phantom: true
+
+    UIWidget
+      id: offPanelResizerHighlight
+      phantom: true
+      focusable: false
+      anchors.top: parent.top
+      anchors.right: parent.right
+      margin-top: -1
+      margin-right: 7
+      size: 44 22
+      image-source: /images/options/setting-highlight
+      image-border: 2
+
+    Button
+      id: offOptionsSizeButton
+      size: 42 20
+      image-source: /images/options/button_enlarge
+      image-clip: 0 0 42 20
+      anchors.top: parent.top
+      anchors.right: parent.right
+      margin-right: 8
+      @onClick: changeOptionsSize()
+
+      $pressed:
+        image-source: /images/options/button_enlarge
+        image-clip: 0 20 42 20
+
+  UIWidget
+    id: onPanel
+    anchors.fill: parent
+    margin-top: 2
+    phantom: true
+
+    UIWidget
+      id: store
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-left: 8
+      size: 108 20
+      phantom: true
+
+    UIWidget
+      id: storeHighlight
+      phantom: true
+      focusable: false
+      anchors.fill: store
+      margin-top: -1
+      margin-left: -1
+      margin-right: -1
+      margin-bottom: -1
+      image-source: /images/options/store-highlight
+      image-border: 2
+
+    UIWidget
+      id: storeFlagNew
+      phantom: true
+      focusable: false
+      anchors.top: storeHighlight.top
+      anchors.left: storeHighlight.left
+      size: 20 20
+      margin-top: 1
+      margin-left: 1
+      image-source: /images/options/button-store-new
+
+    UIWidget
+      id: storeFlagSale
+      phantom: true
+      focusable: false
+      anchors.top: storeHighlight.top
+      anchors.right: storeHighlight.right
+      size: 20 20
+      margin-top: 1
+      margin-right: 1
+      image-source: /images/options/button-store-sale
+
+    UIWidget
+      id: storeAnimation
+      anchors.fill: store
+      phantom: true
+      focusable: false
+      image-source: /images/animations/button-store-animation
+      opacity: 0.6
+
+    Button
+      id: resizer
+      size: 42 20
+      image-source: /images/options/button_enlarge
+      image-clip: 0 0 42 20
+      anchors.top: store.top
+      anchors.right: parent.right
+      margin-right: 8
+      @onClick: changeOptionsSize()
+
+      $pressed:
+        image-source: /images/options/button_enlarge
+        image-clip: 0 20 42 20
+
+    UIWidget
+      id: options
+      anchors.left: store.left
+      anchors.right: store.right
+      anchors.top: store.bottom
+      margin-top: 6
+      margin-left: 0
+      margin-right: 0
+      margin-bottom: 0
+      padding-bottom: -2
+      phantom: false
+      layout:
+        type: grid
+        cell-size: 20 20
+        cell-spacing: 2
+        flow: true
+
+    VerticalSeparator
+      id: optionsSeparator
+      anchors.top: options.top
+      anchors.bottom: options.bottom
+      anchors.left: store.right
+      margin-left: 5
+      phantom: true
+
+    UIWidget
+      id: specials
+      anchors.left: resizer.left
+      anchors.right: resizer.right
+      anchors.top: options.top
+      margin-top: 0
+      margin-left: 0
+      margin-right: 0
+      margin-bottom: 0
+      phantom: true
+      layout:
+        type: grid
+        cell-size: 20 20
+        cell-spacing: 2
+        flow: true

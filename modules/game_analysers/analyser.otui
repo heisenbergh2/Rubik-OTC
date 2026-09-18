@@ -1,0 +1,138 @@
+AnalyticsSelectorButton < Button
+  size: 146 20
+  margin-left: 4
+  text-offset: 0 0
+
+  $pressed:
+    image-source: /images/ui/button-grey-down
+    text-offset: 0 0
+
+  $on:
+    image-source: /images/ui/button-grey-down
+    text-offset: 0 0
+
+MiniWindow
+  id: analyserMiniWindow
+  height: 230
+  @onClose: modules.game_analysers.hideAnalyser();
+  @onOpen: modules.game_analysers.onOpenAnalyser();
+  &save: true
+  @onSetup: |
+    do
+      for _, id in ipairs({ 'newWindowButton', 'contextMenuButton', 'toggleFilterButton' }) do
+        local w = self:recursiveGetChildById(id)
+        if w then
+          w:setVisible(false)
+          w:setOn(false)
+        end
+      end
+    end
+
+  UIWidget
+    id: miniwindowIcon
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 2
+    margin-left: 4
+    size: 12 12
+    image-source: /modules/game_analysers/images/icon-analyticsselector-widget
+    image-smooth: false
+  
+  Label
+    id: miniwindowTitle
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 1
+    margin-left: 20
+    font: verdana-11px-monochrome
+    height: 13
+    !text: tr('Analytics Selector')
+    color: #909090
+
+  MiniWindowContents
+    id: contentsPanel
+    anchors.fill: parent
+    margin: 20 9 5 9
+
+    AnalyticsSelectorButton
+      id: huntingButton
+      !text: tr('Hunting Session Analyser')
+      anchors.top: parent.top
+      anchors.left: parent.left
+
+    AnalyticsSelectorButton
+      id: lootButton
+      !text: tr('Loot Analyser')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 3
+
+    AnalyticsSelectorButton
+      id: supplyButton
+      !text: tr('Supply Analyser')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 3
+
+    AnalyticsSelectorButton
+      id: impactButton
+      !text: tr('Impact Analyser')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 3
+
+    AnalyticsSelectorButton
+      id: damageButton
+      !text: tr('Damage Input Analyser')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 3
+
+    AnalyticsSelectorButton
+      id: xpButton
+      !text: tr('XP Analyser')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 3
+
+    AnalyticsSelectorButton
+      id: dropButton
+      !text: tr('Drop Tracker')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 3
+
+    AnalyticsSelectorButton
+      id: partyButton
+      !text: tr('Party Hunt Analyser')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 3
+
+    AnalyticsSelectorButton
+      id: bossButton
+      !text: tr('Boss Cooldowns')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 3
+
+  UIWidget
+    id: miniborder
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    image-source: /images/ui/miniborder-bottom-left
+    size: 14 14
+    margin-left: 3
+    margin-bottom: 3
+
+  ResizeBorder
+    id: bottomResizeBorder
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 3
+    minimum: 79
+    maximum: 230
+    margin-left: 3
+    margin-right: 3

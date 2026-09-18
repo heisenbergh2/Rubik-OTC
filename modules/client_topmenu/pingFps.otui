@@ -1,0 +1,63 @@
+PingImg < UIWidget
+  size: 17 17
+  phantom: true
+  focusable: false
+
+PingFpsLabel < UIWidget
+  size: 120 14
+  font: $var-cip-font-outline
+  text-align: left
+  focusable: false
+  phantom: true
+
+TestPingPanel < UIWidget
+  size: 50 50
+  padding: 3
+  focusable: false
+  PingImg
+    anchors.centerIn: parent
+  PingFpsLabel
+    anchors.verticalCenter: prev.verticalCenter
+    anchors.left: prev.right
+    margin-left: 4
+
+Panel
+  anchors.top: parent.top
+  anchors.left: parent.left
+  height: 76
+  width: 150
+  margin-left: -5
+  margin-top: -1
+  Panel
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 20
+    layout:
+      type: horizontalBox
+
+  Panel
+    id: pingFpsWorldRow
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: -4
+    height: 20
+    PingFpsLabel
+      id: pingFpsWorldLabel
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      text-align: left
+      margin-left: 34
+
+  Panel
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 8
+    height: 20
+    text-align: left
+    margin-left: -2
+    layout:
+      type: horizontalBox

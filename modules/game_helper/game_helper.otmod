@@ -1,0 +1,10 @@
+Module
+  name: game_helper
+  description: OTC Helper
+  author: OTClient
+  scripts: [ helper_healer, helper_heal_friend, helper_target, helper_posture, helper_shooter, helper_tools, helper_conditions, helper_autoparty, helper_config, game_helper ]
+  dependencies:
+    - game_actionbar
+    - game_cyclopedia
+  @onLoad: init()
+  @onUnload: terminate()

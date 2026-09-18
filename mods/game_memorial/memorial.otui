@@ -1,0 +1,129 @@
+MemorialWindow < MainWindowHigh
+
+MemorialWindow
+  id: memorialWindow
+  size: 500 445
+  text: Memorial
+  font: $var-cip-font-new
+  text-offset: 0 2
+  text-color: #909090
+  @onEscape: modules.game_memorial.closeMemorial()
+
+  UIWidget
+    id: topFrame
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: -7
+    size: 468 36
+    image-source: /images/ui/1pixel-down-frame
+    image-border: 10
+
+    UIButton
+      id: goldenOutfitButton
+      size: 233 34
+      checkable: true
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin: 1
+      image-source: /images/game/cyclopedia/button-golden-outfit
+      image-clip: 0 0 233 34
+      @onClick: modules.game_memorial.selectGoldenPanel()
+
+      $checked:
+        image-clip: 0 34 233 34
+
+      $pressed:
+        image-clip: 0 34 233 34
+
+    UIButton
+      id: royalCostumeButton
+      size: 233 34
+      checkable: true
+      anchors.top: parent.top
+      anchors.left: prev.right
+      margin: 1
+      image-source: /images/game/cyclopedia/button-royal-costume-outfit
+      image-clip: 0 0 233 34
+      @onClick: modules.game_memorial.selectRoyalPanel()
+
+      $checked:
+        image-clip: 0 34 233 34
+
+      $pressed:
+        image-clip: 0 34 233 34
+
+  UIWidget
+    id: contentFrame
+    anchors.top: topFrame.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.bottom: bottomSep.top
+    margin-top: 11
+    margin-bottom: 11
+    width: 468
+    image-source: /images/ui/1pixel-down-frame
+    image-border: 10
+    background-color: #363636
+
+    VerticalQtScrollBar
+      id: contentScrollBar
+      anchors.top: parent.top
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      margin: 1 1 1 0
+      step: 14
+      pixels-per-scroll: 14
+
+    ScrollablePanel
+      id: contentTextList
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: contentScrollBar.left
+      anchors.bottom: parent.bottom
+      margin: 5
+      vertical-scrollbar: contentScrollBar
+      layout:
+        type: verticalBox
+
+  HorizontalSeparator
+    id: bottomSep
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: closeButton.top
+    margin-bottom: 11
+
+  Button
+    id: closeButton
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-bottom: 0
+    margin-right: 0
+    size: 43 20
+    text: Close
+    font: cipsoftFont
+    color: #FFFFFF
+    @onClick: modules.game_memorial.closeMemorial()
+
+MEListLabel < Label
+  font: $var-cip-font-lowspace
+  text-align: left
+  text-wrap: false
+  text-vertical-auto-resize: true
+  margin-top: 2
+  color: #c0c0c0
+
+MEIndentedLabelRow < UIWidget
+
+  UIWidget
+    id: indentSpacer
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    width: 0
+
+  MEListLabel
+    id: label
+    anchors.top: parent.top
+    anchors.left: indentSpacer.right
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-top: 0

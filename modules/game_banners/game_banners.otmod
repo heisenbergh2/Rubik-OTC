@@ -1,0 +1,8 @@
+Module
+  name: game_banners
+  description: Game Banners
+  author: OTC Team
+  sandboxed: true
+  scripts: [ game_banners ]
+  @onLoad: init()
+  @onUnload: terminate()

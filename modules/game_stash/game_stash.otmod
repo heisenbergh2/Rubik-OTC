@@ -1,0 +1,10 @@
+Module
+  name: game_stash
+  description: Global supply stash system
+  author: Aluisio Penna
+  website: https://github.com/mehah/otclient
+  sandboxed: false
+  dependencies: [ game_containers ]
+  scripts: [ game_stash ]
+  @onLoad: init()
+  @onUnload: terminate()

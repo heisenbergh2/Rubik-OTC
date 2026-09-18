@@ -1,0 +1,232 @@
+LogoTextWidget < UIWidget
+  size: 163 44
+
+ShowOffWidget < UIWidget
+  size: 1020 1000
+  anchors.left: parent.left
+  anchors.top: parent.top
+
+  Label
+    id: image
+    size: 64 64
+    anchors.left: parent.left
+    anchors.top: parent.top
+    margin-left: 10
+    image-auto-resize: true
+
+  Label
+    id: description
+    size: 476 0
+    anchors.left: image.right
+    anchors.top: parent.top
+    margin-top: 2
+    margin-left: 10
+    color: #c0c0c0ff
+    font: $var-cip-font
+    text-wrap: true
+    text-auto-resize: true
+    focusable: false
+
+Panel
+  id: bottomMenu
+  size: 1020 117
+  anchors.bottom: parent.bottom
+  anchors.horizontalCenter: parent.horizontalCenter
+  
+  UIWidget
+    phantom: true
+    anchors.bottom: parent.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+    size: 163 44
+    margin-bottom: 115
+    image-source: /images/logotext
+
+  MiniQtScrollableWindow
+    id: showOffWindow
+    anchors.bottom: parent.bottom
+    anchors.top: parent.top
+    anchors.left: parent.left
+    size: 606  117
+    draggable: false
+    text-offset: -2 1
+    image-source: /images/ui/popupwindow
+    image-border: 4
+    image-border-top: 17
+
+    Label
+      id: showOffWindowText
+      !text: tr('Random Hint')
+      text-offset: 0 1
+      text-align: top
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      color: #909090
+      font: $var-cip-font
+
+  MiniQtWindow
+    id: eventsWindow
+    anchors.bottom: parent.bottom
+    anchors.top: parent.top
+    anchors.left: prev.right
+    margin-left: 1
+    size: 246 116
+    draggable: false
+    image-source: /images/ui/popupwindow
+    image-border: 4
+    image-border-top: 17
+
+    Label
+      !text: tr('Event Schedule')
+      text-offset: 0 1
+      text-align: top
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      color: #909090
+      font: $var-cip-font
+
+    CalendarOnePixelFrame
+      id: eventsContainer
+      size: 226 84
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-left: 10
+      margin-top: 23
+      fixed-size: true
+      @onClick: onClickOnCalendar()
+
+      CalendarTopMark
+        id: activeLabel
+        !text: tr('Active')
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.horizontalCenter
+        text-offset: -1 -1
+
+      CalendarTopMark
+        id: upcomingLabel
+        !text: tr('Upcoming')
+        &hideRightSeparator: true
+        anchors.top: parent.top
+        anchors.left: parent.horizontalCenter
+        anchors.right: parent.right
+        margin-left: 1
+        text-offset: -1 -1
+
+      HorizontalSeparatorFlat
+        id: eventsHeaderSep
+        height: 2
+        anchors.top: activeLabel.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: -1
+
+      CalendarDayNoTopSep
+        id: activeScheduleEvent
+        &disableLeftBright: true
+        anchors.top: eventsHeaderSep.bottom
+        anchors.left: parent.left
+        anchors.right: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        margin-top: 1
+
+      CalendarDayNoTopSep
+        id: upcomingScheduleEvent
+        &hideRightSeparator: true
+        anchors.top: eventsHeaderSep.bottom
+        anchors.left: parent.horizontalCenter
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        margin-left: 1
+        margin-top: 1
+        @onClick: onClickOnCalendar()
+
+  MiniQtWindow
+    id: boostedWindow
+    anchors.bottom: parent.bottom
+    anchors.top: parent.top
+    anchors.left: prev.right
+    margin-left: 1
+    size: 169 116
+    draggable: false
+    image-source: /images/ui/popupwindow
+    image-border: 4
+    image-border-top: 17
+
+    Label
+      !text: tr('Boosted')
+      text-offset: 0 1
+      text-align: top
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      color: #909090
+      font: $var-cip-font
+
+    Panel
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-left: 12
+      margin-top: 30
+      size: 64 64
+
+      Creature
+        id: creature
+        size: 64 64
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        image-source: ""
+        image-border: 0
+        border-width: 0
+        border-color: alpha
+        fixed-creature-size: true
+
+      UIWidget
+        id: monsterImage
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        visible: false
+
+    Label
+      !text: tr('Creature')
+      anchors.horizontalCenter: prev.horizontalCenter
+      anchors.bottom: parent.bottom
+      margin-bottom: 6
+      font: $var-cip-font
+      color: $var-text-cip-color
+
+    Panel
+      anchors.top: parent.top
+      anchors.right: parent.right
+      margin-right: 12
+      margin-top: 30
+      size: 64 64
+
+      Creature
+        id: boss
+        size: 64 64
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        image-source: ""
+        image-border: 0
+        border-width: 0
+        border-color: alpha
+        fixed-creature-size: true
+        
+      UIWidget
+        id: bossImage
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        visible: false
+
+    Label
+      !text: tr('Boss')
+      anchors.horizontalCenter: prev.horizontalCenter
+      anchors.bottom: parent.bottom
+      margin-bottom: 6
+      font: $var-cip-font
+      color: $var-text-cip-color

@@ -1,0 +1,7 @@
+Module
+  name: game_soulpit
+  description: Soul Pit
+  author: OTC Team
+  scripts: [ game_soulpit ]
+  @onLoad: init()
+  @onUnload: terminate()

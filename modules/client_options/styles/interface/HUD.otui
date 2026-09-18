@@ -1,0 +1,521 @@
+ConditionListCheckBox < CheckBox
+  size: 12 12
+  text-offset: 0 0
+
+  $checked disabled:
+    image-clip: 0 24 12 12
+    change-cursor-image: false
+
+ConditionListRow < UIWidget
+  height: 16
+  focusable: true
+
+  UIWidget
+    id: icon
+    size: 9 9
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 5
+    margin-top: 1
+    phantom: true
+
+  Label
+    id: label
+    anchors.left: icon.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 5
+    margin-top: 1
+    font: $var-cip-font
+    color: #c0c0c0
+    text-auto-resize: true
+
+  ConditionListCheckBox
+    id: showInHudCheck
+    anchors.right: showInBarCheck.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-right: 99
+
+  ConditionListCheckBox
+    id: showInBarCheck
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-right: 18
+
+UIWidget
+  anchors.fill: parent
+  visible: false
+  margin-left: 1
+  margin-right: 1
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+    height: 220
+    margin-top: 1
+    padding: 4
+
+    UIWidget
+      id: ownCharacterColumn
+      anchors.left: parent.left
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      anchors.right: hudColumnSeparator.left
+      margin-right: 6
+
+      OptionCheckBox
+        id: showHudForOwnCharacter
+        !text: tr('Show HUD for Own Character')
+        anchors.left: parent.left
+        anchors.right: showHudForOwnCharacterHelp.left
+        anchors.top: parent.top
+        margin-top: -1
+        margin-left: 0
+        margin-right: 4
+        text-offset: 16 0
+
+      UIWidget
+        id: showHudForOwnCharacterHelp
+        image-source: /images/icons/show_gui_help_grey
+        size: 12 12
+        anchors.right: parent.right
+        anchors.top: parent.top
+        margin-top: 1
+        margin-right: 1
+        !tooltip: tr('Show HUD for Own Character: If you untick this box, none of the attributes listed below will be displayed for your character.<br><br><li>Arcs: Your mana and health bars are displayed to the left and right of your character.</li><li>Bars: Your mana and health bars are displayed below your character\'s name.</li><br><br>Show Name: Tick this box to display your character\'s name in the game window.<br>Show Health: Tick this box to display your character\'s health bar in the game window.<br>Show Mana: Tick this box to display your character\'s mana bar in the game window.<br>Show Harmony: Tick this box to display your character\'s Harmony and Serenity in the game window.<br>Show Mana Shield: Tick this box to display your character\'s Mana Shield in the game window.<br>Show Marks: Tick this box to display any possible marks for your character, such as party shields or skull marks.')
+
+      OptionCheckBox
+        id: showOwnName
+        !text: tr('Show Name')
+        anchors.left: parent.left
+        anchors.top: showHudForOwnCharacter.bottom
+        margin-top: 5
+        margin-left: 17
+        text-offset: 16 0
+
+      OptionCheckBox
+        id: showOwnBars
+        !text: tr('Show Bars')
+        anchors.left: parent.left
+        anchors.top: prev.bottom
+        margin-top: 5
+        margin-left: 17
+        text-offset: 16 0
+
+      OptionCheckBox
+        id: showOwnHealth
+        !text: tr('Show Health')
+        anchors.left: parent.left
+        anchors.top: prev.bottom
+        margin-top: 5
+        margin-left: 62
+        text-offset: 16 0
+
+      OptionCheckBox
+        id: showOwnMana
+        !text: tr('Show Mana')
+        anchors.left: parent.left
+        anchors.top: prev.bottom
+        margin-top: 5
+        margin-left: 62
+        text-offset: 16 0
+
+      OptionCheckBox
+        id: showOwnHarmony
+        !text: tr('Show Harmony')
+        anchors.left: parent.left
+        anchors.top: prev.bottom
+        margin-top: 5
+        margin-left: 17
+        text-offset: 16 0
+
+      RoundedCheckBox
+        id: harmonyNextToHealth
+        !text: tr('next to Health Arc')
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: prev.bottom
+        text-offset: 15 -1
+        margin-top: 6
+        margin-left: 62
+        color: $var-text-cip-color
+        font: $var-cip-font
+        checked: true
+        @onCheckChange: modules.client_options.onHarmonyPlacementChange(self)
+
+      RoundedCheckBox
+        id: harmonyNextToMana
+        !text: tr('next to Mana Arc')
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: prev.bottom
+        text-offset: 15 -1
+        margin-top: 3
+        margin-left: 62
+        color: $var-text-cip-color
+        font: $var-cip-font
+        @onCheckChange: modules.client_options.onHarmonyPlacementChange(self)
+
+      OptionCheckBox
+        id: showManaShield
+        !text: tr('Show Mana Shield')
+        anchors.left: parent.left
+        anchors.top: prev.bottom
+        margin-top: 2
+        margin-left: 17
+        text-offset: 16 0
+
+      RoundedCheckBox
+        id: manaShieldNextToHealth
+        !text: tr('next to Health Arc')
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: prev.bottom
+        text-offset: 15 -1
+        margin-top: 6
+        margin-left: 62
+        color: $var-text-cip-color
+        font: $var-cip-font
+        @onCheckChange: modules.client_options.onManaShieldPlacementChange(self)
+
+      RoundedCheckBox
+        id: manaShieldNextToMana
+        !text: tr('next to Mana Arc')
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: prev.bottom
+        text-offset: 15 -1
+        margin-top: 3
+        margin-left: 62
+        color: $var-text-cip-color
+        font: $var-cip-font
+        checked: true
+        @onCheckChange: modules.client_options.onManaShieldPlacementChange(self)
+
+      OptionCheckBox
+        id: showOwnMarks
+        !text: tr('Show Marks')
+        anchors.left: parent.left
+        anchors.top: prev.bottom
+        margin-top: 2
+        margin-left: 17
+        text-offset: 16 0
+
+    VerticalSeparator
+      id: hudColumnSeparator
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      anchors.horizontalCenter: parent.horizontalCenter
+      margin-left: -3
+      margin-top: 1
+      margin-bottom: 1
+
+    UIWidget
+      id: otherCreaturesColumn
+      anchors.left: hudColumnSeparator.right
+      anchors.right: parent.right
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      margin-left: 5
+      margin-top: 1
+
+      OptionCheckBox
+        id: showHudForOtherCreatures
+        !text: tr('Show HUD for Other Creatures')
+        anchors.left: parent.left
+        anchors.right: showHudForOtherCreaturesHelp.left
+        anchors.top: parent.top
+        margin-top: -1
+        margin-left: 0
+        margin-right: 4
+        text-offset: 16 0
+
+      UIWidget
+        id: showHudForOtherCreaturesHelp
+        image-source: /images/icons/show_gui_help_grey
+        size: 12 12
+        anchors.right: parent.right
+        anchors.top: parent.top
+        margin-top: 1
+        margin-right: 2
+        !tooltip: tr('Show HUD for Other Creatures: If you untick this box, you will not see any of the attributes listed below for creatures or other characters.<br><br><li>Show Name: Tick this box to show the name of creatures and other characters in the game window.</li><li>Show Health: Tick this box to show the health bar of creatures and other characters in the game window.</li><li>Show Marks: Tick this box to show any possible marks of other characters such as party shields or skull marks.</li><li>Show NPC Icons: Tick this box to show icons which help you to identify an NPC as quest, trade or talkative NPC.</li>')
+
+      OptionCheckBox
+        id: showOtherName
+        !text: tr('Show Name')
+        anchors.left: parent.left
+        anchors.top: showHudForOtherCreatures.bottom
+        margin-top: 5
+        margin-left: 17
+        text-offset: 16 0
+
+      OptionCheckBox
+        id: showOtherHealth
+        !text: tr('Show Health')
+        anchors.left: parent.left
+        anchors.top: prev.bottom
+        margin-top: 5
+        margin-left: 17
+        text-offset: 16 0
+
+      OptionCheckBox
+        id: showOtherMarks
+        !text: tr('Show Marks')
+        anchors.left: parent.left
+        anchors.top: prev.bottom
+        margin-top: 5
+        margin-left: 17
+        text-offset: 16 0
+
+      OptionCheckBox
+        id: showOtherNpcIcons
+        !text: tr('Show NPC Icons')
+        anchors.left: parent.left
+        anchors.top: prev.bottom
+        margin-top: 5
+        margin-left: 17
+        text-offset: 16 0
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    height: 144
+    margin-top: 6
+    padding: 4
+
+    OptionCheckBox
+      id: showArcs
+      !text: tr('Show Arcs')
+      anchors.left: parent.left
+      anchors.right: showArcsDistanceLabel.left
+      anchors.top: parent.top
+      margin-left: 17
+      margin-right: 4
+      text-offset: 16 0
+
+    Label
+      id: showArcsDistanceLabel
+      font: $var-cip-font
+      color: #c0c0c0
+      anchors.left: parent.left
+      anchors.verticalCenter: showArcsDistanceScroll.verticalCenter
+      margin-left: 251
+      text-auto-resize: true
+      @onSetup: |
+        local v = modules.client_options.getOption('showArcsDistanceScroll') or 25
+        self:setText(tr('Distance: %d %%', v))
+
+    HorizontalQtScrollBar
+      id: showArcsDistanceScroll
+      step: 10
+      minimum: 0
+      maximum: 100
+      anchors.right: parent.right
+      anchors.top: parent.top
+      margin-top: 6
+      margin-right: 1
+      width: 129
+      @onValueChange: |
+        local v = self:getValue()
+        local label = self:getParent():recursiveGetChildById('showArcsDistanceLabel')
+        if label then
+          label:setText(tr('Distance: %d %%', v))
+        end
+        modules.client_options.setOption(self:getId(), v)
+
+    UIWidget
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: showArcs.bottom
+      margin-top: 8
+      height: 21
+
+      QtComboBox
+        id: showArcsSize
+        width: 128
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        margin-left: 35
+        margin-top: -3
+        mouse-scroll: false
+        text-offset: -11 1
+
+      Label
+        id: showArcsOpacityLabel
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.left: parent.left
+        anchors.verticalCenter: showArcsOpacityScroll.verticalCenter
+        margin-left: 251
+        text-auto-resize: true
+        @onSetup: |
+          local raw = modules.client_options.getOption('showArcsOpacityScroll')
+          local v = raw ~= nil and math.max(20, math.min(100, raw)) or 100
+          self:setText(tr('Opacity: %d %%', v))
+
+      HorizontalQtScrollBar
+        id: showArcsOpacityScroll
+        step: 10
+        minimum: 20
+        maximum: 100
+        anchors.right: parent.right
+        anchors.verticalCenter: parent.verticalCenter
+        margin-top: -2
+        margin-right: 1
+        width: 129
+        @onValueChange: |
+          local v = self:getValue()
+          local label = self:getParent():recursiveGetChildById('showArcsOpacityLabel')
+          if label then
+            label:setText(tr('Opacity: %d %%', v))
+          end
+          modules.client_options.setOption(self:getId(), v)
+
+    HorizontalSeparator
+      id: showArcsSeparator
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: prev.bottom
+      margin-top: 3
+      margin-left: 1
+      margin-right: 1
+
+    Label
+      id: specialConditionsLabel
+      !text: tr('Special Condition')
+      font: $var-cip-font
+      color: #c0c0c0
+      anchors.left: parent.left
+      anchors.top: showArcsSeparator.bottom
+      margin-top: 5
+
+    OptionCheckBoxReverse
+      id: showInHud
+      !text: tr('Show in HUD')
+      anchors.left: none
+      anchors.right: showInBar.left
+      anchors.top: showInBar.top
+      margin-right: 20
+      @onCheckChange: modules.client_options.onMasterConditionCheckChange('hud', self:isChecked())
+
+    OptionCheckBoxReverse
+      id: showInBar
+      !text: tr('Show in Bar')
+      anchors.left: none
+      anchors.right: parent.right
+      anchors.top: showArcsSeparator.bottom
+      margin-top: 5
+      margin-right: 46
+      @onCheckChange: modules.client_options.onMasterConditionCheckChange('bar', self:isChecked())
+
+    TextList
+      id: conditionsList
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: showInBar.bottom
+      anchors.bottom: parent.bottom
+      margin-left: 1
+      margin-right: 26
+      margin-top: 6
+      margin-bottom: 1
+      focusable: true
+      vertical-scrollbar: conditionsScrollBar
+      image-source: /images/ui/1pixel-down-frame
+      image-border: 3
+      border-width: 0
+      background-color: #404040
+
+    VerticalQtScrollBar
+      id: conditionsScrollBar
+      anchors.top: conditionsList.top
+      anchors.bottom: conditionsList.bottom
+      anchors.right: conditionsList.right
+      step: 16
+      pixels-scroll: true
+      margin-top: 1
+      margin-right: 1
+      margin-bottom: 1
+
+    UIButton
+      id: moveUpBtn
+      anchors.top: conditionsList.top
+      anchors.right: parent.right
+      margin-right: 1
+      image-source: /images/ui/buttons/automap-button-moveup-up
+      image-clip: 0 0 20 20
+      width: 20
+      @onClick: modules.client_options.moveConditionUp()
+      $pressed:
+        image-source: /images/ui/buttons/automap-button-moveup-down
+      $disabled:
+        image-source: /images/options/buttons_disabled_shortcuts
+        image-clip: 20 0 20 20
+
+    UIButton
+      id: moveDownBtn
+      anchors.top: moveUpBtn.bottom
+      anchors.right: parent.right
+      margin-right: 1
+      margin-top: 6
+      image-source: /images/ui/buttons/automap-button-movedown-up
+      image-clip: 0 0 20 20
+      width: 20
+      @onClick: modules.client_options.moveConditionDown()
+      $pressed:
+        image-source: /images/ui/buttons/automap-button-movedown-down
+      $disabled:
+        image-source: /images/options/buttons_disabled_shortcuts
+        image-clip: 40 0 20 20
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 6
+    height: 22
+
+    OptionCheckBox
+      id: showCustomisableStatusBars
+      !text: tr('Show Customisable Status Bars')
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: parent.top
+      margin-top: -1
+      margin-left: 0
+      text-offset: 16 0
+
+    UIWidget
+      id: showCustomisableStatusBarsHelp
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 1
+      !tooltip: tr('Check this box to show the status bars for your characters\' most important attributes: their health and their mana.<br><br>If you have enabled this option and you right-click on the status bars field, a menu will open up which allows you to individualise your status bars even further:<br><br><li>You can switch your status bars to one of the four sides around your game window.</li><li>You can display your status bars in different styles.</li><li>Additionally, you can decide to show the progress bars for one, several or all of your skills or your experience level. If you place your mouse pointer on one of the bars, a tooltip will open up which shows your progress to the next skill or level in percent.</li>')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 6
+    height: 22
+
+    OptionCheckBox
+      id: showStatusBars
+      !text: tr('Show Status Bars')
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: parent.top
+      margin-top: -1
+      margin-left: 0
+      text-offset: 16 0
+
+    UIWidget
+      id: showStatusBarsHelp
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 1
+      !tooltip: tr('Check this box to show your character\'s status bars for mana and health in the sidebar.')

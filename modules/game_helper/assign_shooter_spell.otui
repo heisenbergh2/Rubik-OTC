@@ -1,0 +1,207 @@
+ShooterSpellAssignPreview < Panel
+  height: 46
+  phantom: true
+  focusable: false
+
+  UIWidget
+    id: previewSpellIcon
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    phantom: true
+    size: 32 32
+    image-size: 32 32
+    margin-top: -14
+
+  Panel
+    id: previewSpellGray
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    phantom: true
+    focusable: false
+    visible: false
+    size: 32 32
+    image-size: 32 32
+    margin-top: -14
+    image-source: /assets/images/game/actionbar/slot-disabled
+
+  HelperRuneIconBackground
+    id: previewRuneBackground
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-top: -14
+    visible: false
+
+  UIItem
+    id: previewRuneIcon
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    phantom: true
+    visible: false
+    size: 32 32
+    image-size: 32 32
+    margin-top: -14
+    virtual: true
+
+  Label
+    id: previewSpellName
+    anchors.left: prev.right
+    anchors.right: parent.right
+    anchors.top: parent.top
+    margin-left: 5
+    margin-top: -4
+    font: $var-cip-font-new
+    color: #C0C0C0
+    text-auto-resize: true
+
+  Label
+    id: previewSpellWords
+    anchors.left: previewSpellIcon.right
+    anchors.right: parent.right
+    anchors.top: previewSpellName.bottom
+    margin-left: 5
+    margin-top: 1
+    font: $var-cip-font-new
+    color: #C0C0C0
+    text-auto-resize: true
+
+MainWindowHigh
+  id: shooterAssignWindow
+  !text: tr('Add Attack Spell')
+  size: 503 530
+  font: $var-cip-font-new
+  color: #909090
+  text-offset: 0 2
+  @onEscape: modules.game_helper.closeShooterAssignWindow()
+  @onEnter: modules.game_helper.shooterAssignOk()
+
+  ShooterSpellAssignPreview
+    id: shooterSpellPreview
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+
+  HorizontalSeparator
+    id: splitter
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: shooterSpellPreview.bottom
+    margin-top: -10
+    height: 2
+
+  UIWidget
+    id: spellPreviewFrame
+    anchors.top: splitter.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 7
+    height: 199
+    image-source: /images/ui/1pixel-down-frame
+    image-border: 1
+    visible: true
+
+  Panel
+    id: shooterSpellsListFrame
+    anchors.top: spellPreviewFrame.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 164
+    margin-top: 7
+    image-source: /images/ui/1pixel-down-frame
+    image-border: 3
+    border-width: 0
+
+    TextEdit
+      id: filterTextEdit
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 1
+      margin-left: 1
+      margin-right: 1
+      !placeholder: tr('Type to search')
+      placeholder-color: #707070
+      padding: 3 18 1 4
+      @onTextChange: modules.game_helper.filterShooterSpells(self:getText())
+
+    UIWidget
+      id: filterEraseButton
+      anchors.right: filterTextEdit.right
+      anchors.verticalCenter: filterTextEdit.verticalCenter
+      margin-right: 1
+      image-source: /images/ui/button-erase-18x18-up
+      @onClick: modules.game_helper.clearShooterSpellFilter()
+      $pressed:
+        image-source: /images/ui/button-erase-18x18-down
+
+    TextList
+      id: shooterSpellsPanel
+      vertical-scrollbar: shooterSpellsPanelScrollbar
+      anchors.top: filterTextEdit.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      margin-top: 6
+      padding: 1
+      border-width: 0
+      background-color: alpha
+
+    VerticalQtScrollBar
+      id: shooterSpellsPanelScrollbar
+      anchors.top: shooterSpellsPanel.top
+      anchors.bottom: shooterSpellsPanel.bottom
+      anchors.right: shooterSpellsPanel.right
+      step: 34
+      pixels-scroll: true
+      margin: 1 1 1 0
+
+  Panel
+    id: onlyShowLearntSpellsPanel
+    anchors.top: shooterSpellsListFrame.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 22
+    margin-top: 6
+    image-source: /images/ui/1pixel-down-frame
+    image-border: 3
+    border-width: 0
+
+    CheckBox
+      id: onlyShowLearntSpellsCheckBox
+      anchors.left: parent.left
+      anchors.verticalCenter: parent.verticalCenter
+      !text: tr('Only show learnt spells')
+      text-auto-resize: true
+      margin-left: 5
+      @onSetup: self:setChecked(false)
+      text-offset: 15 0
+      color: #c0c0c0
+      font: $var-cip-font-new
+      @onCheckChange: modules.game_helper.onShooterAssignLearntChange()
+
+  HorizontalSeparator
+    id: separatorBottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: okButton.top
+    margin-bottom: 11
+    height: 2
+
+  Button
+    id: okButton
+    size: 43 20
+    anchors.right: cancelButton.left
+    anchors.bottom: parent.bottom
+    text: Ok
+    text-offset: 0 0
+    margin-right: 6
+    enabled: false
+    @onClick: modules.game_helper.shooterAssignOk()
+
+  Button
+    id: cancelButton
+    size: 43 20
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    text: Cancel
+    text-offset: 0 0
+    @onClick: modules.game_helper.closeShooterAssignWindow()

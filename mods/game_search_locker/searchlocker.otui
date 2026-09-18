@@ -1,0 +1,684 @@
+SearchLockerFilterButton < Button
+  checkable: true
+  $checked:
+    image-source: /images/ui/button-grey-down
+    text-offset: 1 1
+
+SearchLockerRetrieveSlot < UIWidget
+  size: 34 34
+  focusable: false
+
+  UIWidget
+    id: itemSlot
+    size: 34 34
+    image-source: /images/ui/item
+    anchors.fill: parent
+    phantom: true
+    focusable: false
+
+  UIWidget
+    id: rarity
+    size: 32 32
+    anchors.centerIn: parent
+    phantom: true
+    focusable: false
+
+  UIItem
+    id: item
+    size: 32 32
+    anchors.centerIn: parent
+    font: verdana-11px-rounded
+    show-count: false
+    virtual-count: true
+    focusable: false
+    border-color: white
+    color: white
+
+    $disabled:
+      color: #646464
+
+  UIWidget
+    id: tier
+    size: 9 8
+    image-source: /images/inventory/tiers-strip
+    image-clip: 0 0 9 8
+    image-size: 9 8
+    anchors.top: item.top
+    anchors.right: item.right
+    phantom: true
+    focusable: false
+    visible: false
+    image-smooth: true
+
+SearchLockerItemList < UIWidget
+  size: 160 36
+  focusable: true
+
+  UIWidget
+    id: itemSlot
+    size: 34 34
+    image-source: /images/ui/item
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-left: 1
+    anchors.verticalCenter: parent.verticalCenter
+
+  UIWidget
+    id: rarity
+    size: 32 32
+    anchors.centerIn: itemSlot
+    phantom: true
+
+  UIItem
+    size: 32 32
+    id: item
+    virtual: true
+    priceable: true
+    anchors.centerIn: itemSlot
+    font: verdana-11px-rounded
+    show-count: false
+    virtual-count: true
+    focusable: false
+    draggable: false
+
+  UIWidget
+    id: tier
+    size: 9 8
+    image-source: /images/inventory/tiers-strip
+    image-clip: 0 0 9 8
+    image-size: 9 8
+    anchors.top: item.top
+    anchors.right: item.right
+    phantom: true
+    focusable: false
+    visible: false
+    image-smooth: true
+
+  Label
+    id: amount
+    size: 54 16
+    anchors.bottom: item.bottom
+    anchors.right: item.right
+    text-align: right
+    color: #bfbfbf
+    font: $var-cip-font-outline
+    text-auto-resize: false
+    !text: tr('')
+    text-offset: 0 2
+    visible: false
+
+  Label
+    id: name
+    size: 108 32
+    !text: tr("Unknown")
+    font: $var-cip-font-new
+    color: #c0c0c0
+    anchors.left: itemSlot.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 3
+    text-wrap: true
+    text-align: left
+    text-offset: 0 1
+    text-auto-reduce: true
+
+ClickableSearchPanel < UIButton
+  id: clickablePanel
+  anchors.top: parent.top
+  anchors.left: parent.left
+  anchors.right: parent.right
+  anchors.bottom: parent.bottom
+  margin-left: 4
+  margin-top: 2
+  opacity: 0.6
+  phantom: false
+
+SearchPage < Panel
+  anchors.fill: parent
+  TextList
+    id: headerContentPanel
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 60
+    width: 168
+    margin-top: 15
+    margin-left: 4
+    margin-right: 4
+    image-source: /images/ui/1pixel-down-frame
+    image-border: 5
+    border-width: 0
+    background-color: #363636
+    padding-left: 1
+    padding-top: 1
+    padding-bottom: 1
+    vertical-scrollbar: headerContentScrollBar
+
+  VerticalQtScrollBar
+    id: headerContentScrollBar
+    anchors.top: prev.top
+    anchors.bottom: prev.bottom
+    anchors.right: prev.right
+    step: 15
+    margin-right: 1
+    margin-bottom: 1
+    margin-top: 1
+    pixels-scroll: true
+
+  ComboBox
+    id: sellerOptions
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    margin-left: 6
+    margin-top: 7
+    size: 166 20
+    color: $var-text-cip-color
+    font: $var-cip-font
+    text-offset: -12 1
+    max-text-length: 20
+    additional-width: 13
+    menu-scroll: true
+    menu-height: 396
+    menu-scroll-step: 20
+    @onOptionChange: modules.game_search_locker.onSellerChange(self, self.currentIndex)
+    @onSetup: |
+      modules.game_search_locker.populateSellerOptions(self)
+
+  SearchLockerFilterButton
+    id: levelButton
+    size: 40 20
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    margin-top: 3
+    margin-left: 6
+    !text: tr('Level')
+    text-offset: 0 0
+    @onClick: modules.game_search_locker.onSortLockerFields(self, self:isChecked())
+
+  SearchLockerFilterButton
+    id: vocButton
+    size: 40 20
+    anchors.top: prev.top
+    anchors.left: prev.right
+    margin-left: 3
+    !text: tr('Voc.')
+    text-offset: 0 0
+    @onClick: modules.game_search_locker.onSortLockerFields(self, self:isChecked())
+
+  SearchLockerFilterButton
+    id: oneButton
+    size: 40 20
+    anchors.top: prev.top
+    anchors.left: prev.right
+    margin-left: 3
+    !text: tr('1H')
+    text-offset: 0 0
+    enabled: false
+    @onClick: modules.game_search_locker.onSortLockerFields(self, self:isChecked())
+
+  SearchLockerFilterButton
+    id: twoButton
+    size: 40 20
+    anchors.top: prev.top
+    anchors.left: prev.right
+    margin-left: 3
+    !text: tr('2H')
+    text-offset: 0 0
+    enabled: false
+    @onClick: modules.game_search_locker.onSortLockerFields(self, self:isChecked())
+
+  ComboBox
+    id: classFilter
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    margin-left: 6
+    margin-top: 3
+    size: 82 20
+    color: $var-text-cip-color
+    font: $var-cip-font
+    text-offset: -11 1
+    @onOptionChange: modules.game_search_locker.onSortLockerFields(self, self.currentIndex)
+
+  ComboBox
+    id: tierFilter
+    anchors.top: prev.top
+    anchors.left: prev.right
+    margin-left: 3
+    size: 82 20
+    color: $var-text-cip-color
+    font: $var-cip-font
+    text-offset: -10 1
+    @onOptionChange: modules.game_search_locker.onSortLockerFields(self, self.currentIndex)
+
+  CheckBox
+    id: lockerOnly
+    size: 12 12
+    !text: tr('Show Locker only')
+    text-auto-resize: true
+    font: $var-cip-font-new
+    color: $var-text-cip-color
+    text-offset: 15 0
+    anchors.left: parent.left
+    anchors.top: prev.bottom
+    margin-top: 11
+    margin-left: 6
+    image-source: /images/ui/checkbox
+    image-clip: 0 0 12 12
+    change-cursor-image: false
+
+    $hover !disabled:
+      color: #c0c0c0
+
+  Label
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    margin-top: 8
+    margin-left: 5
+    !text: tr('Items:')
+    text-auto-resize: true
+    font: $var-cip-font
+    color: $var-text-cip-color
+
+  TextList
+    id: itemListAll
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: selectedItem.top
+    margin-top: 5
+    margin-left: 4
+    margin-right: 4
+    margin-bottom: 7
+    image-source: /images/ui/1pixel-down-frame
+    image-border: 5
+    border-width: 0
+    background-color: #404040
+    padding-left: 1
+    padding-top: 2
+    padding-bottom: 1
+    vertical-scrollbar: itemListScroll
+    keep-scroll-range: true
+    clipping: true
+    text-wrap: true
+    @onSetup: |
+      g_keyboard.bindKeyPress('Up', function() self:focusPreviousChild(KeyboardFocusReason) self:ensureChildVisible(self:getFocusedChild()) end, self)
+      g_keyboard.bindKeyPress('Down', function() self:focusNextChild(KeyboardFocusReason) self:ensureChildVisible(self:getFocusedChild()) end, self)
+
+  VerticalQtScrollBar
+    id: itemListScroll
+    anchors.top: prev.top
+    anchors.bottom: prev.bottom
+    anchors.right: prev.right
+    margin-right: 1
+    margin-top: 1
+    margin-bottom: 1
+    step: 36
+
+  UIWidget
+    id: previewItemSlot
+    size: 34 34
+    image-source: /images/ui/item
+    anchors.bottom: refreshButton.top
+    anchors.left: parent.left
+    margin-left: 6
+    margin-bottom: 6
+
+  UIWidget
+    id: previewRarity
+    size: 32 32
+    anchors.centerIn: previewItemSlot
+    phantom: true
+
+  UIItem
+    id: selectedItem
+    size: 32 32
+    virtual: true
+    priceable: true
+    font: verdana-11px-rounded
+    anchors.centerIn: previewItemSlot
+    show-count: false
+    virtual-count: true
+    draggable: false
+
+  UIWidget
+    id: previewTier
+    size: 9 8
+    image-source: /images/inventory/tiers-strip
+    image-clip: 0 0 9 8
+    image-size: 9 8
+    anchors.top: selectedItem.top
+    anchors.right: selectedItem.right
+    phantom: true
+    focusable: false
+    visible: false
+    image-smooth: true
+
+  Label
+    anchors.top: selectedItem.top
+    anchors.left: selectedItem.right
+    margin-top: -2
+    margin-left: 6
+    !text: tr('Search:')
+    text-auto-resize: true
+    font: $var-cip-font
+    color: $var-text-cip-color
+
+  TextEdit
+    id: searchText
+    size: 121 16
+    focusable: true
+    anchors.top: prev.bottom
+    anchors.left: selectedItem.right
+    anchors.right: parent.right
+    margin-left: 7
+    margin-top: 5
+    margin-right: 6
+    cursor-visible: false
+    @onTextChange: modules.game_search_locker.onTextChange()
+    @onClick: modules.game_search_locker.onSearchTextClick()
+    !placeholder: tr('Type to search')
+
+  Button
+    id: clearSearchButton
+    anchors.verticalCenter: searchText.verticalCenter
+    anchors.right: searchText.right
+    margin-right: 1
+    size: 14 14
+    z-index: 1
+    image-source: /images/ui/button-erase-14x14-up
+    $pressed:
+      image-source: /images/ui/button-erase-14x14-down
+    @onClick: modules.game_search_locker.clearSearch()
+
+  UIButton
+    id: searchItemButton
+    size: 20 20
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    margin-right: 6
+    margin-bottom: 6
+    image-source: /images/game/search_locker/button-search
+    image-clip: 0 0 20 20
+    enabled: false
+    $pressed:
+      image-clip: 20 0 20 20
+    $disabled:
+      image-clip: 40 0 20 20
+
+  UIButton
+    id: refreshButton
+    size: 20 20
+    anchors.bottom: parent.bottom
+    anchors.right: prev.left
+    margin-right: 6
+    margin-bottom: 6
+    image-source: /images/game/search_locker/button-refresh
+    image-clip: 0 0 20 20
+    $pressed:
+      image-clip: 20 0 20 20
+    @onClick: modules.game_search_locker.onRequestSearch()
+
+ItemSearchPage < Panel
+  anchors.fill: parent
+
+  Label
+    id: itemsNameLabel
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 14
+    margin-left: 5
+    !text: tr('Items name')
+    text-auto-resize: true
+    font: $var-cip-font
+    color: $var-text-cip-color
+
+  UIButton
+    id: depotButton
+    size: 52 36
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    margin-top: 5
+    margin-left: 6
+    image-source: /images/game/search_locker/button-select-locker
+    image-clip: 0 0 52 36
+    $pressed:
+      image-clip: 52 0 52 36
+    $on:
+      image-clip: 52 0 52 36
+    $checked:
+      image-clip: 52 0 52 36
+    $disabled:
+      image-clip: 104 0 52 36
+    $on $disabled:
+      image-clip: 156 0 52 36
+
+  UIButton
+    id: stashButton
+    size: 52 36
+    anchors.top: prev.top
+    anchors.left: prev.right
+    margin-left: 6
+    image-source: /images/game/search_locker/button-select-stash
+    image-clip: 0 0 52 36
+    $pressed:
+      image-clip: 52 0 52 36
+    $on:
+      image-clip: 52 0 52 36
+    $checked:
+      image-clip: 52 0 52 36
+    $disabled:
+      image-clip: 104 0 52 36
+
+  UIButton
+    id: mailBoxButton
+    size: 52 36
+    anchors.top: prev.top
+    anchors.left: prev.right
+    margin-left: 6
+    image-source: /images/game/search_locker/button-select-mailbox
+    image-clip: 0 0 52 36
+    $pressed:
+      image-clip: 52 0 52 36
+    $on:
+      image-clip: 52 0 52 36
+    $checked:
+      image-clip: 52 0 52 36
+    $disabled:
+      image-clip: 104 0 52 36
+
+  Label
+    id: depotAmount
+    anchors.top: depotButton.bottom
+    anchors.right: depotButton.right
+    margin-top: 2
+    margin-right: 1
+    !text: tr('0')
+    text-auto-resize: true
+    font: $var-cip-font
+    color: $var-text-cip-color
+
+  Label
+    id: stashAmount
+    anchors.top: stashButton.bottom
+    anchors.right: stashButton.right
+    margin-top: 2
+    margin-right: 1
+    !text: tr('0')
+    text-auto-resize: true
+    font: $var-cip-font
+    color: $var-text-cip-color
+
+  Label
+    id: mailBoxAmount
+    anchors.top: mailBoxButton.bottom
+    anchors.right: mailBoxButton.right
+    margin-top: 2
+    margin-right: 1
+    !text: tr('0')
+    text-auto-resize: true
+    font: $var-cip-font
+    color: $var-text-cip-color
+
+  ScrollablePanel
+    id: itemsList
+    size: 160 245
+    anchors.top: mailBoxAmount.bottom
+    anchors.left: parent.left
+    anchors.bottom: retrieveButton.top
+    margin-top: 2
+    margin-left: 11
+    margin-bottom: 5
+    vertical-scrollbar: itemListScroll
+    layout:
+      type: grid
+      cell-size: 34 34
+      cell-spacing: 3
+      num-lines: 8
+      num-columns: 4
+      flow: true
+
+  VerticalQtScrollBar
+    id: itemListScroll
+    anchors.top: prev.top
+    anchors.bottom: retrieveButton.top
+    anchors.right: parent.right
+    margin-right: 4
+    margin-bottom: 3
+    step: 2
+    pixels-scroll: true
+
+  UIButton
+    id: retrieveButton
+    size: 128 20
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    margin-bottom: 6
+    margin-left: 24
+    image-source: /images/game/search_locker/button-retrieve-displayed-items
+    image-clip: 0 0 128 20
+    $pressed:
+      image-clip: 0 20 128 20
+    $disabled:
+      image-clip: 0 40 128 20
+
+  UIButton
+    id: stashRetrieveButton
+    size: 86 20
+    anchors.top: itemsList.top
+    anchors.left: itemsList.left
+    margin-top: 7
+    margin-left: 39
+    visible: false
+    image-source: /images/game/search_locker/button-retrieve-items
+    image-clip: 0 0 86 20
+    $pressed:
+      image-clip: 0 20 86 20
+    $disabled:
+      image-clip: 0 40 86 20
+
+UIMiniWindow
+  id: lockerSearchWindow
+  !text: tr('Search Locker')
+  focusable: true
+  font: $var-cip-font-new
+  color: #909090
+  icon-rect: 4 4 12 12
+  width: 175
+  height: 411
+  text-offset: 19 1
+  text-align: topLeft
+  icon: /images/icons/icon-widget-search
+  image-source: /images/ui/window
+  image-border: 4
+  image-border-top: 19
+  image-border-bottom: 4
+  &minimizedHeight: 19
+  icon-offset-y: -2
+  @onEscape: modules.game_search_locker.onSearchLockerEscape()
+
+  $on:
+    image-border-top: 19
+    image-border-bottom: 10
+    image-border: 4
+
+  UIWidget
+    id: miniwindowTopBar
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.left: parent.left
+    margin-right: 3
+    margin-left: 3
+    margin-top: 3
+    size: 258 14
+    phantom: true
+
+  UIButton
+    id: closeButton
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin-top: 2
+    margin-right: 3
+    size: 12 12
+    image-source: /images/ui/miniwindow_buttons
+    image-clip: 72 0 12 12
+    @onClick: modules.game_search_locker.hideSearch()
+    $pressed:
+      image-clip: 72 12 12 12
+
+  UIButton
+    id: minimizeButton
+    anchors.top: closeButton.top
+    anchors.right: closeButton.left
+    margin-right: 1
+    size: 12 12
+    image-source: /images/ui/miniwindow_buttons
+    image-clip: 48 0 12 12
+    $pressed:
+      image-clip: 48 12 12 12
+    $on:
+      image-clip: 60 0 12 12
+    $on pressed:
+      image-clip: 60 12 12 12
+
+  UIButton
+    id: backButton
+    anchors.top: minimizeButton.top
+    anchors.right: minimizeButton.left
+    margin-right: 1
+    size: 12 12
+    visible: false
+    image-source: /images/ui/miniwindow_buttons
+    image-clip: 36 0 12 12
+    $pressed:
+      image-clip: 36 12 12 12
+    @onClick: modules.game_search_locker.onBackToSearchPage()
+
+  Panel
+    id: contentsPanel
+    anchors.fill: parent
+    SearchPage
+      id: searchPage
+      visible: true
+
+    ItemSearchPage
+      id: itemSearchPage
+      visible: false
+
+  UIWidget
+    id: miniborder
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    image-source: /images/ui/miniborder-bottom-left
+    size: 14 14
+    margin-left: 3
+    margin-bottom: 3
+
+  ResizeBorder
+    id: bottomResizeBorder
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 3
+    minimum: 303
+    maximum: 411
+    margin-left: 3
+    margin-right: 3

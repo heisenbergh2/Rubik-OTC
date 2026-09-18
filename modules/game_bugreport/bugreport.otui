@@ -1,0 +1,107 @@
+BugReportListLabel < Label
+  height: 16
+  font: $var-cip-font-new
+  color: #c0c0c0
+  background-color: alpha
+  text-offset: 1 0
+  focusable: true
+
+  $focus:
+    background-color: #585858
+    color: #f4f4f4
+
+BugReportWindow < MainWindowHigh
+  !text: tr('Reporting')
+  size: 300 318
+  text-offset: -1 1
+  @onEscape: self:hide()
+
+  Label
+    id: bugLabel
+    margin-top: -7
+    margin-left:
+    font: Verdana-11px-lowspace
+    text-auto-resize: true
+    color: #c0c0c0
+    !text: tr('Please use this dialog only to report bugs. Do not report rule violations here!')
+    text-offset: 0 0
+    text-wrap: true
+    text-auto-resize: true
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+
+  TextList
+    id: bugCategory
+    height: 50
+    anchors.top: bugLabel.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 6
+    padding: 1
+    image-source: /images/ui/1pixel-down-frame
+    image-border: 3
+    border-width: 0
+    background-color: #404040
+    focusable: false
+    vertical-scrollbar: bugCategoryScrollBar
+
+  VerticalQtScrollBar
+    id: bugCategoryScrollBar
+    anchors.top: bugCategory.top
+    anchors.bottom: bugCategory.bottom
+    anchors.right: bugCategory.right
+    margin-right: 1
+    margin-top: 1
+    margin-bottom: 1
+    step: 16
+
+  TextEdit
+    id: bugTextEdit
+    anchors.top: bugCategory.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: sendButton.top
+    margin-top: 1
+    margin-bottom: 23
+    text-wrap: true
+    vertical-scrollbar: bugTextEditScrollBar
+  
+  VerticalQtScrollBar
+    id: bugTextEditScrollBar
+    anchors.top: bugTextEdit.top
+    anchors.bottom: bugTextEdit.bottom
+    anchors.right: bugTextEdit.right
+    margin-right: 1
+    margin-top: 1
+    margin-bottom: 1
+    step: 16
+
+  HorizontalSeparator
+    anchors.left: bugTextEdit.left
+    anchors.right: bugTextEdit.right
+    anchors.top: bugTextEdit.bottom
+    margin-top: 11
+
+  Button
+    id: sendButton
+    !text: tr('Send')
+    anchors.bottom: cancelButton.bottom
+    anchors.right: cancelButton.left
+    margin-right: 6
+    magin-top: 1
+    text-offset: 0 0
+    height: 20
+    width: 43
+    &onClick: doReport
+
+  Button
+    id: cancelButton
+    !text: tr('Cancel')
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    magin-top: 1
+    text-offset: 0 0
+    height: 20
+    width: 43
+    @onClick: self:getParent():hide()

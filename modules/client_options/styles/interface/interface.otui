@@ -1,0 +1,305 @@
+UIWidget
+  anchors.fill: parent
+  visible: false
+  margin-left: 1
+  margin-right: 1
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+    height: 22
+    margin-top: 1
+    padding-bottom: 1
+
+    OptionCheckBox
+      id: enableHighlightMouseTarget
+      !text: tr('Highlight Mouse Target')
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: parent.top
+      margin-top: -1
+      margin-left: 0
+      text-offset: 16 0
+
+    UIWidget
+      id: mousePresetHelp
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-top: -2
+      margin-right: 1
+      !tooltip: tr("HereIf this option is enabled, you can always see which tile, object or\ncreature your mouse pointer is currently aiming at. Note, however,\nthat only interactive objects are highlighted, e.g. objects which can\nbe opened.")
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 6
+    height: 22
+
+    OptionCheckBox
+      id: useNativeMouseCursor
+      !text: tr('Use Native Mouse Cursor')
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: parent.top
+      margin-top: -1
+      margin-left: 0
+      text-offset: 16 0
+
+    UIWidget
+      id: mousePresetHelp
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 1
+      !tooltip: tr('Enable this option if you prefer to use the mouse cursor design of\nyour operating system instead of the Client design.')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 6
+    height: 22
+
+    OptionCheckBox
+      id: showAnimatedMouseCursor
+      !text: tr('Show Animated Mouse Cursor')
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: parent.top
+      color: #707070
+      margin-top: -1
+      margin-left: 0
+      text-offset: 16 0
+      enabled: false
+
+    UIWidget
+      id: animatedMouseCursorHelp
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 1
+      !tooltip: tr('If this option is enabled, your mouse cursor will turn into:\n\n- legs: if you mouse over a field you can walk on\n- a hand: if you mouse over a field with an item you can use\n- an eye: if you mouse over a field with an item you can view\n- a box: if you mouse over a field with a container\n- a sword: if you mouse over a field with a creature you can\nattack\n- a mouth: if you mouse over an NPC\n- a bag: if you mouse over a creature or item you can quick\nloot')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 6
+    height: 22
+
+    OptionCheckBox
+      id: showBigMouseCursor
+      !text: tr('Show Big Mouse Cursor')
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: parent.top
+      margin-top: -1
+      margin-left: 0
+      text-offset: 16 0
+
+    UIWidget
+      id: showBigMouseCursorHelp
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 1
+      !tooltip: tr('Enable this option if you prefer to see a bigger mouse cursor. This\nmight be especially useful for high resolution screens.')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 6
+    height: 22
+
+    OptionCheckBox
+      id: showSpellGroupCooldowns
+      !text: tr('Show Cooldown Bar')
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: parent.top
+      margin-top: -1
+      margin-left: 0
+      text-offset: 16 0
+
+    UIWidget
+      id: mousePresetHelp
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 1
+      !tooltip: tr('Whenever you cast a spell, this spell and the spell groups it\nbelongs to have a certain cooldown which is displayed in the\ncooldown bar. If you prefer not to see the cooldown bar, simply\nuncheck this option here.')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 6
+    height: 22
+
+    OptionCheckBox
+      id: showLinkCopyWarning
+      !text: tr('Show Link Copy Warning')
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: parent.top
+      margin-top: -1
+      margin-left: 0
+      text-offset: 16 0
+
+    UIWidget
+      id: linkCopyWarningHelp
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 1
+      !tooltip: tr('WheneverIf this option is checked, you will get a warning whenver you try to\ncopy a link from the console. This warning will remind you to be\ncareful about any posted links as they might have been designed\nto hack your account.')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 6
+    height: 22
+
+    OptionCheckBox
+      id: showRightHorizontalPanel
+      !text: tr('Show Right Horizontal Panel')
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: parent.top
+      margin-top: -1
+      margin-left: 0
+      text-offset: 16 0
+
+    UIWidget
+      id: showRightHorizontalPanelHelp
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 1
+      !tooltip: tr('Enable this option to display a horizontal mini-window panel on the\ntop-right side of the game window. You can drag mini-windows into\nit to arrange them horizontally.')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 6
+    height: 22
+
+    OptionCheckBox
+      id: showLeftHorizontalPanel
+      !text: tr('Show Left Horizontal Panel')
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: parent.top
+      margin-top: -1
+      margin-left: 0
+      text-offset: 16 0
+
+    UIWidget
+      id: showLeftHorizontalPanelHelp
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 1
+      !tooltip: tr('Enable this option to display a horizontal mini-window panel on the\ntop-left side of the game window. You can drag mini-windows into\nit to arrange them horizontally.')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 6
+    height: 81
+
+    Label
+      !text: 'Colourise Loot Value: '
+      anchors.left: parent.left
+      anchors.top: parent.top
+      margin-left: 0
+      margin-top: -25
+      font: $var-cip-font-new
+      color: #c0c0c0
+      anchors.verticalCenter: parent.verticalCenter
+
+    QtComboBox
+      id: frames
+      width: 150
+      margin-top: -1
+      anchors.verticalCenter: prev.verticalCenter
+      anchors.left: prev.right
+      text-offset: -11 1
+      mouse-scroll: false
+
+    UIWidget
+      id: toolTipWidget
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12  
+      anchors.right: parent.right
+      anchors.top: parent.top
+      margin-right: 1
+      margin-top: 5
+      !tooltip: tr('If you select Frames or Corners, your loot will be marked with \ndifferent colours in loot messages, containers and the Bestiary.\n\nThe colour depends on the loot value, which can be determined in\n the Items Cyclopedia, either using the NPC buy value, the average\n Market price or your own preferred value.')
+
+    OptionCheckBox
+      id: showExpiryInInvetory
+      anchors.top: frames.bottom
+      margin-top: 4
+      text-offset: 16 0
+      !text: tr('Show Expiry In Inventory')
+
+    UIWidget
+      id: linkCopyWarningHelp
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 1
+      margin-top: -5
+      !tooltip: tr('Check this box to see how much time or how many charges are left \non your equipped items')
+
+    OptionCheckBox
+      id: showExpiryInContainers
+      anchors.top: prev.bottom
+      margin-top: 4
+      text-offset: 16 0
+      !text: tr('Show Expiry In Containers')
+
+    UIWidget
+      id: linkCopyWarningHelp
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 1
+      margin-top: 12
+      !tooltip: tr('Check this box to see how mmuch time or how many charges the \nitems in your open containers have left')
+
+    OptionCheckBox
+      id: showExpiryOnUnusedItems
+      anchors.top: prev.bottom
+      margin-top: 4
+      text-offset: 16 0
+      !text: tr('Show Expiry On Unused Items')
+      !tooltip: tr('Check this box to see how much time or how many charges are left\n on items that have not been used yet')
+
+    UIWidget
+      id: showExpiryOnUnusedItemsHelp
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 1
+      margin-top: 29
+      !tooltip: tr('Check this box to see how much time or how many charges are left\non items that have not been used yet.')

@@ -1,0 +1,68 @@
+Module
+  name: game_interface
+  description: Create the game interface, where the ingame stuff starts
+  author: OTClient team
+  website: https://github.com/edubart/otclient
+  sandboxed: true
+  dependencies: [ client_styles ]
+  scripts: [ widgets/uigamemap, widgets/uiitem, widgets/statsbar, gameinterface, sidebar_panels_persistence, sidebar_widgets_persistence, sidebar_widget_options_persistence ]
+  load-later:
+    - game_walk
+    - game_joystick
+    - game_shortcuts
+    - game_minimap
+    - game_healthinfo
+    - game_inventory
+    - game_mainpanel
+    - game_prey
+    - game_imbuing
+    - game_imbuementtracker
+    - game_questlog
+    - game_textmessage
+    - game_console
+    - game_actionbar
+    - game_outfit
+    - game_skills
+    - game_containers
+    - game_viplist
+    - game_battle
+    - game_party
+    - game_npcmodal
+    - game_textwindow
+    - game_playertrade
+    - game_bugreport
+    - game_playerdeath
+    - game_playermount
+    - game_ruleviolation
+    - game_market
+    - game_spelllist
+    - game_cooldown
+    - game_modaldialog
+    - game_tutorial
+    - game_unjustifiedpoints
+    - game_shaders
+    - game_attachedeffects
+    - game_stash
+    - game_helper
+    - game_healthcircle
+    - game_screenshot
+    - game_banners
+    - game_highscore
+    - game_blessing
+    - game_store
+    - game_quickloot
+    - game_cyclopedia
+    - game_inspect
+    - game_creatureinformation
+    - game_rewardwall
+    - game_proficiency
+    - game_wheel
+    - game_exaltationforge
+    - game_taskboard
+    - game_analysers
+    - game_offlinetraining
+    - game_soulpit
+    - game_bossdifficulty
+    - game_customisepodium
+  @onLoad: init()
+  @onUnload: terminate()

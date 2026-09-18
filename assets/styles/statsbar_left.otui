@@ -1,0 +1,10 @@
+// =============================================================================
+// statsbar_left.otui ? placement LEFT (reservado)
+// Depende de: 30-statsbar-common.otui
+//
+// Quando existir HUD lateral, agrupar por tipo:
+//   // --- Large ---
+//   // --- Parallel ---
+//   // --- Default ---
+//   // --- Compact ---
+// =============================================================================

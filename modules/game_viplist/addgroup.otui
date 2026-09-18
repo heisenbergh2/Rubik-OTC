@@ -1,0 +1,87 @@
+FloatingInputWindow 
+  id: addGroupWindow
+  size: 360 121
+  padding: 3
+  visible: false
+  anchors.centerIn: parent
+  margin-top: -7
+  @onEnter: modules.game_viplist.addGroup()
+  @onEscape: modules.game_viplist.destroyAddGroupWindow()
+
+  Label
+    id: headerLabel
+    !text: tr('Add VIP Group')
+    text-align: center
+    font: $var-cip-font-new
+    color: #909090
+    text-offset: 0 1
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: -5
+    height: 20
+  
+  Label
+    id: descriptionText
+    !text: tr('Please enter a group name:')
+    font: $var-cip-font-new
+    color: #c0c0c0
+    text-wrap: true
+    text-auto-resize:true
+    anchors.top: headerLabel.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 12
+    margin-left: 12
+
+  TextEdit
+    id: name
+    focusable: true
+    size: 150 16
+    anchors.top: descriptionText.bottom
+    anchors.right: parent.right
+    anchors.left: parent.left
+    margin-top: 6
+    margin-right: 13
+    margin-left: 13
+    text-align: left
+    text-offset: 0 -2
+    max-length: 40
+
+  Label
+    height: 38
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+
+  HorizontalSeparator
+    id: separatorBox
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: name.bottom
+    margin-top: 11
+    margin-right: 13
+    margin-left: 13
+
+  Button
+    id: closeButton
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-right: 13
+    margin-bottom: 13
+    !text: tr('Cancel')
+    font: cipsoftFont
+    size: 43 20
+    color: #ffffff
+    @onClick: modules.game_viplist.destroyAddGroupWindow()
+
+  Button
+    id: buttonOk
+    anchors.right: closeButton.left
+    anchors.bottom: closeButton.bottom
+    margin-right: 11
+    !text: tr('Ok')
+    font: cipsoftFont
+    size: 43 20
+    color: #ffffff
+    @onClick: modules.game_viplist.addGroup()

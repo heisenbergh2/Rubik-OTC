@@ -1,0 +1,63 @@
+/*
+ * Copyright (c) 2010-2026 OTClient <https://github.com/edubart/otclient>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+#pragma once
+
+#include <framework/global.h>
+
+class Mouse
+{
+public:
+    void init();
+    void terminate();
+
+    void loadCursors(const std::string& filename);
+    void addCursor(const std::string& name, const std::string& file, const Point& hotSpot);
+    bool pushCursor(const std::string& name);
+    void popCursor(const std::string& name);
+    bool isCursorChanged();
+    bool isPressed(Fw::MouseButton mouseButton);
+    int getCursorId(const std::string& name);
+    
+    void setUseNativeCursor(bool useNative);
+    void setUseNativeSystemCursor(bool useNative) { setUseNativeCursor(useNative); }
+    void setCursorDisplayScale(int scale);
+    bool isUsingNativeCursor() const { return m_useNativeCursor; }
+
+private:
+    void checkStackSize();
+    void applyCurrentCursor();
+    void reloadCursors();
+
+    struct CursorDefinition {
+        std::string file;
+        Point hotSpot;
+    };
+
+    stdext::map<std::string, int> m_cursors;
+    stdext::map<std::string, CursorDefinition> m_cursorDefinitions;
+    std::deque<int> m_cursorStack;
+    bool m_useNativeCursor{ false };
+    int m_cursorDisplayScale{ 1 };
+};
+
+extern Mouse g_mouse;

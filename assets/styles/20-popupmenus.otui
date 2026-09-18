@@ -1,0 +1,100 @@
+PopupMenuButton < UIButton
+  height: 14
+  size: 0 19
+  text-offset: 2 1
+  text-align: left
+  font: $var-cip-font-outline
+  color: $var-text-color-disabled
+  color: white
+  background-color: alpha
+
+  $hover !disabled:
+    background-color: #ffffff36
+    image-clip: 0 40 20 20
+
+  $disabled:
+    color: #c0c0c0ff
+
+PopupMenuShortcutLabel < Label
+  font: $var-cip-font
+  text-align: right
+  anchors.fill: parent
+  margin-right: 2
+  margin-left: 5
+
+PopupMenuSeparator < HorizontalSeparator
+  margin-top: 1
+  margin-bottom: 5
+  margin-left: 1
+  margin-right: 1
+
+PopupMenu < UIPopupMenu
+  width: 80
+  image-source: /images/ui/3pixel-frame-borderimage
+  image-border: 4
+  padding: 3
+
+PopupScrollMenuButton < UIButton
+  height: 18
+  size: 0 21
+  text-offset: 4 0
+  text-align: left
+  font: $var-cip-font
+
+  color: #aaaaaa
+  background-color: alpha
+
+  $hover !disabled:
+    color: #ffffff
+    background-color: #ffffff44
+    image-clip: 0 40 20 20
+
+  $disabled:
+    color: #555555
+
+PopupScrollMenuShortcutLabel < Label
+  font: $var-cip-font
+  text-align: right
+  anchors.fill: parent
+  margin-right: 2
+  margin-left: 5
+
+PopupScrollMenuSeparator < HorizontalSeparator
+  margin-left: 1
+  margin-right: 1
+  margin-bottom: 1
+  text-offset: -2 0
+
+PopupScrollMenu < UIPopupScrollMenu
+  width: 50
+  image-source: /images/ui/3pixel-frame-borderimage
+  image-border: 4
+  padding: 3
+
+PopupMenuCheckBox < ThickCheckBox
+  text-offset: 18 1
+  text-align: left
+  color: white
+  background-color: alpha
+  font: $var-cip-font-outline
+  padding: 3 6
+  margin-bottom: 1
+
+  $hover:
+    background-color: #ffffff1a
+
+  $disabled:
+    color: #c0c0c0ff
+
+GamePopupMenuButton < PopupMenuButton
+  font: $var-cip-font-outline
+
+GamePopupMenuShortcutLabel < PopupMenuShortcutLabel
+  font: $var-cip-font-outline
+
+GamePopupMenuCheckBox < PopupMenuCheckBox
+  font: $var-cip-font-outline
+
+GamePopupMenuSeparator < PopupMenuSeparator
+
+GamePopupMenu < PopupMenu

@@ -1,0 +1,24 @@
+HorizontalSeparator < UIWidget
+  image-source: /images/ui/separator_horizontal
+  image-border: 1
+  height: 2
+  phantom: true
+  focusable: false
+
+VerticalSeparator < UIWidget
+  image-source: /images/ui/separator_vertical
+  image-border: 1
+  width: 2
+  phantom: true
+  focusable: false
+
+// Mesmo sprite, sem nine-slice: altura/largura desenhada = size (image-border: 1 soma ~1px extra).
+HorizontalSeparatorFlat < HorizontalSeparator
+  image-border: 0
+  fixed-size: true
+  height: 2
+
+VerticalSeparatorFlat < VerticalSeparator
+  image-border: 0
+  fixed-size: true
+  width: 2

@@ -1,0 +1,273 @@
+ShooterEntryActionPreview < HelperActionSlot
+  focusable: true
+
+  UIWidget
+    id: previewSpellIcon
+    phantom: true
+    size: 32 32
+    image-size: 32 32
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.verticalCenter: parent.verticalCenter
+    visible: false
+
+  HelperRuneIconBackground
+    id: previewRuneBackground
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.verticalCenter: parent.verticalCenter
+    visible: false
+
+  UIItem
+    id: previewRuneIcon
+    phantom: true
+    visible: false
+    size: 32 32
+    image-size: 32 32
+    virtual: true
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.verticalCenter: parent.verticalCenter
+
+MainWindowHigh
+  id: addShooterWindow
+  !text: tr('Add Shooter')
+  size: 288 171
+  font: $var-cip-font-new
+  color: #909090
+  text-offset: 0 2
+  padding-top: 0
+  padding-right: 0
+  @onEscape: modules.game_helper.closeShooterEntryWindow()
+
+  HelperSectionHelpIcon
+    id: addShooterHelp
+    anchors.top: parent.top
+    anchors.right: parent.right
+    !tooltip: tr('Shooter entry conditions:<br><li>HP%%: target health percentage required to use this entry.</li><li>Creatures: minimum number of creatures needed for area spells or runes, unless force cast is enabled.</li><li>Use to: uses the selected spell or rune on the target, yourself, or the best position for area hits.</li><li>Harmony: minimum harmony required for spells that use harmony.</li>')
+
+  Panel
+    id: addShooterForm
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 29
+    margin-right: 13
+    height: 95
+
+    Panel
+      id: addShooterHpRow
+      height: 20
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-left: -2
+
+      Label
+        !text: tr('HP%%:')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-top: 3
+        text-auto-resize: true
+
+      QtComboBox
+        id: addShooterHpMinEdit
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 42
+        size: 50 20
+        color: #c0c0c0
+        menu-scroll: true
+        menu-height: 200
+        menu-scroll-step: 50
+        @onSetup: |
+          for i = 0, 100 do self:addOption(tostring(i)) end
+          self:setCurrentOption('0')
+
+      Label
+        !text: tr('to')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 8
+        margin-top: 3
+        text-auto-resize: true
+
+      QtComboBox
+        id: addShooterHpMaxEdit
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 8
+        size: 50 20
+        color: #c0c0c0
+        menu-scroll: true
+        menu-height: 200
+        menu-scroll-step: 50
+        @onSetup: |
+          for i = 0, 100 do self:addOption(tostring(i)) end
+          self:setCurrentOption('100')
+
+    Panel
+      id: addShooterUseToRow
+      height: 0
+      visible: false
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 0
+      margin-left: -2
+
+      Label
+        !text: tr('Use to:')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-top: 3
+        text-auto-resize: true
+
+      QtComboBox
+        id: addShooterUseToCombo
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 32
+        size: 128 20
+        color: #c0c0c0
+        @onSetup: |
+          self:addOption('Target')
+          self:addOption('Yourself')
+          self:addOption('Best Position')
+          self:setCurrentOption('Target')
+
+    Panel
+      id: addShooterCreaturesRow
+      height: 20
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 6
+      margin-left: -2
+
+      Label
+        !text: tr('Creatures:')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-top: 3
+        text-auto-resize: true
+
+      QtComboBox
+        id: addShooterCreaturesCombo
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 6
+        size: 50 20
+        color: #c0c0c0
+        @onSetup: |
+          for i = 1, 8 do self:addOption(tostring(i) .. '+') end
+          self:setCurrentOption('1+')
+
+    Panel
+      id: addShooterHarmonyRow
+      height: 0
+      visible: false
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 0
+      margin-left: -2
+
+      Label
+        !text: tr('Harmony:')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-top: 3
+        text-auto-resize: true
+
+      QtComboBox
+        id: addShooterHarmonyCombo
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 13
+        size: 50 20
+        color: #c0c0c0
+        @onSetup: |
+          for i = 1, 4 do self:addOption(tostring(i) .. '+') end
+          self:addOption('5')
+          self:setCurrentOption('1+')
+
+    Panel
+      id: addShooterAutoTurnRow
+      height: 0
+      visible: false
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 0
+      margin-left: -2
+
+      OptionCheckBox
+        id: addShooterAutoTurnCheck
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-top: 3
+        !tooltip: tr('Auto-turn: before casting this directional spell, turn toward the direction that hits the most creatures. If unchecked, the spell is simply forced out in your current facing.')
+
+      Label
+        id: addShooterAutoTurnLabel
+        !text: tr('Auto-turn (beta)')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-top: 3
+        text-offset: 18 0
+        text-auto-resize: true
+        phantom: true
+
+    Label
+      id: addShooterActionLabel
+      !text: tr('Action:')
+      font: $var-cip-font
+      color: #c0c0c0
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 16
+      margin-left: -2
+      text-auto-resize: true
+
+    ShooterEntryActionPreview
+      id: addShooterActionPreview
+      anchors.left: addShooterActionLabel.right
+      anchors.verticalCenter: addShooterActionLabel.verticalCenter
+      margin-left: 6
+
+  HorizontalSeparator
+    id: addShooterSeparator
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: addShooterOkButton.top
+    margin-right: 16
+    margin-bottom: 11
+
+  Button
+    id: addShooterOkButton
+    anchors.bottom: parent.bottom
+    anchors.right: addShooterCancelButton.left
+    margin-right: 6
+    size: 43 20
+    text: OK
+    enabled: false
+    @onClick: modules.game_helper.addShooterEntryOk()
+
+  Button
+    id: addShooterCancelButton
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    margin-right: 16
+    size: 43 20
+    text: Cancel
+    @onClick: modules.game_helper.closeShooterEntryWindow()

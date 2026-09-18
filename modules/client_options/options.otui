@@ -1,0 +1,240 @@
+OptionsCategory < UIWidget
+  size: 115 22
+  image-source: /images/ui/1pixel-down-frame
+  image-border: 5
+  margin-bottom: 3
+
+  UIWidget
+    id: Button
+    size: 113 20
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-left: 1
+    margin-top: 1
+    image-source: /images/ui/button-grey-up
+    image-border: 5
+    opacity: 1.0
+    $pressed:
+      image-source: /images/ui/button-grey-down
+    $checked:
+      image-source: /images/ui/button-grey-down
+
+    UIWidget
+      id: Icon
+      size: 13 13
+      anchors.left: parent.left
+      anchors.verticalCenter: parent.verticalCenter
+      margin-left: 6
+      phantom: true
+
+    Label
+      id: Title
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.verticalCenter: parent.verticalCenter
+      text-align: center
+      text-auto-resize: true
+      !text: tr('General Stats')
+      margin-top: 1
+      color: #ffffff
+      font: cipsoftFont
+
+    UIWidget
+      id: Arrow
+      size: 7 7
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 6
+      phantom: true
+      image-source: /images/ui/icon-arrow7x7-down
+      visible: false
+
+OptionCheckBox < QtCheckBox
+  anchors.left: parent.left
+  anchors.right: parent.right
+  anchors.top: parent.top
+  color: $var-text-cip-color
+  @onCheckChange: modules.client_options.setOption(self:getId(), self:isChecked())
+
+OptionCheckBoxMarked < OptionCheckBox
+  UIWidget
+    id: toolTipWidget
+    image-source: /images/icons/show_gui_help_grey
+    size: 12 12
+    anchors.right: parent.right
+    anchors.top: parent.top
+    margin-right: 1
+    margin-top: 2
+
+OptionCheckBoxReverse < QtCheckBox
+  text-align: left
+  text-offset: -2 0
+  text-horizontal-auto-resize: true
+  padding-right: 18
+  font: $var-cip-font-new
+  color: #c0c0c0
+  @onCheckChange: modules.client_options.setOption(self:getId(), self:isChecked())
+  @onSetup: modules.client_options.updateReverseCheckboxLayout(self)
+  @onTextChange: modules.client_options.updateReverseCheckboxLayout(self)
+
+OptionScaleScroll < Label
+  anchors.left: parent.left
+  anchors.right: parent.right
+  anchors.top: parent.top
+  font: $var-cip-font
+  text-align: left
+  text-offset: 18 0
+  color: #c0c0c0ff
+
+  HorizontalQtScrollBar
+    id: valueBar
+    step: 1
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-right: 3
+    width: 174
+    @onValueChange: |
+      modules.client_options.setOption(self:getParent():getId(), self:getValue())
+
+OptionScaleScrollMarked < Label
+  anchors.left: parent.left
+  anchors.right: parent.right
+  anchors.top: parent.top
+  text-align: left
+  text-offset: 18 0
+  color: #c0c0c0ff
+
+  UIWidget
+    id: toolTipWidget
+    image-source: /images/icons/show_gui_help_grey
+    size: 12 12
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-right: 3
+
+  HorizontalQtScrollBar
+    id: valueBar
+    step: 1
+    anchors.right: toolTipWidget.left
+    anchors.verticalCenter: toolTipWidget.verticalCenter
+    margin-right: 10
+    width: 174
+    @onValueChange: |
+      modules.client_options.setOption(self:getParent():getId(), self:getValue())
+
+MainWindow
+  id: optionsWindow
+  size: 685 559
+  anchors.centerIn: parent
+  !text: tr('Options')
+  font: $var-cip-font
+  padding: 12
+  padding-top: 12
+  text-offset: 0 1
+  visible: false
+  draggable: true
+  icon-rect: 4 4 16 16
+
+  image-source: /images/ui/window-high
+  image-border: 4
+  image-border-top: 20
+  image-border-bottom: 4
+  &minimizedHeight: 20
+
+  @onEnter: modules.client_options.okOptions()
+  @onEscape: modules.client_options.cancelOptions()
+
+  HorizontalSeparator
+    id: separator
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-left: 6
+    margin-right: 6
+    image-source: ""
+    height: 10
+    margin-bottom: 47
+
+  UIWidget
+    id: optionsTabBar
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.bottom: separator.bottom
+    margin-bottom: 1
+    margin-left: 4
+    margin-top: 17
+    image-border: 3
+    image-source: /images/ui/2pixel_up_frame_borderimage_dark
+    size: 129 450
+
+  QtPanel
+    id: optionsTabContent
+    anchors.top: optionsTabBar.top
+    anchors.left: optionsTabBar.right
+    anchors.right: parent.right
+    anchors.bottom: separator.bottom
+    margin-bottom: 1
+    margin-left: 6
+    margin-right: 4
+
+  HorizontalSeparator
+    id: bottomSeparator
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: optionsTabContent.bottom
+    margin-top: 11
+    margin-right: 4
+    margin-left: 4
+
+  UIWidget
+    id: advancedBoxBackground
+    size: 181 22
+    image-source: /images/ui/1pixel-down-frame
+    image-border: 3
+    margin-top: 11
+    margin-left: 4
+    anchors.top: bottomSeparator.bottom
+    anchors.left: parent.left
+
+  QtCheckBox
+    id: hiddenAdvancedBox
+    !text: tr('Show Advanced Options')
+    anchors.verticalCenter: advancedBoxBackground.verticalCenter
+    anchors.horizontalCenter: advancedBoxBackground.horizontalCenter
+    text-offset: 16 0
+    margin-left: 3
+    margin-bottom: 1
+    width: 180
+    color: $var-text-cip-color
+    font: $var-cip-font
+    @onCheckChange: modules.client_options.toggleAdvancedMode(self:isChecked())
+
+  QtButton
+    !text: tr('Cancel')
+    size: 45 21
+    anchors.right: parent.right
+    anchors.top: bottomSeparator.bottom
+    text-offset: 0 1
+    color: #ffffff
+    margin-top: 12
+    margin-right: 3
+    @onClick: modules.client_options.cancelOptions()
+
+  QtButton
+    !text: tr('Apply')
+    size: 45 21
+    anchors.right: prev.left
+    anchors.top: prev.top
+    text-offset: 0 1
+    color: #ffffff
+    margin-right: 4
+    @onClick: modules.client_options.applyOptions()
+
+  QtButton
+    !text: tr('Ok')
+    size: 45 21
+    anchors.right: prev.left
+    anchors.top: prev.top
+    text-offset: 0 1
+    color: #ffffff
+    margin-right: 4
+    @onClick: modules.client_options.okOptions()

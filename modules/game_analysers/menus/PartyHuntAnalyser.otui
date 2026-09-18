@@ -1,0 +1,321 @@
+Info < UIWidget
+  size: 151 76
+
+  UIWidget
+    id: leaderPt
+    size: 11 11
+    image-clip: 0 0 11 11
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: -1
+    margin-left: 1
+    visible: false
+  Label
+    id: name
+    !text: tr('Name')
+    anchors.top: parent.top
+    anchors.left: parent.left
+    text-auto-resize: true
+    color: $var-text-cip-color
+    font: $var-cip-font
+  UIWidget
+    id: balanceIcon
+    size: 11 11
+    image-auto-resize: true
+    image-source: /images/icons/icon-balance
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    margin-top: 6
+    margin-left: 6
+    !tooltip: tr('Balance')
+  UIWidget
+    id: damageIcon
+    size: 11 11
+    image-auto-resize: true
+    image-source: /images/icons/icon-damage
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    margin-top: 8
+    margin-left: 6
+    !tooltip: tr('Damage')
+  UIWidget
+    id: healingIcon
+    size: 11 11
+    image-auto-resize: true
+    image-source: /images/icons/icon-healing
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    margin-top: 8
+    margin-left: 6
+    !tooltip: tr('Healing')
+  UIWidget
+    id: gold
+    size: 9 9
+    image-auto-resize: true
+    image-source: /images/icons/icon-goldcoin
+    anchors.top: balanceIcon.top
+    anchors.right: parent.right
+    margin-top: 1
+    margin-right: 4
+  UIWidget
+    id: balance
+    !text: tr('0')
+    anchors.top: balanceIcon.top
+    anchors.right: prev.left
+    margin-top: -2
+    margin-right: 4
+    text-auto-resize: true
+    color: $var-text-cip-color-green
+    font: $var-cip-font
+    tooltip-font: $var-cip-font-wheel
+    tooltip-delayed: true
+  Label
+    id: damage
+    !text: tr('0')
+    anchors.top: damageIcon.top
+    anchors.right: parent.right
+    margin-top: -2
+    margin-right: 5
+    text-auto-resize: true
+    color: $var-text-cip-color
+    font: $var-cip-font
+  Label
+    id: healing
+    !text: tr('0')
+    anchors.top: healingIcon.top
+    anchors.right: parent.right
+    margin-top: -2
+    margin-right: 5
+    text-auto-resize: true
+    color: $var-text-cip-color
+    font: $var-cip-font
+
+MiniWindow
+  id: phAnalyserMiniWindow
+  height: 225
+  &save: true
+  @onSetup: |
+    do
+      for _, id in ipairs({ 'newWindowButton', 'toggleFilterButton' }) do
+        local w = self:recursiveGetChildById(id)
+        if w then
+          w:setVisible(false)
+          w:setOn(false)
+        end
+      end
+
+      local contextMenuButton = self:recursiveGetChildById("contextMenuButton")
+      if contextMenuButton then
+        contextMenuButton:setMarginRight(-7)
+        contextMenuButton.onMousePress = function(widget, mousePosition, mouseButton)
+          if mouseButton == MouseLeftButton then
+            onPartyHuntExtra(mousePosition)
+            return true
+          end
+        end
+      end
+    end
+
+  UIWidget
+    id: miniwindowIcon
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 2
+    margin-left: 4
+    size: 12 12
+    image-source: /modules/game_analysers/images/icon-partyhunt-widget
+    image-smooth: false
+  
+  Label
+    id: miniwindowTitle
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 1
+    margin-left: 20
+    font: verdana-11px-monochrome
+    height: 13
+    !text: tr('Party Hunt')
+    color: #909090
+
+  ScrollablePanel
+    id: contentsPanel
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: miniwindowScrollBar.left
+    anchors.bottom: parent.bottom
+    margin-left: 5
+    margin-top: 16
+    margin-right: 1
+    margin-bottom: 5
+    vertical-scrollbar: miniwindowScrollBar
+
+    Label
+      id: sessionLabel
+      !text: tr('Session:')
+      anchors.top: parent.top
+      anchors.left: parent.left
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: session
+      !text: tr('00:00h')
+      anchors.top: parent.top
+      anchors.right: parent.right
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+      margin-right: 5
+
+    Label
+      id: lootTypeLabel
+      !text: tr('Loot Type:')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+      visible: true
+
+    Label
+      id: lootType
+      !text: tr('Market')
+      anchors.top: session.bottom
+      anchors.right: parent.right
+      margin-top: 4
+      margin-right: 3
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+      visible: true
+
+    Label
+      id: lootLabel
+      !text: tr('Loot:')
+      anchors.top: lootType.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    UIWidget
+      size: 9 9
+      image-auto-resize: true
+      image-source: /images/icons/icon-goldcoin
+      anchors.top: lootType.bottom
+      anchors.right: parent.right
+      margin-top: 7
+      margin-right: 4
+
+    Label
+      id: loot
+      !text: tr('0')
+      anchors.top: lootType.bottom
+      anchors.right: prev.left
+      margin-top: 4
+      margin-right: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: suppliesLabel
+      !text: tr('Supplies:')
+      anchors.top: lootLabel.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    UIWidget
+      size: 9 9
+      image-auto-resize: true
+      image-source: /images/icons/icon-goldcoin
+      anchors.top: lootLabel.bottom
+      anchors.right: parent.right
+      margin-top: 7
+      margin-right: 4
+
+    Label
+      id: supplies
+      !text: tr('0')
+      anchors.top: lootLabel.bottom
+      anchors.right: prev.left
+      margin-top: 4
+      margin-right: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: balanceLabel
+      !text: tr('Balance:')
+      anchors.top: suppliesLabel.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    UIWidget
+      size: 9 9
+      image-auto-resize: true
+      image-source: /images/icons/icon-goldcoin
+      anchors.top: suppliesLabel.bottom
+      anchors.right: parent.right
+      margin-top: 7
+      margin-right: 4
+
+    Label
+      id: balance
+      !text: tr('0')
+      anchors.top: suppliesLabel.bottom
+      anchors.right: prev.left
+      margin-top: 4
+      margin-right: 4
+      text-auto-resize: true
+      color: $var-text-cip-color-green
+      font: $var-cip-font
+
+    HorizontalSeparator
+      id: separator
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 5
+      margin-left: 6
+      margin-right: 9
+
+    Panel
+      id: party
+      size: 147 31
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 5
+      layout:
+        type: verticalBox
+
+  UIWidget
+    id: miniborder
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    image-source: /images/ui/miniborder-bottom-left
+    size: 14 14
+    margin-left: 3
+    margin-bottom: 3
+
+  ResizeBorder
+    id: bottomResizeBorder
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 3
+    minimum: 60
+    margin-left: 3
+    margin-right: 3

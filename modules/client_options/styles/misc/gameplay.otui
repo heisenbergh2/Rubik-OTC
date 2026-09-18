@@ -1,0 +1,72 @@
+UIWidget
+  anchors.fill: parent
+  visible: false
+  margin-left: 1
+  margin-right: 1
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+    height: 22
+    margin-top: 1
+
+    OptionCheckBox
+      id: allowInspect
+      !text: tr('Allow All to Inspect Me')
+      margin-top: -1
+      text-offset: 16 0
+
+    UIWidget
+      id: allowInspectHelp
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 1
+      font: $var-cip-font-new
+      !tooltip: tr("Check this box to allow other players to see details about your\ncharacter, such as your equipped items, guild, outfit or active\npreys. Keep in mind that the permission to let others inspect you is\nvalid for all your characters using this client.")
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    height: 22
+    margin-top: 6
+
+    OptionCheckBox
+      id: autoChaseOff
+      !text: tr('Auto Chase Off')
+      margin-top: -1
+      text-offset: 16 0
+
+    UIWidget
+      id: autoChaseOffHelp
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 1
+      !tooltip: tr("This option will only work if you have selected the movement mode\n\"Chase Opponent\".\nIf \"Auto Chase Off\" is enabled, your character will stop chasing an\nopponent whenever you move manually, i.e. if you press a cursor\nkey or click somewhere on the game window. Deselecting this\noption will cause your character to resume the chase as soon as\nyou stop moving them manually.")
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    height: 22
+    margin-top: 6
+
+    OptionCheckBox
+      id: quickLootCorpses
+      !text: tr('Quick Loot Nearby Corpses')
+      margin-top: -1
+      text-offset: 16 0
+
+    UIWidget
+      id: quickLootCorpsesHelp
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 1
+      !tooltip: tr("If \"Quick Loot Nearby Corpses\" is enabled, your character will loot\nup to 30 monster corpses per field, including the field you're\nstanding on and the adjacent fields. If disabled, only the top corpse\non the targeted field will be quick looted.")

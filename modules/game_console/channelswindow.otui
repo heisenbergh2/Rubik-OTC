@@ -1,0 +1,99 @@
+ChannelListLabel < Label
+  height: 16
+  font: verdana-11px-monochrome
+  background-color: alpha
+  text-offset: 2 0
+  focusable: true
+  color: #c0c0c0
+
+  $focus:
+    background-color: #585858
+    color: #F4F4F4
+
+MainWindowHigh
+  id: channelsWindow
+  !text: tr('Open Channel')
+  size: 250 285
+  font: $var-cip-font-new
+  color: #909090
+  text-offset: 0 2
+
+  @onEscape: self:destroy()
+
+  Label
+    id: selectChannelLabel
+    !text: tr('Select a channel') .. ':'
+    anchors.top: parent.top
+    anchors.left: parent.left
+    font: $var-cip-font-new
+    color: #c0c0c0
+    margin-top: -7
+    margin-left: -1
+
+  TextList
+    id: channelList
+    vertical-scrollbar: channelsScrollBar
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    anchors.bottom: next.top
+    margin-top: 5
+    margin-bottom: 11
+    padding: 1
+    focusable: false
+    image-source: /images/ui/1pixel-down-frame
+    image-border: 3
+    border-width: 0
+    background-color: #404040
+
+  Label
+    id: openPrivateChannelWithLabel
+    !text: tr('Open a private message channel') .. ':'
+    anchors.left: parent.left
+    anchors.bottom: next.top
+    font: $var-cip-font-new
+    color: #c0c0c0
+    margin-bottom: 5
+    margin-left: -1
+
+  TextEdit
+    id: openPrivateChannelWith
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: next.top
+    margin-bottom: 6
+    height: 16
+
+  HorizontalSeparator
+    anchors.bottom: next.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-bottom: 6
+
+  Button
+    id: buttonOpen
+    !text: tr('Open')
+    size: 43 20
+    text-offset: 0 0
+    anchors.right: next.left
+    anchors.bottom: parent.bottom
+    margin-right: 11
+    @onClick: self:getParent():onEnter()
+
+  Button
+    id: buttonCancel
+    !text: tr('Cancel')
+    size: 43 20
+    text-offset: 0 0
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    @onClick: self:getParent():destroy()
+
+  VerticalQtScrollBar
+    id: channelsScrollBar
+    anchors.top: channelList.top
+    anchors.bottom: channelList.bottom
+    anchors.right: channelList.right
+    margin: 1 1 1 0
+    step: 14
+    pixels-scroll: true

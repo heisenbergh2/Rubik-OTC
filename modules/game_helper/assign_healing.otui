@@ -1,0 +1,208 @@
+MainWindowHigh
+  id: addHealingWindow
+  !text: tr('Add Healing')
+  size: 336 171
+  font: $var-cip-font-new
+  color: #909090
+  text-offset: 0 2
+  padding-top: 0
+  padding-right: 0
+  @onEscape: modules.game_helper.closeAddHealingWindow()
+
+  HelperSectionHelpIcon
+    id: addHealingConditionHelp
+    anchors.top: parent.top
+    anchors.right: parent.right
+    !tooltip: tr('Metrics used in the When row:<br><li>HP%%: Health Points percentage.</li><li>MP%%: Mana Points percentage.</li><br>Condition logic:<br><li>and: both conditions must be true.</li><li>or: at least one condition must be true.</li><br>Condition operators used in the Is row:<br><li>&lt; : value is below the threshold.</li><li>&lt;= : value is at or below the threshold.</li><li>&gt; : value is above the threshold.</li><li>&gt;= : value is at or above the threshold.</li>')
+
+  Panel
+    id: addHealingForm
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 36
+    margin-left: 0
+    margin-right: 13
+    height: 220
+
+    Panel
+      id: addHealingWhenRow
+      height: 20
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-left: -2
+      margin-top: -7
+
+      Label
+        !text: tr('When:')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-top: 3
+        text-auto-resize: true
+
+      QtComboBox
+        id: addHealingWhenMetric1Combo
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 12
+        size: 60 20
+        color: #c0c0c0
+        @onSetup: |
+          self:addOption('HP%')
+          self:addOption('MP%')
+          self:setCurrentOption('HP%')
+
+      QtComboBox
+        id: addHealingConditionLogicCombo
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 6
+        size: 60 20
+        color: #c0c0c0
+        @onSetup: |
+          self:addOption('and')
+          self:addOption('or')
+          self:setCurrentOption('and')
+
+      QtComboBox
+        id: addHealingWhenMetric2Combo
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 6
+        size: 60 20
+        color: #c0c0c0
+        @onSetup: |
+          self:addOption('HP%')
+          self:addOption('MP%')
+          self:setCurrentOption('HP%')
+
+    Panel
+      id: addHealingIsRow
+      height: 20
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 6
+      margin-left: -2
+
+      Label
+        !text: tr('Is:')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-top: 3
+        text-auto-resize: true
+
+      QtComboBox
+        id: addHealingConditionMinCombo
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 35
+        size: 60 20
+        color: #c0c0c0
+        @onSetup: |
+          self:addOption('<')
+          self:addOption('<=')
+          self:addOption('>')
+          self:addOption('>=')
+          self:setCurrentOption('>=')
+
+      QtComboBox
+        id: addHealingThresholdMinEdit
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 6
+        size: 60 20
+        color: #c0c0c0
+        menu-scroll: true
+        menu-height: 200
+        menu-scroll-step: 50
+        @onSetup: |
+          for i = 0, 100 do self:addOption(tostring(i)) end
+          self:setCurrentOption('0')
+
+      QtComboBox
+        id: addHealingConditionMaxCombo
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 6
+        size: 60 20
+        color: #c0c0c0
+        @onSetup: |
+          self:addOption('<')
+          self:addOption('<=')
+          self:addOption('>')
+          self:addOption('>=')
+          self:setCurrentOption('<=')
+
+      QtComboBox
+        id: addHealingThresholdMaxEdit
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 6
+        size: 60 20
+        color: #c0c0c0
+        menu-scroll: true
+        menu-height: 200
+        menu-scroll-step: 50
+        @onSetup: |
+          for i = 0, 100 do self:addOption(tostring(i)) end
+          self:setCurrentOption('80')
+
+    Label
+      id: addHealingActionLabel
+      !text: tr('Action:')
+      font: $var-cip-font
+      color: #c0c0c0
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 15
+      margin-left: -2
+      text-auto-resize: true
+
+    HelperHealingActionSlot
+      id: addHealingActionSlot
+      anchors.left: addHealingActionLabel.right
+      anchors.verticalCenter: addHealingActionLabel.verticalCenter
+      margin-left: 6
+
+  HorizontalSeparator
+    id: addHealingSeparator
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: addHealingOkButton.top
+    margin-right: 16
+    margin-bottom: 11
+
+  Button
+    id: addHealingOkButton
+    anchors.bottom: parent.bottom
+    anchors.right: addHealingApplyButton.left
+    margin-right: 6
+    size: 43 20
+    text: OK
+    enabled: false
+    @onClick: modules.game_helper.addHealingEntryOk()
+
+  Button
+    id: addHealingApplyButton
+    anchors.bottom: parent.bottom
+    anchors.right: addHealingCancelButton.left
+    margin-right: 6
+    size: 43 20
+    text: Apply
+    enabled: false
+    @onClick: modules.game_helper.addHealingEntryApply()
+
+  Button
+    id: addHealingCancelButton
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    margin-right: 16
+    size: 43 20
+    text: Cancel
+    @onClick: modules.game_helper.closeAddHealingWindow()

@@ -1,0 +1,10 @@
+# Normalize source code before commits
+*.lua eol=lf 
+*.txt eol=lf 
+*.ot* eol=lf 
+*.cpp eol=lf 
+*.h   eol=lf 
+*.sh eol=lf
+# A single leading space is required for blank context lines in unified diffs.
+*.patch eol=lf whitespace=-blank-at-eol
+android/gradlew eol=lf

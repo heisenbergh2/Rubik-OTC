@@ -1,0 +1,302 @@
+SoulPitCreatureRow < UIWidget
+  size: 292 36
+  focusable: true
+
+  UICreature
+    id: creatureSprite
+    size: 32 32
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 2
+    phantom: true
+
+  Label
+    id: creatureName
+    anchors.left: creatureSprite.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-top: 1
+    margin-left: 4
+    font: verdana-11px-monochrome
+    color: $var-text-cip-color
+
+  UIWidget
+    id: soulSealIcon
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-right: 5
+    size: 9 9
+    image-source: /modules/game_taskboard/images/icon-currency-soulseals
+    visible: true
+
+  Label
+    id: soulSealsRequired
+    anchors.right: soulSealIcon.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-top: 1
+    margin-right: 4
+    text: 0
+    font: verdana-11px-monochrome
+    color: $var-text-cip-color
+    text-auto-resize: true
+
+SoulPitWindow < MainWindowHigh
+  id: soulpit
+  !text: tr('Soulseals')
+  size: 358 412
+  text-offset: -1 1
+  anchors.centerIn: parent
+  @onEscape: modules.game_soulpit.hide()
+
+  QtPanel
+    id: mainBody
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: -7
+    margin-left: 0
+    size: 326 329
+
+    TextEdit
+      id: search
+      height: 20
+      width: 141
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-top: 5
+      margin-left: 7
+      margin-bottom: 26
+      placeholder: "Type to search"
+      placeholder-color:#707068
+      @onTextChange: modules.game_soulpit.filterList(self:getText())
+    
+    Button
+      id: clearSearch
+      width: 18
+      height: 18
+      anchors.right: search.right
+      anchors.verticalCenter: search.verticalCenter
+      margin-right: 1
+      icon: /images/ui/button-erase-18x18-up.png
+      $pressed:
+        icon: /images/ui/button-erase-18x18-down
+
+      tooltip: Clear all text from the search field.
+      z-index: 1
+      @onClick: modules.game_soulpit.clearSearch()
+  
+    QtComboBox
+      id: showSoulSealOption
+      !text: tr('All')
+      anchors.top: parent.top
+      anchors.right: parent.right
+      margin-top: 5
+      margin-right: 6
+      width: 150
+      height: 20
+      color: #c0c0c0
+      @onOptionChange: modules.game_soulpit.onShowSoulSealOptionChange(self)
+      @onSetup: |
+        self:addOption(tr('All'), -1)
+        self:addOption(tr('Harmless'), 0)
+        self:addOption(tr('Trivial'), 1)
+        self:addOption(tr('Easy'), 2)
+        self:addOption(tr('Medium'), 3)
+        self:addOption(tr('Hard'), 4)
+        self:addOption(tr('Challenging'), 5)
+        self:setCurrentOptionByData(-1, true)
+      
+    ScrollablePanel
+      id: creaturesList
+      size: 306 204
+      focusable: false
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-top: 35
+      margin-left: 4
+      border-width-top: 1
+      border-width-left: 1
+      border-width-right: 1
+      border-width-bottom: 1
+      border-color-bottom: #808080
+      border-color-right: #808080
+      border-color-left: #131313
+      border-color-top: #131313
+      background-color: #414141
+      padding-top: 17
+      padding-left: 1
+      padding-bottom: 1
+      vertical-scrollbar: ignoreScrollbar
+      layout:
+        type: grid
+        cell-size: 292 36
+        cell-spacing: 0
+        flow: true
+    
+    UIWidget
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-top: 36
+      margin-left: 5
+      height: 16
+      width: 292
+      background-color: #363636
+
+      Label
+        id: creaturesLabel
+        !text: tr('Creatures')
+        font: $var-cip-font
+        text-auto-resize: true
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-top: -1
+        margin-left: 1
+        text-wrap: true
+
+      VerticalSeparator
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-top: 0
+        margin-left: 128
+        height: 202
+      
+      Label
+        id: soulSealsLabel
+        !text: tr('Soulseals')
+        font: $var-cip-font
+        text-auto-resize: true
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-top: -1
+        margin-left: 2
+        text-wrap: true
+
+      HorizontalSeparator
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 14
+
+    VerticalQtScrollBar
+      id: ignoreScrollbar
+      anchors.top: creaturesList.top
+      anchors.bottom: creaturesList.bottom
+      anchors.right: creaturesList.right
+      margin-right: 1
+      margin-top: 1
+      margin-bottom: 1
+      step: 48
+
+    UICreature
+      id: creatureSprite
+      size: 64 64
+      image-source: /images/game/forge/slot-forge.png
+      anchors.left: parent.left
+      anchors.bottom: parent.bottom
+      margin-left: 4
+      margin-bottom: 4
+      phantom: true
+      visible: true
+    
+    Label
+      id: creatureName
+      font: $var-cip-font
+      color: #c0c0c0
+      anchors.top: creatureSprite.top
+      anchors.left: creatureSprite.right
+      margin-top: 9
+      margin-left: 15
+      width: 220
+      visible: false
+    
+    Button
+      id: fightButton
+      !text: tr('Fight')
+      anchors.top: prev.bottom
+      anchors.left: creatureSprite.right
+      margin-top: 11
+      margin-left: 16
+      height: 20
+      width: 43
+      @onClick: modules.game_soulpit.fight()
+
+    Panel
+      id: soulSealCreature
+      size: 52 20
+      anchors.top: fightButton.top
+      anchors.left: prev.right
+      margin-left: 1
+      image-source: /images/ui/item
+      image-border: 10
+
+      UIWidget
+        anchors.right: parent.right
+        anchors.verticalCenter: parent.verticalCenter
+        image-source: /modules/game_taskboard/images/icon-currency-soulseals
+        margin-right: 3
+        margin-top: 1
+        tooltip: Soulseals
+
+      Label
+        id: soulSealCreatureValue
+        text: 0
+        anchors.right: prev.right
+        anchors.verticalCenter: parent.verticalCenter
+        margin-right: 10
+        margin-top: 2
+        text-auto-resize: true
+        font: verdana-11px-monochrome
+
+    UIWidget
+      id: toolTipWidget
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12  
+      anchors.top: prev.top
+      anchors.left: prev.right
+      margin-top: 4
+      margin-left: 6
+      !tooltip: tr('Battle the chosen creature in the Soul Pit.')
+
+  HorizontalSeparator
+    id: hSep
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-bottom: 26
+
+  Panel
+    id: soulSealsPanel
+    size: 104 20
+    anchors.top: hSep.bottom
+    anchors.left: parent.left
+    margin-top: 11
+    image-source: /images/ui/item
+    image-border: 10
+
+    UIWidget
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      image-source: /modules/game_taskboard/images/icon-currency-soulseals
+      margin-right: 3
+      margin-top: 1
+      tooltip: Soulseals
+
+    Label
+      id: value
+      text: 0
+      anchors.right: prev.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 10
+      margin-top: 2
+      text-auto-resize: true
+      font: verdana-11px-monochrome
+
+  Button
+    id: closeButton
+    !text: tr('Close')
+    anchors.top: hSep.bottom
+    anchors.right: parent.right
+    margin-top: 11
+    height: 20
+    width: 43
+    @onClick: modules.game_soulpit.hide()

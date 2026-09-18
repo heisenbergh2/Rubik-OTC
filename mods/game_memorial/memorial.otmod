@@ -1,0 +1,8 @@
+Module
+  name: game_memorial
+  description: Golden Outfit & Royal Outfit Memorial
+  author: Rokam
+  sandboxed: true
+  scripts: [ memorial ]
+  @onLoad: init()
+  @onUnload: terminate()

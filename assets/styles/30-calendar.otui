@@ -1,0 +1,294 @@
+CalendarOnePixelFrame < OnePixelDownFrame
+  padding: 1
+  image-border: 1
+  fixed-size: true
+  clipping: true
+
+CalendarEvent < UIWidget
+  height: 14
+  anchors.left: parent.left
+  anchors.right: parent.right
+  margin-top: 0
+  margin-left: -2
+
+  Label
+    id: text
+    font: $var-cip-font-new
+    color: #c0c0c0
+    text-alignt: left
+    text-offset: 1 0
+    anchors.fill: parent
+    phantom: true
+
+CalendarDayNoTopSep < UICalendar
+  phantom: true
+
+  UIWidget
+    id: fill
+    anchors.fill: parent
+    background-color: #484848ff
+    phantom: true
+
+    $on:
+      background-color: #484848ff
+
+    $!on:
+      background-color: #414141ff
+
+  UIWidget
+    id: columnRightSeparator
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    width: 2
+    image-source: /images/ui/separator_vertical
+    image-border: 0
+    fixed-size: true
+    phantom: true
+
+  UIWidget
+    id: dayAndSeason
+    size: 36 15
+    anchors.left: parent.left
+    anchors.top: parent.top
+    margin-top: 2
+    phantom: true
+
+    $on:
+      height: 15
+
+    $!on:
+      height: 0
+
+    Label
+      id: day
+      font: $var-cip-font-new
+      color: #c0c0c0
+      anchors:top: parent.top
+      anchors.left: parent.left
+      height: 15
+      text-align: topleft
+      text-offset: -1 -2
+      phantom: true
+
+      $on:
+        height: 15
+
+      $!on:
+        height: 0
+        width: 1
+
+    UIWidget
+      id: season
+      size: 11 11
+      phantom: true
+      anchors.top: parent.top
+      anchors.left: day.right
+      image-source: /images/icons/icon_seasonalevent
+      margin-left: 6
+      margin-top: 5
+      opacity: 0
+
+      $on:
+        height: 11
+        opacity: 1
+
+      $!on:
+        height: 0
+        opacity: 0
+
+  UIWidget
+    id: content
+    margin-left: 2
+    margin-right: 2
+    margin-bottom: 2
+    margin-top: -1
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    anchors.top: prev.bottom
+    opacity: 1
+    phantom: true
+
+CalendarDay < UICalendar
+  phantom: true
+
+  UIWidget
+    id: fill
+    anchors.fill: parent
+    background-color: #484848ff
+    phantom: true
+
+    $on:
+      background-color: #484848ff
+
+    $!on:
+      background-color: #414141ff
+
+  HorizontalSeparatorFlat
+    height: 2
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+
+  UIWidget
+    id: columnRightSeparator
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    width: 2
+    image-source: /images/ui/separator_vertical
+    image-border: 0
+    fixed-size: true
+    phantom: true
+
+  UIWidget
+    id: dayAndSeason
+    size: 36 15
+    anchors.left: parent.left
+    anchors.top: parent.top
+    margin-top: 2
+    phantom: true
+
+    $on:
+      height: 15
+
+    $!on:
+      height: 0
+
+    Label
+      id: day
+      font: $var-cip-font-new
+      color: #c0c0c0
+      anchors:top: parent.top
+      anchors.left: parent.left
+      height: 15
+      text-align: topleft
+      text-offset: -1 0
+      phantom: true
+
+      $on:
+        height: 15
+
+      $!on:
+        height: 0
+        width: 1
+
+    UIWidget
+      id: season
+      size: 11 11
+      phantom: true
+      anchors.top: parent.top
+      anchors.left: day.right
+      image-source: /images/icons/icon_seasonalevent
+      margin-left: 6
+      margin-top: 5
+      opacity: 0
+
+      $on:
+        height: 11
+        opacity: 1
+
+      $!on:
+        height: 0
+        opacity: 0
+
+  UIWidget
+    id: content
+    margin-left: 2
+    margin-right: 2
+    margin-bottom: 2
+    margin-top: 1
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    anchors.top: prev.bottom
+    opacity: 1
+    phantom: true
+
+CalendarTopMark < UICalendar
+  height: 16
+  text-align: center
+  text-offset: 0 -1
+  background-color: #363636ff
+  color: #c0c0c0
+  font: $var-cip-font
+  focusable: false
+
+  UIWidget
+    id: columnRightSeparator
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    width: 2
+    image-source: /images/ui/separator_vertical
+    image-border: 0
+    fixed-size: true
+    phantom: true
+
+CalendarWeekDays < UICalendar
+  anchors.top: parent.top
+  anchors.left: parent.left
+  height: 426
+
+  CalendarTopMark
+    id: week
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+
+  HorizontalSeparatorFlat
+    height: 2
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: -1
+
+  CalendarDayNoTopSep
+    id: line0
+    &dayOfTheWeek: '99'
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 1
+    height: 68
+
+  CalendarDay
+    id: line1
+    &dayOfTheWeek: '99'
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    height: 70
+
+  CalendarDay
+    id: line2
+    &dayOfTheWeek: '99'
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    height: 69
+
+  CalendarDay
+    id: line3
+    &dayOfTheWeek: '99'
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    height: 69
+
+  CalendarDay
+    id: line4
+    &dayOfTheWeek: '99'
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    height: 69
+
+  CalendarDay
+    id: line5
+    &dayOfTheWeek: '99'
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    height: 68

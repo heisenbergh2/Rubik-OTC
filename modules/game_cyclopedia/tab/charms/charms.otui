@@ -1,0 +1,529 @@
+UIWidget
+  id: Cat3
+  anchors.fill: parent
+  visible: false
+
+  MiniPanel
+    size: 550 120
+    id: InformationBase
+    text: carnage
+    anchors.top: parent.top
+    anchors.left: parent.left
+    font: $var-cip-font-new
+    color: #909090
+    text-offset: 0 2
+    margin-top: 10
+    layout:
+      type: horizontalBox
+      spacing: -1
+
+    UIWidget
+      id: TextBaseContainer
+      width: 167
+      height: 110
+      margin-right: 5
+      phantom: true
+
+      Label
+        id: TextBase
+        text: "killin a monster has 10% chance to deal physical damage equal to 15& of its maximum health to all monsters in a small rabius"
+        font: $var-cip-font-new
+        color: #C0C0C0
+        anchors.fill: parent
+        text-offset: 0 -1
+        text-wrap: true
+        text-align: left
+
+    BorderBox
+      id: ItemBase
+      image-source: /images/ui/1pixel-down-frame
+      image-border: 5
+      size: 42 42
+      fixed-size: true
+      margin-top: 2
+      margin-left: -1
+      phantom: true
+      border-width: 0
+
+      UIWidget
+        size: 32 32
+        id: image
+        anchors.centerIn: parent
+        phantom: true
+
+      UIWidget
+        id: lockedMask
+        size: 40 40
+        anchors.centerIn: parent
+        image-source: /images/ui/ditherpattern
+        phantom: true
+
+      UIWidget
+        id: border
+        size: 46 46
+        anchors.centerIn: parent
+        phantom: true
+
+    Panel
+      id: verticalPanelUnLockClearChram
+      width: 92
+      margin-left: 6
+      margin-top: -6
+
+      CipsoftButton
+        id: UnlockButton
+        size: 92 20
+        fixed-size: true
+        anchors.top: parent.top
+        anchors.left: parent.left
+        text: UnLock
+        text-offset: 0 1
+        @onClick: modules.game_cyclopedia.Cyclopedia.actionCharmButton(self)
+
+      UIWidget
+        id: PriceBaseCharm
+        size: 92 20
+        fixed-size: true
+        anchors.top: UnlockButton.bottom
+        anchors.left: parent.left
+        margin-top: 5
+        image-source: /images/ui/button-verydarkgrey-down
+        image-border: 10
+        phantom: true
+
+        Panel
+          id: priceRow
+          anchors.horizontalCenter: parent.horizontalCenter
+          anchors.verticalCenter: parent.verticalCenter
+          height: 20
+          phantom: true
+          layout:
+            type: horizontalBox
+            spacing: 1
+            fit-children: true
+
+          Label
+            id: Value
+            height: 20
+            font: $var-cip-font-new
+            color: #C0C0C0
+            !text: tr('0')
+            text-offset: 0 4
+            text-auto-resize: true
+
+          UIWidget
+            id: Charm
+            size: 11 12
+            fixed-size: true
+            image-source: /game_cyclopedia/images/major-charm-echoes
+            image-fixed-ratio: true
+            image-offset: 0 1
+
+      CipsoftButton
+        id: ClearCharmButton
+        size: 92 20
+        fixed-size: true
+        anchors.top: prev.bottom
+        anchors.left: parent.left
+        margin-top: 5
+        text-offset: 0 1
+        text: Clear Charm
+        enabled: false
+        @onClick: modules.game_cyclopedia.Cyclopedia.actionClearCharmButton(self)
+
+      UIWidget
+        id: PriceBaseGold
+        size: 92 20
+        fixed-size: true
+        anchors.top: prev.bottom
+        anchors.left: parent.left
+        margin-top: 5
+        image-source: /images/ui/button-verydarkgrey-down
+        image-border: 10
+        phantom: true
+
+        Panel
+          id: priceRow
+          anchors.horizontalCenter: parent.horizontalCenter
+          anchors.verticalCenter: parent.verticalCenter
+          height: 20
+          phantom: true
+          layout:
+            type: horizontalBox
+            spacing: 1
+            fit-children: true
+
+          Label
+            id: Value
+            height: 20
+            font: $var-cip-font-new
+            color: #C0C0C0
+            !text: tr('0')
+            text-offset: 0 4
+            text-auto-resize: true
+
+          UIWidget
+            id: Gold
+            size: 9 9
+            fixed-size: true
+            image-source: /images/icons/icon-goldcoin
+            image-fixed-ratio: true
+            image-offset: 0 1
+            visible: true
+
+    Panel
+      id: PanelCreatureList
+      width: 140
+      margin-left: 6
+      margin-top: -6
+
+      TextEdit
+        id: SearchEdit
+        height: 20
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        image-source: /images/ui/1pixel-down-frame
+        image-border: 5
+        background-color: #363636
+        border-width: 0
+        focusable: true
+        font: $var-cip-font-new
+        color: #C0C0C0
+        padding: 2 20 2 4
+        placeholder: Type to search
+        placeholder-color: #6E706F
+        @onTextChange: modules.game_cyclopedia.Cyclopedia.onCharmSearchTextChange(self:getText())
+        $disabled:
+          opacity: 1
+          color: #C0C0C0
+          placeholder-color: #414141
+
+      UIWidget
+        id: SearchClearButton
+        size: 18 18
+        anchors.right: SearchEdit.right
+        anchors.verticalCenter: SearchEdit.verticalCenter
+        margin-right: 1
+        enabled: false
+        image-source: /images/ui/button-erase-18x18-up
+        @onClick: modules.game_cyclopedia.Cyclopedia.clearCharmSearch()
+        $disabled:
+          image-source: /images/ui/button-erase-18x18-disabled
+        $pressed:
+          image-source: /images/ui/button-erase-18x18-down
+
+      UIWidget
+        id: CreaturesBase
+        anchors.top: prev.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: 67
+        margin-top: 7
+        image-source: /images/ui/1pixel-down-frame
+        image-border: 5
+        background-color: #404040
+        border-width: 0
+
+        UIScrollArea
+          id: CreatureList
+          vertical-scrollbar: CreatureListScrollbar
+          anchors.fill: parent
+          margin-right: 12
+          margin-top: 1
+          margin-left: 1
+          margin-bottom: 1
+          background-color: #404040
+          focusable: true
+
+          layout:
+            type: grid
+            cell-size: 126 16
+            cell-spacing: 0
+            flow: true
+          CharmCreatureName
+            background-color: #484848
+          CharmCreatureName
+            background-color: #414141
+
+        VerticalQtScrollBar
+          id: CreatureListScrollbar
+          anchors.top: parent.top
+          anchors.right: parent.right
+          anchors.bottom: parent.bottom
+          step: 80
+          margin: 1 1 1 0
+          pixel-scroll: true
+
+    Panel
+      id: panelSelectCreature
+      width: 78
+      margin-left: 6
+      margin-top: -6
+
+      CipsoftButton
+        id: CreaturesLabel
+        size: 78 20
+        fixed-size: true
+        anchors.top: parent.top
+        anchors.left: parent.left
+        text: Select Creature
+        text-offset: 0 1
+        @onClick: modules.game_cyclopedia.Cyclopedia.actionSelectCharmButton(self)
+
+      UIWidget
+        id: InfoBase
+        anchors.top: prev.bottom
+        anchors.left: parent.left
+        size: 78 67
+        fixed-size: true
+        margin-top: 6
+        image-source: /images/ui/1pixel-down-frame
+        image-border: 5
+        background-color: #404040
+        border-width: 0
+        padding: 1
+
+        UICreature
+          id: sprite
+          anchors.centerIn: parent
+          size: 64 64
+          phantom: true
+          fixed-creature-size: true
+          base-scale: true
+          creature-center: true
+          ignore-displacement-shift: true
+
+  QtPanel
+    id: anotherPanel
+    size: 113 120
+    anchors.top: parent.top
+    anchors.left: prev.right
+    margin-left: 6
+    margin-top: 10
+
+    Label
+      id: getCharmExpansionLabel
+      size: 110 14
+      !text: tr('Get Expansion')
+      font: $var-cip-font-new
+      color: #C0C0C0
+      text-align: left
+      text-wrap: true
+      anchors.left: parent.left
+      anchors.top: parent.top
+      margin-top: -4
+
+    UIWidget
+      id: charmExpansionHelp
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.left: parent.left
+      anchors.top: getCharmExpansionLabel.bottom
+      margin-top: 5
+      margin-left: 1
+      tooltip: Buy a "Charm Expansion" to assign your unlocked Charms to<br>creatures nearly unlimited and to get a 25% discount whenever<br>you are removing a Charm
+
+    UIButton
+      id: buyCharmExpansionButton
+      size: 82 20
+      anchors.left: charmExpansionHelp.right
+      anchors.verticalCenter: charmExpansionHelp.verticalCenter
+      margin-left: 7
+      image-source: /images/ui/button-blue-up
+      image-clip: 0 0 98 40
+      image-border: 1
+      icon-source: /images/icons/icon-store-16x10
+      icon-size: 16 10
+      icon-offset: 33 5
+      @onClick: modules.game_cyclopedia.Cyclopedia.buyCharmExpansion()
+      $pressed:
+        image-source: /images/ui/button-blue-down
+        image-clip: 0 0 98 40
+        image-border: 1
+        icon-offset: 34 6
+
+    Label
+      id: getCharmPointsLabel
+      size: 110 14
+      !text: tr('Get Points')
+      font: $var-cip-font-new
+      color: #C0C0C0
+      text-align: left
+      text-wrap: true
+      anchors.left: parent.left
+      anchors.top: buyCharmExpansionButton.bottom
+      margin-top: 1
+
+    UIWidget
+      id: charmPointsHelp
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.left: parent.left
+      anchors.top: getCharmPointsLabel.bottom
+      margin-top: 5
+      margin-left: 1
+      tooltip: Buy "Charm Points" to unlock new Charms faster and expand<br>your customization options. Charm Points can be spent on a wide<br>variety of Charms to enhance your hunting experience.
+
+    UIButton
+      id: buyCharmPointsButton
+      size: 82 20
+      anchors.left: charmPointsHelp.right
+      anchors.verticalCenter: charmPointsHelp.verticalCenter
+      margin-left: 7
+      image-source: /images/ui/button-blue-up
+      image-clip: 0 0 98 40
+      image-border: 1
+      icon-source: /images/icons/icon-store-16x10
+      icon-size: 16 10
+      icon-offset: 33 5
+      @onClick: modules.game_cyclopedia.Cyclopedia.buyCharmPoints()
+      $pressed:
+        image-source: /images/ui/button-blue-down
+        image-clip: 0 0 98 40
+        image-border: 1
+        icon-offset: 34 6
+
+    CipsoftButton
+      id: ResetAllCharmsButton
+      anchors.top: buyCharmPointsButton.bottom
+      anchors.left: parent.left
+      size: 100 20
+      text: Reset all Charms
+      text-offset: 0 1
+      margin-top: 3
+      margin-left: 1
+      @onClick: modules.game_cyclopedia.Cyclopedia.resetAllCharms()
+
+    UIWidget
+      id: PriceBaseResetAllCharms
+      size: 100 20
+      fixed-size: true
+      anchors.top: ResetAllCharmsButton.bottom
+      anchors.left: ResetAllCharmsButton.left
+      margin-top: 3
+      image-source: /images/ui/button-verydarkgrey-down
+      image-border: 10
+      phantom: true
+
+      Panel
+        id: priceResetAllCharms
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        height: 20
+        phantom: true
+        layout:
+          type: horizontalBox
+          spacing: 1
+          fit-children: true
+
+        Label
+          id: resetAllCharmsCostValue
+          height: 20
+          font: $var-cip-font-new
+          color: #C0C0C0
+          !text: tr('0')
+          text-offset: 0 4
+          text-auto-resize: true
+
+        UIWidget
+          id: Gold
+          size: 9 9
+          fixed-size: true
+          image-source: /images/icons/icon-goldcoin
+          image-fixed-ratio: true
+          image-offset: 0 1
+          visible: true
+
+  QtPanel
+    id: mainPanelCharmsType
+    height: 294
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 6
+
+    Panel
+      id: typeCharmPanel
+      size: 660 38
+      fixed-size: true
+      image-source: /images/ui/1pixel-down-frame
+      image-border: 5
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-left: -2
+      margin-top: -2
+
+      UIButton
+        id: MajorCharms
+        size: 329 36
+        image-source: /images/game/cyclopedia/major_charms
+        image-clip: 0 0 329 36
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin: 1
+
+        $checked:
+          image-clip: 0 36 329 36
+
+        $pressed:
+          image-clip: 0 36 329 36
+
+      UIButton
+        id: MinorCharms
+        size: 329 36
+        image-source: /images/game/cyclopedia/minor_charms
+        image-clip: 0 0 329 36
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin: 1
+
+        $checked:
+          image-clip: 0 36 329 36
+
+        $pressed:
+          image-clip: 0 36 329 36
+
+    Panel
+      id: panelCharmList
+      image-source: /images/ui/1pixel-down-frame
+      image-border: 5
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      height: 243
+      padding: 1
+      margin-top: 6
+      margin-left: -2
+      margin-right: -2
+      focusable: true
+
+      UIScrollArea
+        id: CharmList
+        vertical-scrollbar: spellsScrollBar
+        anchors.fill: parent
+        focusable: true
+        auto-focus: first
+
+        UIWidget
+          id: charmListGrid
+          anchors.top: parent.top
+          anchors.left: parent.left
+          anchors.right: parent.right
+          margin-left: 5
+          margin-top: 2
+          layout:
+            type: grid
+            cell-size: 149 95
+            cell-spacing-width: 11
+            cell-spacing-height: 4
+            flow: true
+            fit-children: true
+
+      VerticalQtScrollBar
+        id: spellsScrollBar
+        anchors.top: prev.top
+        anchors.bottom: prev.bottom
+        anchors.right: prev.right
+        step: 50
+        pixels-scroll: true

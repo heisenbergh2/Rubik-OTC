@@ -1,0 +1,16 @@
+// Embedded asset pak — Lua modules, OTUI, data subset.
+// Built by build_pak.py before invoking the C++ compiler.
+// At runtime, resourcemanager.cpp loads this resource and mounts it via
+// PHYSFS_mountMemory so that modules/, mods/, assets/styles/, etc. resolve
+// from memory instead of disk.
+// Integer resource ID 1 — must match MAKEINTRESOURCEA(IDR_ASSETS_PAK) in
+// resourcemanager.cpp (where IDR_ASSETS_PAK is #defined to 1). Symbolic names
+// in .rc without an accompanying #include get serialized as STRING resource
+// names by rc.exe, breaking FindResource(... MAKEINTRESOURCE(1) ...).
+// WYLACZONE (2026-08-07, decyzja: repozytorium bedzie publiczne).
+// Assety zostaja LUZEM na dysku (modules/, mods/, assets/), a nie w exe.
+// Zysk: exe schodzi ze 118 MB do samego kodu (~22 MB), znika tez czterokrotne
+// montowanie paka w pamieci. resourcemanager.cpp sam wraca na katalogi z dysku,
+// gdy FindResource nie znajdzie zasobu, wiec nie trzeba nic wiecej zmieniac.
+// Zeby wrocic do osadzania: odkomentuj ponizsza linie i zbuduj pak build_pak.py.
+// 1 RCDATA "assets.pak"

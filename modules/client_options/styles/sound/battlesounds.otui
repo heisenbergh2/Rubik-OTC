@@ -1,0 +1,137 @@
+UIWidget
+  anchors.fill: parent
+  visible: false
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+    height: 112
+
+    OptionScaleScroll
+      id: ownBattleVolume
+      text-offset: 0 0
+      &minimumScrollValue: 0
+      &maximumScrollValue: 100
+      &scrollSize: 21
+      @onSetup: |
+        local value = modules.client_options.getOption('ownBattleVolume')
+        self:setText(tr('Own Battle Sounds: %d %%', value))
+
+    OptionCheckBox
+      id: ownSpells
+      !text: tr('Spells')
+      anchors.top: prev.bottom
+      margin-top: 5
+
+    OptionCheckBox
+      id: ownAttack
+      !text: tr('Attack')
+      anchors.top: prev.bottom
+      margin-top: 5
+      margin-left: 18
+
+    OptionCheckBox
+      id: ownHealing
+      !text: tr('Healing')
+      anchors.top: prev.bottom
+      margin-top: 5
+      margin-left: 18
+
+    OptionCheckBox
+      id: ownSupport
+      !text: tr('Support')
+      anchors.top: prev.bottom
+      margin-top: 5
+      margin-left: 18
+
+    OptionCheckBox
+      id: ownWeapons
+      !text: tr('Weapons')
+      anchors.top: prev.bottom
+      margin-top: 5
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 7
+    height: 112
+
+    OptionScaleScroll
+      id: otherPlayersVolume
+      text-offset: 0 0
+      &minimumScrollValue: 0
+      &maximumScrollValue: 100
+      &scrollSize: 21
+      @onSetup: |
+        local value = modules.client_options.getOption('otherPlayersVolume')
+        self:setText(tr('Other Players: %d %%', value))
+
+    OptionCheckBox
+      id: otherSpells
+      !text: tr('Spells')
+      anchors.top: prev.bottom
+      margin-top: 5
+
+    OptionCheckBox
+      id: otherAttack
+      !text: tr('Attack')
+      anchors.top: prev.bottom
+      margin-top: 5
+      margin-left: 18
+
+    OptionCheckBox
+      id: otherHealing
+      !text: tr('Healing')
+      anchors.top: prev.bottom
+      margin-top: 5
+      margin-left: 18
+
+    OptionCheckBox
+      id: otherSupport
+      !text: tr('Support')
+      anchors.top: prev.bottom
+      margin-top: 5
+      margin-left: 18
+
+    OptionCheckBox
+      id: otherWeapons
+      !text: tr('Weapons')
+      anchors.top: prev.bottom
+      margin-top: 5
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 7
+    height: 76
+
+    OptionScaleScroll
+      id: creaturesVolume
+      text-offset: 0 0
+      &minimumScrollValue: 0
+      &maximumScrollValue: 100
+      &scrollSize: 21
+      @onSetup: |
+        local value = modules.client_options.getOption('creaturesVolume')
+        self:setText(tr('Creatures: %d %%', value))
+
+    OptionCheckBox
+      id: creatureNoises
+      !text: tr('Creature Noises')
+      anchors.top: prev.bottom
+      margin-top: 5
+
+    OptionCheckBox
+      id: creatureDeath
+      !text: tr('Death')
+      anchors.top: prev.bottom
+      margin-top: 5
+
+    OptionCheckBox
+      id: attackAndSpells
+      !text: tr('Attack and Spells')
+      anchors.top: prev.bottom
+      margin-top: 5

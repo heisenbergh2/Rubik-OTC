@@ -1,0 +1,363 @@
+GameSidePanel < UIMiniWindowContainer
+  image-source: /images/ui/2pixel_up_frame_borderimage
+  image-border: 2
+  padding-top: 2
+  width: 178
+  layout:
+    type: verticalBox
+    //spacing: 1
+
+GameTopHorizontalPanel < UIMiniWindowContainer
+  image-source: /images/ui/2pixel_up_frame_borderimage
+  image-border: 2
+  height: 200
+  width: 353
+  &ignoreFillAll: true
+  &isHorizontalPanel: true
+  layout:
+    type: horizontalBox
+
+SelectColumnButton < CheckBox
+  visible: false
+  opacity: 0.3
+  $hover:
+    opacity: 1
+
+GameBottomPanel < UIWindow
+  image-source: /images/ui/background_dark
+  image-repeated: true
+  padding-top: 6
+  margin-left: 1
+  margin-right: 1
+  draggable:false
+
+  UIWidget
+    image-source: /images/ui/divider_horizontal
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+    margin-top: -6
+    height: 7
+    image-repeat: repeat-x
+    image-border: 0
+    focusable: false
+
+  ResizeBorder
+    id: bottomResizeBorder
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    enabled: false
+    border: 4 red
+    height: 5
+    margin-top: 5
+    minimum: 170
+
+  ResizeBorder
+    id: rightResizeBorder
+    anchors.right: parent.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    enabled: false
+    border: 3 blue
+    minimum: 300
+
+
+GameMapPanel < UIGameMap
+  padding: 5 5 5 5
+  margin: 1 1 1 1
+  image-source: /images/ui/background
+  image-repeated: true
+
+  $on:
+    padding: 0
+
+UIWidget
+  id: gameRootPanel
+  anchors.fill: parent
+  anchors.top: topMenu.bottom
+
+  GameTopHorizontalPanel
+    id: gameLeftTopPanel
+    anchors.left: parent.left
+    anchors.top: parent.top
+    focusable: false
+    visible: true
+    on: true
+    $!on:
+      height: 0
+      visible: false
+
+  GameTopHorizontalPanel
+    id: gameRightTopPanel
+    anchors.right: parent.right
+    anchors.top: parent.top
+    padding-left: 2
+    focusable: false
+    visible: true
+    on: true
+    $!on:
+      height: 0
+      visible: false
+
+  UIWidget
+    id: gameActionBarLeftPanel
+    anchors.left: gameLeftExtraPanel.right
+    anchors.top: gameLeftTopPanel.bottom
+    anchors.bottom: gameBottomPanel.top
+    margin-top: 0
+    width: 0
+    focusable: false
+    phantom: true
+    layout:
+      type: horizontalBox
+      spacing: 0
+
+  UIWidget
+    id: gameActionBarRightPanel
+    anchors.right: gameRightExtraPanel.left
+    anchors.top: parent.top
+    anchors.bottom: gameBottomPanel.top
+    margin-top: 0
+    width: 0
+    focusable: false
+    phantom: true
+    layout:
+      type: horizontalBox
+      spacing: 0
+
+  UIWidget
+    id: mapVerticalLineLeft
+    anchors.left: gameActionBarLeftPanel.right
+    anchors.top: gameActionBarLeftPanel.top
+    anchors.bottom: gameActionBarLeftPanel.bottom
+    image-source: /images/ui/vertical_line_dark
+    image-repeated: true
+    width: 1
+    margin-left: 1
+    focusable: false
+    phantom: true
+    visible: false
+
+  UIWidget
+    id: mapVerticalLineRight
+    anchors.right: gameActionBarRightPanel.left
+    anchors.top: gameActionBarRightPanel.top
+    anchors.bottom: gameActionBarRightPanel.bottom
+    image-source: /images/ui/vertical_line_bright
+    image-repeated: true
+    width: 1
+    margin-right: 1
+    focusable: false
+    phantom: true
+    visible: false
+
+  GameMapPanel
+    id: gameMapPanel
+    anchors.left: gameActionBarLeftPanel.right
+    anchors.right: gameActionBarRightPanel.left
+    anchors.top: gameTopPanel.bottom
+    anchors.bottom: gameBottomPanel.top
+    focusable: false
+
+    Button
+      id: showTopMenuButton
+      anchors.top: parent.top
+      anchors.left: parent.left
+      !text: tr('Show Top Menu')
+      height: 32
+      visible: false
+
+  GameBottomPanel
+    id: gameBottomPanel
+    anchors.left: gameLeftExtraPanel.right
+    anchors.right: gameRightExtraPanel.left
+    anchors.top: bottomSplitter.bottom
+    anchors.bottom: parent.bottom
+
+  GameSidePanel
+    id: gameLeftPanel
+    anchors.left: parent.left
+    anchors.top: gameLeftTopPanel.bottom
+    anchors.bottom: parent.bottom
+    margin-top: 1
+    padding-top: 0
+    focusable: false
+    visible: true
+    on: true
+    $!on:
+      width: 0
+      visible: false
+
+  GameSidePanel
+    id: gameLeftExtraPanel
+    anchors.left: prev.right
+    anchors.top: gameLeftTopPanel.bottom
+    anchors.bottom: parent.bottom
+    margin-top: 1
+    margin-left: 1
+    padding-top: 0
+    focusable: false
+    visible: true
+    on: true
+    $!on:
+      width: 0
+      visible: false
+
+  GameSidePanel
+    id: gameMainRightPanel
+    anchors.right: parent.right
+    anchors.top: gameRightTopPanel.bottom
+    margin-top: 1
+    padding-top: 2
+    &ignoreFillAll: true
+    &onlyPhantomDrop: true
+    height: 200
+    focusable: false
+    on: true
+    @onGeometryChange: function(self) modules.game_interface.onMainRightPanelGeometryChange() end
+
+  GameSidePanel
+    id: gameRightPanel
+    anchors.right: parent.right
+    anchors.top: gameRightTopPanel.bottom
+    anchors.bottom: parent.bottom
+    margin-top: 1
+    padding-top: 200
+    focusable: false
+    on: true
+
+  GameSidePanel
+    id: gameRightExtraPanel
+    anchors.right: prev.left
+    anchors.top: gameRightTopPanel.bottom
+    anchors.bottom: parent.bottom
+    margin-top: 1
+    margin-right: 1
+    padding-top: 0
+    focusable: false
+    visible: true
+    on: true
+    $!on:
+      width: 0
+      visible: false
+
+  SelectColumnButton
+    id: gameSelectLeftColumn
+    anchors.right: gameLeftPanel.right
+    anchors.bottom: gameLeftPanel.bottom
+
+  SelectColumnButton
+    id: gameSelectRightColumn
+    anchors.right: gameRightPanel.right
+    anchors.bottom: gameRightPanel.bottom
+
+  SelectColumnButton
+    id: gameSelectRightExtraColumn
+    anchors.right: gameRightExtraPanel.right
+    anchors.bottom: gameRightExtraPanel.bottom
+    
+  SelectColumnButton
+    id: gameSelectLeftExtraColumn
+    anchors.right: gameLeftExtraPanel.right
+    anchors.bottom: gameLeftExtraPanel.bottom
+
+  Splitter
+    id: bottomSplitter
+    anchors.left: gameLeftExtraPanel.right
+    anchors.right: gameRightExtraPanel.left
+    anchors.bottom: parent.bottom
+    relative-margin: bottom
+    height: 7
+    opacity: 0
+    background: #00000000
+    @canUpdateMargin: function(self, newMargin) return modules.game_interface.bottomSplitterCanUpdateMargin(self, newMargin) end
+    @onGeometryChange: function(self) modules.game_interface.bottomSplitterOnGeometryChange(self) end
+    @onMouseRelease: function(self) modules.game_interface.onBottomSplitterMouseRelease(self) end
+
+  UIWidget
+    id: mouseGrabber
+    focusable: false
+    visible: false
+
+  TopStatsBar
+    id: gameTopPanel
+    anchors.left: gameLeftExtraPanel.right
+    anchors.right: gameRightExtraPanel.left
+    anchors.top: parent.top
+    focusable: false
+
+  TopStatsBar
+    id: gameBottomStatsBarPanel
+    anchors.left: gameLeftExtraPanel.right
+    anchors.right: gameRightExtraPanel.left
+    anchors.top: bottomSplitter.bottom
+    margin-left: 2
+    margin-right: 2
+    focusable: false
+
+  UIButton
+    id: leftIncreaseSidePanels
+    anchors.left: gameLeftExtraPanel.right
+    anchors.top: parent.top
+    image-source: /images/ui/topstats_button_panel
+    image-clip: 27 0 9 27
+    size: 9 27
+    @onClick: onIncreaseLeftPanels()
+
+    $pressed !disabled:
+      image-clip: 36 0 9 27
+
+    $disabled:
+      image-clip: 45 0 9 27
+      opacity: 1.0
+
+  UIButton
+    id: leftDecreaseSidePanels
+    anchors.left: leftIncreaseSidePanels.left
+    anchors.top: leftIncreaseSidePanels.bottom
+    image-source: /images/ui/topstats_button_panel
+    margin-top: 1
+    image-clip: 0 0 9 27
+    size: 9 27
+    @onClick: onDecreaseLeftPanels()
+
+    $pressed !disabled:
+      image-clip: 9 0 9 27
+
+    $disabled:
+      image-clip: 18 0 9 27
+      opacity: 1.0
+
+  UIButton
+    id: rightIncreaseSidePanels
+    anchors.right: gameRightExtraPanel.left
+    anchors.top: parent.top
+    image-source: /images/ui/topstats_button_panel
+    image-clip: 27 27 9 27
+    size: 9 27
+    @onClick: onIncreaseRightPanels()
+
+    $pressed !disabled:
+      image-clip: 36 27 9 27
+
+    $disabled:
+      image-clip: 45 27 9 27
+      opacity: 1.0
+
+  UIButton
+    id: rightDecreaseSidePanels
+    anchors.right: rightIncreaseSidePanels.right
+    anchors.top: rightIncreaseSidePanels.bottom
+    image-source: /images/ui/topstats_button_panel
+    margin-top: 1
+    image-clip: 0 27 9 27
+    size: 9 27
+    @onClick: onDecreaseRightPanels()
+
+    $pressed !disabled:
+      image-clip: 9 27 9 27
+
+    $disabled:
+      image-clip: 18 27 9 27
+      opacity: 1.0

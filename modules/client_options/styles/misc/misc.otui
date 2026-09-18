@@ -1,0 +1,119 @@
+OptionCheckBoxWithHelp < OptionCheckBox
+  UIWidget
+    id: helpIcon
+    image-source: /images/icons/show_gui_help_grey
+    size: 12 12
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-right: 5
+
+UIWidget
+  anchors.fill: parent
+  visible: false
+  
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+    height: 22
+
+    OptionCheckBoxWithHelp
+      id: askBeforeBuying
+      !text: tr('Ask Before Buying Products')
+      helpIcon.tooltip: teste1
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    height: 22
+    margin-top: 5
+
+    OptionCheckBoxWithHelp
+      id: askBeforeStowing
+      !text: tr('Ask Before Stowing Container Content')
+      helpIcon.tooltip: teste2
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    height: 22
+    margin-top: 5
+
+    OptionCheckBoxWithHelp
+      id: askBeforeSorting
+      !text: tr('Ask Before Sorting Nested Containers')
+      helpIcon.tooltip: teste3
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    height: 22
+    margin-top: 5
+
+    OptionCheckBoxWithHelp
+      id: askBeforeMoving
+      !text: tr('Ask Before Moving Contents of Nested Containers')
+      helpIcon.tooltip: teste4
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    height: 22
+    margin-top: 5
+
+    OptionCheckBoxWithHelp
+      id: stayLoggedIn
+      !text: tr('Stay Logged In for Session')
+      helpIcon.tooltip: teste5
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    height: 22
+    margin-top: 5
+
+    OptionCheckBoxWithHelp
+      id: optimiseConnection
+      !text: tr('Optimise Connection Stability')
+      helpIcon.tooltip: teste6
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    height: 22
+    margin-top: 5
+
+    OptionCheckBoxWithHelp
+      id: quickLogin
+      !text: tr('Quick Login')
+      helpIcon.tooltip: teste7
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    height: 22
+    margin-top: 5
+
+    OptionCheckBoxWithHelp
+      id: alternateFontRenderer
+      !text: tr('Use Alternate Font Renderer')
+      helpIcon.tooltip: teste8
+
+  QtButton
+    id: resetBtn
+    !text: tr('Reset')
+    size: 60 20
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-right: 1
+    margin-bottom: 1
+    color: $var-text-color
+    @onClick: |
+      g_logger.info("Reset clicked")

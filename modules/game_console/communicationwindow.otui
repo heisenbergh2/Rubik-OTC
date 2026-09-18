@@ -1,0 +1,359 @@
+IgnoreListLabel < Label
+  height: 16
+  color: #c0c0c0
+  font: verdana-11px-monochrome
+  background-color: alpha
+  text-offset: 2 2
+  focusable: true
+  phantom: false
+  background-color: #414141
+
+  $focus:
+    background-color: #585858
+    color: #f4f4f4
+
+WhiteListLabel < Label
+  height: 16
+  color: #c0c0c0
+  font: verdana-11px-monochrome
+  background-color: alpha
+  text-offset: 2 2
+  focusable: true
+  phantom: false
+  background-color: #414141
+
+  $focus:
+    background-color: #585858
+    color: #f4f4f4
+
+
+MainWindowHigh
+  id: communicationWindow
+  !text: tr('Edit Ignore List and Whitelist')
+  font: $var-cip-font-new
+  text-offset: 0 2
+  color: #909090
+  size: 570 361
+  @onEscape: self:destroy()
+
+  Panel
+    id: topPanels
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 22
+    margin-top: -7
+
+    Panel
+      id: ignorePanel
+      image-source: /images/ui/1pixel-down-frame
+      image-border: 1
+      anchors.left: parent.left
+      anchors.top: parent.top
+      size: 264 22
+
+      CheckBox
+        id: checkboxUseIgnoreList
+        text: Activate Ignore List
+        font: $var-cip-font-new
+        anchors.fill: parent
+        text-auto-resize: true
+        color: #C0C0C0
+        margin-left: 5
+        margin-top: 4
+        text-offset: 15 -2
+
+    Panel
+      id: whitelistPanel
+      image-source: /images/ui/1pixel-down-frame
+      image-border: 1
+      anchors.right: parent.right
+      anchors.top: parent.top
+      size: 264 22
+
+      CheckBox
+        id: checkboxUseWhiteList
+        text: Activate Whitelist
+        font: $var-cip-font-new
+        anchors.fill: parent
+        text-auto-resize: true
+        color: #C0C0C0
+        margin-left: 5
+        margin-top: 4
+        text-offset: 15 -2
+
+  Panel
+    id: leftColumn
+    anchors.top: topPanels.bottom
+    anchors.left: parent.left
+    width: 264
+    margin-top: 11
+    height: 260
+
+    Label
+      id: ignoreSettingsLabel
+      !text: tr('Characters you wish ignore') .. ':'
+      font: $var-cip-font-new
+      color: #C0C0C0
+      anchors.left: parent.left
+      anchors.top: parent.top
+      margin-left: -1
+
+    TextList
+      id: ignoreList
+      vertical-scrollbar: ignoreListScrollBar
+      anchors.left: parent.left
+      anchors.top: ignoreSettingsLabel.bottom
+      height: 115
+      width: 264
+      margin-top: 5
+      padding: 1
+      image-source: /images/ui/1pixel-down-frame
+      image-border: 3
+      border-width: 0
+      background-color: #404040
+
+    // TextEdit
+    //   id: ignoreNameEdit
+    //   anchors.top: prev.bottom
+    //   anchors.left: parent.left
+    //   size: 158 22
+    //   margin-top: 6
+
+    Panel
+      id: ignorePermanentPanel
+      image-source: /images/ui/1pixel-down-frame
+      image-border: 1
+      anchors.left: parent.left
+      anchors.top: ignoreList.bottom
+      size: 158 22
+      margin-top: 6
+
+      CheckBox
+        id: checkboxIgnoreListPermanent
+        size: 12 12
+        text: Ignore Permanently
+        font: $var-cip-font-new
+        anchors.fill: parent
+        color: #707070
+        margin-left: 5
+        margin-top: 4
+        text-offset: 15 -2
+        enabled: false
+
+    Button
+      id: buttonIgnoreAdd
+      !text: tr('Add')
+      size: 43 20
+      text-offset: 0 0
+      margin-right: 11
+      margin-top: 1
+      anchors.top: ignorePermanentPanel.top
+      anchors.right: buttonIgnoreRemove.left
+
+    Button
+      id: buttonIgnoreRemove
+      !text: tr('Delete')
+      size: 43 20
+      margin-top: 1
+      text-offset: 0 0
+      anchors.top: ignorePermanentPanel.top
+      anchors.right: parent.right
+
+    Label
+      id: ignoreGlobalSettingsLabel
+      !text: tr('Global settings for ignoring messages') .. ':'
+      font: $var-cip-font-lowspace
+      color: #C0C0C0
+      anchors.left: parent.left
+      anchors.top: ignorePermanentPanel.bottom
+      margin-top: 12
+      margin-left: -1
+
+    Panel
+      id: ignoreYellingPanel
+      image-source: /images/ui/1pixel-down-frame
+      image-border: 1
+      anchors.left: parent.left
+      anchors.top: ignoreGlobalSettingsLabel.bottom
+      size: 264 22
+      margin-top: 4
+
+      CheckBox
+        id: checkboxIgnoreYelling
+        !text: tr('Ignore Yelling')
+        font: $var-cip-font-new
+        color: #C0C0C0
+        anchors.left: parent.left
+        anchors.fill: parent
+        margin-left: 5
+        margin-top: 4
+        text-offset: 15 -2
+
+    Panel
+      id: ignorePrivateMessagesPanel
+      image-source: /images/ui/1pixel-down-frame
+      image-border: 1
+      anchors.left: parent.left
+      anchors.top: ignoreYellingPanel.bottom
+      size: 264 22
+      margin-top: 6
+
+      CheckBox
+        id: checkboxIgnorePrivateMessages
+        !text: tr('Ignore Private Messages')
+        font: $var-cip-font-new
+        color: #C0C0C0
+        anchors.left: parent.left
+        anchors.fill: parent
+        margin-left: 5
+        margin-top: 4
+        text-offset: 15 -2
+
+    VerticalQtScrollBar
+      id: ignoreListScrollBar
+      anchors.top: ignoreList.top
+      anchors.bottom: ignoreList.bottom
+      anchors.right: ignoreList.right
+      margin: 1 1 1 0
+      step: 14
+      pixels-scroll: true
+
+  Panel
+    id: rightColumn
+    anchors.top: topPanels.bottom
+    anchors.right: parent.right
+    width: 264
+    margin-top: 11
+    height: 260
+
+    Label
+      id: whitelistSettingsLabel
+      !text: tr('Characters you allow to message you ') .. ':'
+      font: $var-cip-font-new
+      color: #C0C0C0
+      anchors.left: parent.left
+      anchors.top: parent.top
+      margin-left: -1
+
+    TextList
+      id: whiteList
+      vertical-scrollbar: whiteListScrollBar
+      anchors.left: parent.left
+      anchors.top: whitelistSettingsLabel.bottom
+      height: 115
+      width: 264
+      margin-top: 5
+      padding: 1
+      image-source: /images/ui/1pixel-down-frame
+      image-border: 3
+      border-width: 0
+      background-color: #404040
+
+    // TextEdit
+    //   id: whitelistNameEdit
+    //   anchors.top: prev.bottom
+    //   anchors.left: parent.left
+    //   width: 110
+    //   margin-top: 7
+
+    Panel
+      id: whitelistPermanentPanel
+      image-source: /images/ui/1pixel-down-frame
+      image-border: 1
+      anchors.left: parent.left
+      anchors.top: whiteList.bottom
+      size: 158 22
+      margin-top: 6
+
+      CheckBox
+        id: checkboxWhitelistPermanent
+        text: Allow Permanently
+        font: $var-cip-font-new
+        anchors.fill: parent
+        text-auto-resize: true
+        color: #707070
+        margin-left: 5
+        margin-top: 4
+        text-offset: 15 -2
+        enabled: false
+
+    Button
+      id: buttonWhitelistAdd
+      !text: tr('Add')
+      size: 43 20
+      text-offset: 0 0
+      margin-right: 11
+      margin-top: 1
+      anchors.top: whitelistPermanentPanel.top
+      anchors.right: buttonWhitelistRemove.left
+
+    Button
+      id: buttonWhitelistRemove
+      !text: tr('Delete')
+      size: 43 20
+      text-offset: 0 0
+      margin-top: 1
+      anchors.top: whitelistPermanentPanel.top
+      anchors.right: parent.right
+
+    Label
+      id: whitelistGlobalSettingsLabel
+      !text: tr('Global settings for allowing messages') .. ':'
+      font: $var-cip-font-lowspace
+      color: #C0C0C0
+      anchors.left: parent.left
+      anchors.top: whitelistPermanentPanel.bottom
+      margin-top: 12
+      margin-left: -1
+
+    Panel
+      image-source: /images/ui/1pixel-down-frame
+      image-border: 1
+      anchors.left: parent.left
+      anchors.top: whitelistGlobalSettingsLabel.bottom
+      size: 264 22
+      margin-top: 4
+
+      CheckBox
+        id: checkboxAllowVIPs
+        !text: tr('Allow VIPs to message you')
+        font: $var-cip-font-new
+        color: #C0C0C0
+        anchors.left: parent.left
+        anchors.fill: parent
+        margin-left: 5
+        margin-top: 4
+        text-offset: 15 -2
+
+    VerticalQtScrollBar
+      id: whiteListScrollBar
+      anchors.top: whiteList.top
+      anchors.bottom: whiteList.bottom
+      anchors.right: whiteList.right
+      margin: 1 1 1 0
+      step: 14
+      pixels-scroll: true
+
+  HorizontalSeparator
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: buttonSave.top
+    margin-bottom: 11
+
+  Button
+    id: buttonSave
+    !text: tr('Ok')
+    size: 43 20
+    text-offset: 0 0
+    anchors.bottom: parent.bottom
+    anchors.right: next.left
+    margin-right: 11
+
+  Button
+    id: buttonCancel
+    !text: tr('Cancel')
+    size: 43 20
+    text-offset: 0 0
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right

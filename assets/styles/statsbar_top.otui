@@ -1,0 +1,963 @@
+// =============================================================================
+// Depende de: 30-statsbar-common.otui | statsbar_bottom.otui deve carregar antes (TopStatsBar).
+// =============================================================================
+
+// --- Shell (fundo + handles de resize do painel) ---
+
+StatsBarTopWithShrink < UIWidget
+  clipping: true
+
+  UIWidget
+    id: statsBarTopBackground
+    anchors.fill: parent
+    image-source: /images/ui/2pixel_up_frame_borderimage
+    image-border: 2
+    margin-left: 1
+    margin-right: 1
+    image-repeated: true
+
+    UIWidget
+      anchors.left: parent.left
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      margin-bottom: 2
+      width: 98
+      focusable: false
+      image-source: /images/game/topbar/borderimage-statusbar-left
+      @onGeometryChange: function(self) local h = math.min(98, self:getHeight()); if h > 0 then self:setImageClip(string.format('0 0 98 %d', h)); self:setImageSize(tosize(string.format('98 %d', h))) end end
+
+    UIWidget
+      anchors.right: parent.right
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      margin-bottom: 2
+      width: 98
+      focusable: false
+      image-source: /images/game/topbar/borderimage-statusbar-right
+      @onGeometryChange: function(self) local h = math.min(98, self:getHeight()); if h > 0 then self:setImageClip(string.format('0 0 98 %d', h)); self:setImageSize(tosize(string.format('98 %d', h))) end end
+
+// --- Linha de skills (nivel + barra tiny) ---
+
+TopStatsSkillElement < UIWidget
+  height: 20
+
+  Label
+    id: level
+    !text: '99999'
+    font: $var-cip-font-new
+    color: #c0c0c0
+    text-align: right
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 9
+
+  UIWidget
+    id: icon
+    size: 9 9
+    anchors.verticalCenter: level.verticalCenter
+    anchors.left: level.right
+    margin-left: 7
+
+  // Barra ancora ao slot (irmão). Largura do slot = botão store; botão à direita do slot = mesmo que encostar ao botão.
+  StatsBarUpSkill
+    id: bar
+    anchors.verticalCenter: level.verticalCenter
+    anchors.left: icon.right
+    anchors.right: statsbarXpBoostSlot.left
+    !statsbar-size: 'tiny'
+    !statsbar-orientation: 'horizontal'
+    statsbar-text: true
+    margin-left: 6
+    margin-right: 2
+    height: 5
+
+  // Largura 0 por omissão; em Lua expande só na linha de experiência com GameExperienceBonus.
+  Panel
+    id: statsbarXpBoostSlot
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    width: 0
+    margin-right: 0
+
+    UIWidget
+      id: statsbarXpBoostButton
+      size: 76 14
+      fixed-size: true
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      visible: false
+      image-source: /images/ui/button-storexp
+      !tooltip: tr('Purchase XP Boost')
+      tooltip-delayed: true
+      @onClick: modules.game_store.openPremiumBoost()
+      $pressed:
+        image-source: /images/ui/button-storexp-pressed
+
+// --- Large ---
+
+TopStatsBarLargeOnTop < UIWidget
+  StatsBarTopWithShrink
+    anchors.fill: parent
+
+  Panel
+    id: largeTopCenterRow
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.top: parent.top
+    margin-top: 4
+    height: 27
+    phantom: true
+    clipping: false
+    focusable: false
+    layout:
+      type: horizontalBox
+      fit-children: true
+
+    Panel
+      id: proficiencyButtonLargeWrap
+      size: 27 27
+      fixed-size: true
+      margin-right: 5
+      phantom: true
+      clipping: false
+      focusable: false
+
+      UIButton
+        id: proficiencyButtonLarge
+        anchors.fill: parent
+        image-source: /images/game/topbar/proficiency-button-large-unequipped
+        image-clip: 0 0 27 27
+        !tooltip: tr('Open Weapon Proficiency Dialog')
+        tooltip-delayed: true
+        @onClick: modules.game_proficiency.requestOpenWindow()
+        $hover !pressed:
+          image-clip: 0 0 27 27
+        $pressed:
+          image-clip: 0 27 27 27
+
+      // Borda 2px: anel inset (origem do traco +2,+1 no painel); 92 passos, 184 segmentos em statsbar.lua.
+      Panel
+        id: proficiencyButtonLargeProgress
+        size: 27 27
+        anchors.fill: parent
+        phantom: true
+        clipping: false
+        focusable: false
+        visible: false
+
+      UIWidget
+        id: highlightProficiencyButtonLarge
+        size: 23 23
+        phantom: true
+        clipping: false
+        image-source: /images/animations/button-highlight-23x23
+        anchors.horizontalCenter: proficiencyButtonLarge.horizontalCenter
+        anchors.verticalCenter: proficiencyButtonLarge.verticalCenter
+        visible: false
+
+    Panel
+      id: icons
+      image-border: 3
+      image-source: /images/ui/button-verydarkgrey-down
+      size: 53 27
+      padding-left: 2
+      fixed-size: true
+      layout:
+        type: horizontalBox
+
+    Panel
+      id: topBarMonkComboSereneLarge
+      visible: false
+      height: 27
+      margin-left: 5
+      fixed-size: true
+      phantom: true
+      focusable: false
+      layout:
+        type: horizontalBox
+        fit-children: true
+
+      UIWidget
+        id: topBarMonkLargeCombo1
+        size: 13 13
+        fixed-size: true
+        phantom: true
+        margin-left: 0
+        image-source: /images/game/topbar/icon-combopoint-empty
+
+      UIWidget
+        id: topBarMonkLargeCombo2
+        size: 13 13
+        fixed-size: true
+        phantom: true
+        margin-left: 2
+        image-source: /images/game/topbar/icon-combopoint-empty
+
+      UIWidget
+        id: topBarMonkLargeCombo3
+        size: 13 13
+        fixed-size: true
+        phantom: true
+        margin-left: 2
+        image-source: /images/game/topbar/icon-combopoint-empty
+
+      UIWidget
+        id: topBarMonkLargeCombo4
+        size: 13 13
+        fixed-size: true
+        phantom: true
+        margin-left: 2
+        image-source: /images/game/topbar/icon-combopoint-empty
+
+      UIWidget
+        id: topBarMonkLargeCombo5
+        size: 13 13
+        fixed-size: true
+        phantom: true
+        margin-left: 2
+        image-source: /images/game/topbar/icon-combopoint-empty
+
+      VerticalSeparatorFlat
+        id: topBarMonkLargeSeparator
+        margin-left: 4
+        size: 2 13
+
+      UIWidget
+        id: topBarMonkLargeSereneIcon
+        size: 13 13
+        fixed-size: true
+        phantom: true
+        margin-left: 4
+        image-source: /images/game/topbar/icon-serene-off
+
+  StatsBarUp
+    id: health
+    anchors.top: largeTopCenterRow.top
+    anchors.left: parent.left
+    anchors.right: largeTopCenterRow.left
+    !statsbar-type: 'health'
+    !statsbar-size: 'large'
+    !statsbar-orientation: 'horizontal'
+    statsbar-text: true
+    margin-left: 12 
+    margin-right: 6 
+    height: 27
+
+  Panel
+    id: manaStack
+    anchors.top: largeTopCenterRow.top
+    anchors.right: parent.right
+    anchors.left: largeTopCenterRow.right
+    margin-right: 12
+    margin-left: 6
+    height: 27
+    phantom: false
+    clipping: false
+
+    StatsBarUpManaPlain
+      id: mana
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      !statsbar-type: 'mana'
+      !statsbar-size: 'large'
+      !statsbar-orientation: 'horizontal'
+      statsbar-text: true
+      height: 13
+
+    StatsBarUpManaShieldBar
+      id: manashield
+      anchors.top: mana.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 2
+      height: 13
+      !statsbar-type: 'manashield'
+      !statsbar-size: 'small'
+      !statsbar-orientation: 'horizontal'
+      statsbar-text: true
+
+  Panel
+    id: skills
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: manaStack.bottom
+    margin-top: 2
+    margin-right: 12
+    height: 0
+
+// --- Parallel ---
+
+TopStatsBarParallelOnTop < UIWidget
+  StatsBarTopWithShrink
+    anchors.fill: parent
+
+  StatsBarUp
+    id: health
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    !statsbar-type: 'health'
+    !statsbar-size: 'small'
+    !statsbar-orientation: 'horizontal'
+    statsbar-text: true
+    margin-left: 12
+    margin-right: 12
+    margin-top: 4
+    height: 14
+
+  StatsBarUpManaLtr
+    id: mana
+    anchors.top: health.bottom
+    anchors.left: health.left
+    anchors.right: health.right
+    !statsbar-type: 'mana'
+    !statsbar-size: 'small'
+    !statsbar-orientation: 'horizontal'
+    statsbar-text: true
+    margin-top: 3
+    height: 14
+
+  Panel
+    id: skills
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: mana.bottom
+    margin-right: 12
+    margin-top: 2
+    height: 0
+
+  Panel
+    id: topBarProficiencyRow
+    anchors.top: skills.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: -5
+    height: 15
+    phantom: true
+    focusable: false
+
+    Panel
+      id: topBarProficiencyRowInner
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.top: parent.top
+      height: 15
+      phantom: true
+      layout:
+        type: horizontalBox
+        fit-children: true
+
+      Panel
+        id: proficiencyButtonColumn
+        size: 13 13
+        fixed-size: true
+        margin-right: 2
+        phantom: true
+        clipping: false
+
+        UIButton
+          id: proficiencyButton
+          size: 13 13
+          anchors.horizontalCenter: parent.horizontalCenter
+          anchors.verticalCenter: parent.verticalCenter
+          image-source: /images/game/topbar/proficiency-button-default
+          image-clip: 0 0 13 13
+          !tooltip: tr('Open Weapon Proficiency Dialog')
+          tooltip-delayed: true
+          @onClick: modules.game_proficiency.requestOpenWindow()
+          $hover !pressed:
+            image-clip: 0 0 13 13
+          $pressed:
+            image-clip: 0 13 13 13
+
+        UIWidget
+          id: highlightProficiencyButton
+          size: 15 15
+          phantom: true
+          clipping: false
+          image-source: /images/animations/button-highlight-15x15
+          anchors.horizontalCenter: proficiencyButton.horizontalCenter
+          anchors.verticalCenter: proficiencyButton.verticalCenter
+          visible: false
+
+      Panel
+        id: proficiencyPanel
+        visible: false
+        size: 106 13
+        fixed-size: true
+        margin-right: 4
+
+        UIWidget
+          id: proficiencyBg
+          size: 100 13
+          anchors.top: parent.top
+          anchors.left: parent.left
+          image-source: /images/game/topbar/proficiency-bg
+          !tooltip: tr('Proficiency Progress: 0 / 1750')
+          tooltip-delayed: true
+
+          ProgressBarSD
+            id: starProgress
+            anchors.fill: parent
+            image-source: /images/bars/progressbar-teal-11px
+            margin: 1 1 1 1
+            percent: 0
+
+          Label
+            id: proficiencyLabel
+            margin-right: 1
+            anchors.fill: parent
+            text-align: center
+            text-auto-resize: true
+            font: $var-cip-font
+            color: #f4f4f4
+            text: 0%
+            phantom: true
+
+        UIWidget
+          id: proficiencyIcon
+          anchors.top: parent.top
+          anchors.right: prev.right
+          size: 9 11
+          margin-top: 1
+          margin-right: -4
+          phantom: true
+          on: false
+          image-source: /images/game/topbar/icon-proficiencytree-off
+          $on:
+            image-source: /images/game/topbar/icon-proficiencytree-on
+
+      Panel
+        id: icons
+        image-border: 3
+        image-source: /images/ui/button-verydarkgrey-down
+        size: 106 13
+        fixed-size: true
+        padding-left: 2
+        layout:
+          type: horizontalBox
+
+      Panel
+        id: topBarMonkComboSerene
+        visible: false
+        height: 13
+        margin-right: 9
+        fixed-size: true
+        phantom: true
+        focusable: false
+        layout:
+          type: horizontalBox
+          fit-children: true
+
+        UIWidget
+          id: topBarMonkCombo1
+          size: 13 13
+          fixed-size: true
+          phantom: true
+          margin-left: 5
+          image-source: /images/game/topbar/icon-combopoint-empty
+
+        UIWidget
+          id: topBarMonkCombo2
+          size: 13 13
+          fixed-size: true
+          phantom: true
+          margin-left: 2
+          image-source: /images/game/topbar/icon-combopoint-empty
+
+        UIWidget
+          id: topBarMonkCombo3
+          size: 13 13
+          fixed-size: true
+          phantom: true
+          margin-left: 2
+          image-source: /images/game/topbar/icon-combopoint-empty
+
+        UIWidget
+          id: topBarMonkCombo4
+          size: 13 13
+          fixed-size: true
+          phantom: true
+          margin-left: 2
+          image-source: /images/game/topbar/icon-combopoint-empty
+
+        UIWidget
+          id: topBarMonkCombo5
+          size: 13 13
+          fixed-size: true
+          phantom: true
+          margin-left: 2
+          image-source: /images/game/topbar/icon-combopoint-empty
+
+        VerticalSeparatorFlat
+          id: topBarMonkSeparator
+          margin-left: 4
+          size: 2 13
+
+        UIWidget
+          id: topBarMonkSereneIcon
+          size: 13 13
+          fixed-size: true
+          phantom: true
+          margin-left: 4
+          image-source: /images/game/topbar/icon-serene-off
+
+  UIWidget
+    id: topBarDefaultBottomGap
+    anchors.top: topBarProficiencyRow.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 0
+    phantom: true
+    focusable: false
+
+// --- Default ---
+
+TopStatsBarDefaultOnTop < UIWidget
+  StatsBarTopWithShrink
+    anchors.fill: parent
+
+  StatsBarUp
+    id: health
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.horizontalCenter
+    !statsbar-type: 'health'
+    !statsbar-size: 'small'
+    !statsbar-orientation: 'horizontal'
+    statsbar-text: true
+    margin-left: 12
+    margin-right: 2
+    margin-top: 4
+    height: 14
+
+  StatsBarUpMana
+    id: mana
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.left: parent.horizontalCenter
+    !statsbar-type: 'mana'
+    !statsbar-size: 'small'
+    !statsbar-orientation: 'horizontal'
+    statsbar-text: true
+    margin-right: 12
+    margin-left: 4
+    margin-top: 4
+    height: 14
+
+  Panel
+    id: skills
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: mana.bottom
+    margin-right: 12
+    margin-top: 2
+    height: 0
+
+  Panel
+    id: topBarProficiencyRow
+    anchors.top: skills.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: -5
+    height: 15
+    phantom: true
+    focusable: false
+
+    Panel
+      id: topBarProficiencyRowInner
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.top: parent.top
+      height: 15
+      phantom: true
+      layout:
+        type: horizontalBox
+        fit-children: true
+
+      Panel
+        id: proficiencyButtonColumn
+        size: 13 13
+        fixed-size: true
+        margin-right: 2
+        phantom: true
+        clipping: false
+
+        UIButton
+          id: proficiencyButton
+          size: 13 13
+          anchors.horizontalCenter: parent.horizontalCenter
+          anchors.verticalCenter: parent.verticalCenter
+          image-source: /images/game/topbar/proficiency-button-default
+          image-clip: 0 0 13 13
+          !tooltip: tr('Open Weapon Proficiency Dialog')
+          tooltip-delayed: true
+          @onClick: modules.game_proficiency.requestOpenWindow()
+          $hover !pressed:
+            image-clip: 0 0 13 13
+          $pressed:
+            image-clip: 0 13 13 13
+
+        UIWidget
+          id: highlightProficiencyButton
+          size: 15 15
+          phantom: true
+          clipping: false
+          image-source: /images/animations/button-highlight-15x15
+          anchors.horizontalCenter: proficiencyButton.horizontalCenter
+          anchors.verticalCenter: proficiencyButton.verticalCenter
+          visible: false
+
+      Panel
+        id: proficiencyPanel
+        visible: false
+        size: 106 13
+        fixed-size: true
+        margin-right: 4
+
+        UIWidget
+          id: proficiencyBg
+          size: 100 13
+          anchors.top: parent.top
+          anchors.left: parent.left
+          image-source: /images/game/topbar/proficiency-bg
+          !tooltip: tr('Proficiency Progress: 0 / 1750')
+          tooltip-delayed: true
+
+          ProgressBarSD
+            id: starProgress
+            anchors.fill: parent
+            image-source: /images/bars/progressbar-teal-11px
+            margin: 1 1 1 1
+            percent: 0
+
+          Label
+            id: proficiencyLabel
+            margin-right: 1
+            anchors.fill: parent
+            text-align: center
+            text-auto-resize: true
+            font: $var-cip-font
+            color: #f4f4f4
+            text: 0%
+            phantom: true
+
+        UIWidget
+          id: proficiencyIcon
+          anchors.top: parent.top
+          anchors.right: prev.right
+          size: 9 11
+          margin-top: 1
+          margin-right: -4
+          phantom: true
+          on: false
+          image-source: /images/game/topbar/icon-proficiencytree-off
+          $on:
+            image-source: /images/game/topbar/icon-proficiencytree-on
+
+      Panel
+        id: icons
+        image-border: 3
+        image-source: /images/ui/button-verydarkgrey-down
+        size: 106 13
+        fixed-size: true
+        padding-left: 2
+        layout:
+          type: horizontalBox
+
+      Panel
+        id: topBarMonkComboSerene
+        visible: false
+        height: 13
+        margin-right: 9
+        fixed-size: true
+        phantom: true
+        focusable: false
+        layout:
+          type: horizontalBox
+          fit-children: true
+
+        UIWidget
+          id: topBarMonkCombo1
+          size: 13 13
+          fixed-size: true
+          phantom: true
+          margin-left: 5
+          image-source: /images/game/topbar/icon-combopoint-empty
+
+        UIWidget
+          id: topBarMonkCombo2
+          size: 13 13
+          fixed-size: true
+          phantom: true
+          margin-left: 2
+          image-source: /images/game/topbar/icon-combopoint-empty
+
+        UIWidget
+          id: topBarMonkCombo3
+          size: 13 13
+          fixed-size: true
+          phantom: true
+          margin-left: 2
+          image-source: /images/game/topbar/icon-combopoint-empty
+
+        UIWidget
+          id: topBarMonkCombo4
+          size: 13 13
+          fixed-size: true
+          phantom: true
+          margin-left: 2
+          image-source: /images/game/topbar/icon-combopoint-empty
+
+        UIWidget
+          id: topBarMonkCombo5
+          size: 13 13
+          fixed-size: true
+          phantom: true
+          margin-left: 2
+          image-source: /images/game/topbar/icon-combopoint-empty
+
+        VerticalSeparatorFlat
+          id: topBarMonkSeparator
+          margin-left: 4
+          size: 2 13
+
+        UIWidget
+          id: topBarMonkSereneIcon
+          size: 13 13
+          fixed-size: true
+          phantom: true
+          margin-left: 4
+          image-source: /images/game/topbar/icon-serene-off
+
+  UIWidget
+    id: topBarDefaultBottomGap
+    anchors.top: topBarProficiencyRow.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 0
+    phantom: true
+    focusable: false
+
+// --- Compact ---
+
+TopStatsBarCompactOnTop < UIWidget
+  StatsBarTopWithShrink
+    anchors.fill: parent
+
+  Panel
+    id: compactTopCenterRow
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.top: parent.top
+    margin-top: 4
+    height: 14
+    phantom: true
+    clipping: false
+    focusable: false
+    layout:
+      type: horizontalBox
+      fit-children: true
+
+    Panel
+      id: proficiencyButtonCompactWrap
+      size: 15 14
+      fixed-size: true
+      margin-right: 5
+      phantom: true
+      clipping: false
+      focusable: false
+
+      UIButton
+        id: proficiencyButtonCompact
+        anchors.fill: parent
+        image-source: /images/game/topbar/proficiency-button-compact-unequipped
+        image-clip: 0 0 15 14
+        !tooltip: tr('Open Weapon Proficiency Dialog')
+        tooltip-delayed: true
+        @onClick: modules.game_proficiency.requestOpenWindow()
+        $hover !pressed:
+          image-clip: 0 0 15 14
+        $pressed:
+          image-clip: 0 14 15 14
+
+      // Borda 1px: horário (1,0)->direita->baixo->esquerda->fecha; 54 pixels via statsbar.lua.
+      Panel
+        id: proficiencyButtonCompactProgress
+        size: 15 14
+        anchors.fill: parent
+        phantom: true
+        clipping: false
+        focusable: false
+        visible: false
+
+      UIWidget
+        id: highlightProficiencyButtonCompact
+        size: 15 14
+        phantom: true
+        clipping: false
+        image-source: /images/animations/button-highlight-15x14
+        anchors.horizontalCenter: proficiencyButtonCompact.horizontalCenter
+        anchors.verticalCenter: proficiencyButtonCompact.verticalCenter
+        visible: false
+
+    Panel
+      id: icons
+      image-border: 3
+      image-source: /images/ui/button-verydarkgrey-down
+      size: 103 14
+      fixed-size: true
+      padding-left: 2
+      layout:
+        type: horizontalBox
+
+    Panel
+      id: topBarMonkComboSereneCompact
+      visible: false
+      margin-left: 5
+      margin-bottom: -1
+      height: 13
+      fixed-size: false
+      phantom: true
+      focusable: false
+      layout:
+        type: horizontalBox
+        fit-children: true
+
+      UIWidget
+        id: topBarMonkCompactCombo1
+        size: 13 13
+        fixed-size: true
+        phantom: true
+        margin-left: 0
+        image-source: /images/game/topbar/icon-combopoint-empty
+
+      UIWidget
+        id: topBarMonkCompactCombo2
+        size: 13 13
+        fixed-size: true
+        phantom: true
+        margin-left: 2
+        image-source: /images/game/topbar/icon-combopoint-empty
+
+      UIWidget
+        id: topBarMonkCompactCombo3
+        size: 13 13
+        fixed-size: true
+        phantom: true
+        margin-left: 2
+        image-source: /images/game/topbar/icon-combopoint-empty
+
+      UIWidget
+        id: topBarMonkCompactCombo4
+        size: 13 13
+        fixed-size: true
+        phantom: true
+        margin-left: 2
+        image-source: /images/game/topbar/icon-combopoint-empty
+
+      UIWidget
+        id: topBarMonkCompactCombo5
+        size: 13 13
+        fixed-size: true
+        phantom: true
+        margin-left: 2
+        image-source: /images/game/topbar/icon-combopoint-empty
+
+      VerticalSeparatorFlat
+        id: topBarMonkCompactSeparator
+        margin-left: 4
+        size: 2 13
+
+      UIWidget
+        id: topBarMonkCompactSereneIcon
+        size: 13 13
+        fixed-size: true
+        phantom: true
+        margin-left: 4
+        image-source: /images/game/topbar/icon-serene-off
+
+  StatsBarUp
+    id: health
+    anchors.top: compactTopCenterRow.top
+    anchors.left: parent.left
+    anchors.right: compactTopCenterRow.left
+    !statsbar-type: 'health'
+    !statsbar-size: 'small'
+    !statsbar-orientation: 'horizontal'
+    statsbar-text: true
+    margin-left: 12
+    margin-right: 6
+    height: 14
+
+  StatsBarUpMana
+    id: mana
+    anchors.top: compactTopCenterRow.top
+    anchors.left: compactTopCenterRow.right
+    anchors.right: parent.right
+    !statsbar-type: 'mana'
+    !statsbar-size: 'small'
+    !statsbar-orientation: 'horizontal'
+    statsbar-text: true
+    margin-right: 12
+    margin-left: 6
+    height: 14
+
+  Panel
+    id: skills
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: mana.bottom
+    margin-top: 2
+    margin-left: 10
+    margin-right: 12
+    height: 0
+
+// --- Agregador TopStatsBar (variantes *OnBottom em statsbar_bottom.otui) ---
+
+TopStatsBar < UIWidget
+  TopStatsBarLargeOnTop
+    id: largeOnTop
+    anchors.fill: parent
+    visible: false
+    phantom: true
+
+  TopStatsBarParallelOnTop
+    id: parallelOnTop
+    anchors.fill: parent
+    visible: false
+    phantom: true
+
+  TopStatsBarDefaultOnTop
+    id: defaultOnTop
+    anchors.fill: parent
+    visible: false
+    phantom: true
+
+  TopStatsBarCompactOnTop
+    id: compactOnTop
+    anchors.fill: parent
+    visible: false
+    phantom: true
+    
+  TopStatsBarLargeOnBottom
+    id: largeOnBottom
+    anchors.fill: parent
+    visible: false
+    phantom: true
+
+  TopStatsBarParallelOnBottom
+    id: parallelOnBottom
+    anchors.fill: parent
+    visible: false
+    phantom: true
+
+  TopStatsBarDefaultOnBottom
+    id: defaultOnBottom
+    anchors.fill: parent
+    visible: false
+    phantom: true
+
+  TopStatsBarCompactOnBottom
+    id: compactOnBottom
+    anchors.fill: parent
+    visible: false
+    phantom: true

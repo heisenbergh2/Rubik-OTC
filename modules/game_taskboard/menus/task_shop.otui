@@ -1,0 +1,200 @@
+ShopItemCard < UIWindow
+  text: name
+  text-align: top
+  image-source: /images/ui/popupwindow-sem-borda-interna
+  text-offset: 0 2    
+  image-border: 6
+  image-border-top: 27
+  draggable: false
+  focusable: false
+  color: $var-text-color-disabled
+  font: verdana-11px-monochrome
+
+  // -- Painel de preco (definido antes do descLabel para anchor valido) -------
+  Panel
+    id: pricePanel
+    size: 104 20
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    margin-bottom: 8
+    margin-left: 79
+    image-source: /images/ui/item
+    image-border: 10
+
+    UIWidget
+      id: coinIcon
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 3
+      margin-top: 1
+      size: 11 11
+      image-source: /modules/game_taskboard/images/preyhuntingtask-tokens
+
+    Label
+      id: priceLabel
+      text: 0
+      anchors.right: coinIcon.left
+      anchors.verticalCenter: parent.verticalCenter
+      margin-top: 2
+      margin-right: 2
+      font: verdana-11px-monochrome
+      color: $var-text-cip-color
+      text-auto-resize: true
+
+  // -- Icone do item/outfit/mount --------------------------------------------
+  UIWidget
+    id: iconBox
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 27
+    margin-left: 10
+    size: 64 64
+    image-source: /images/ui/item
+    image-border: 4
+    border-width-top: 1
+    border-width-left: 1
+    border-width-right: 1
+    border-width-bottom: 1
+    border-color-bottom: #808080
+    border-color-right: #808080
+    border-color-left: #131313
+    border-color-top: #131313
+    focusable: false
+
+    UIItem
+      id: itemIcon
+      anchors.centerIn: parent
+      size: 32 32
+      virtual: true
+      phantom: true
+      visible: false
+
+    UICreature
+      id: outfitIcon
+      anchors.centerIn: parent
+      size: 64 64
+      fixed-creature-size: true
+      phantom: true
+      visible: false
+
+    UIItem
+      id: itemIcon2
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      margin-right: 9
+      margin-bottom: 8
+      size: 44 28
+      virtual: true
+      phantom: true
+      visible: false
+    
+  HorizontalSeparator
+    anchors.top: iconBox.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 11
+    margin-left: 10
+    margin-right: 10
+
+  // -- Descricao -------------------------------------------------------------
+  Label
+    id: descLabel
+    anchors.top: parent.top
+    anchors.left: iconBox.right
+    anchors.right: parent.right
+    anchors.bottom: pricePanel.top
+    margin-top: 27
+    margin-left: 6
+    margin-right: 7
+    margin-bottom: 3
+    font: verdana-11px-monochrome
+    color: $var-text-cip-color
+    text-wrap: true
+    text-align: top left
+
+  // -- Icone de categoria  44x29 (canto inferior direito) -------------------
+  UIWidget
+    id: currencyTypeWidget
+    size: 44 29
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    margin-bottom: 4
+    margin-right: -3
+
+  // -- Botao "Buy" -----------------------------------------------------------
+  //    right: 308 - 6(icon margin) - 44(icon width) - 4(gap) = 254  =>  margin-right: 54
+  UIButton
+    id: buyButton
+    size: 64 20
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    margin-bottom: 8
+    margin-left: 10
+    image-source: /modules/game_taskboard/images/buy-button
+    image-clip: 0 0 64 20
+    focusable: true
+
+    $pressed:
+      image-clip: 0 20 64 20
+
+    $disabled:
+      image-clip: 0 40 64 20
+
+  // -- Widget "Bought" (4o frame do buy-button.png) -------------------------
+  UIWidget
+    id: boughtWidget
+    size: 64 20
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    margin-bottom: 8
+    margin-left: 10
+    image-source: /modules/game_taskboard/images/buy-button
+    image-clip: 0 60 64 20
+    visible: false
+    focusable: false
+
+// =============================================================================
+// TaskShopPanel  -  painel principal injetado no mainBody
+// =============================================================================
+TaskShopPanel < Panel
+  image-source: /images/ui/background_dark
+  image-border: 6
+  padding-top: 5
+  padding-left: 6
+  border-width-top: 1
+  border-width-left: 1
+  border-width-right: 1
+  border-width-bottom: 1
+  border-color-bottom: #808080
+  border-color-right: #808080
+  border-color-left: #131313
+  border-color-top: #131313
+  margin: 6
+
+  VerticalQtScrollBar
+    id: shopScrollBar
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    margin-top: -4
+    margin-bottom: 2
+    margin-right: 1
+    step: 18
+
+  ScrollablePanel
+    id: shopItemList
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: shopScrollBar.left
+    focusable: false
+    margin-top: 6
+    margin-bottom: 6
+    margin-left: 6
+    margin-right: 2
+    vertical-scrollbar: shopScrollBar
+    layout:
+      type: grid
+      cell-size: 296 146
+      cell-spacing: 10
+      flow: true

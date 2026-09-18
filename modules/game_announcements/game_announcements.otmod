@@ -1,0 +1,7 @@
+Module
+  name: game_announcements
+  description: In-game announcements
+  author: Rokam
+  scripts: [ announcements_util, announcements_data, game_announcements ]
+  @onLoad: init()
+  @onUnload: terminate()

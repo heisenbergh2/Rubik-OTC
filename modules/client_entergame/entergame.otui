@@ -1,0 +1,211 @@
+EnterGameWindow < MainWindow
+  !text: tr('Journey Onwards')
+  size: 280 200
+  color: $var-text-cip-color-grey
+  font: $var-cip-font
+  text-offset: 0 1
+  padding-left: 15
+
+EnterGameButton < Button
+  width: 64
+
+EnterGameWindow
+  id: enterGame
+  draggable: false
+  size: 280 200
+  image-source: /images/ui/popupwindow
+  @onEnter: EnterGame.doLogin()
+
+  Label
+    id: emailLabel
+    !text: tr('Email:') 
+    anchors.left: parent.left
+    anchors.top: parent.top
+    color: $var-text-cip-color
+    font: $var-cip-font
+    margin-top: -4
+    margin-left: -2
+    text-offset: 2 0
+
+  Label
+    id: passwordLabel
+    !text: tr('Password:')
+    anchors.left: emailLabel.left
+    anchors.top: emailLabel.bottom
+    margin-top: 17
+    color: $var-text-cip-color
+    font: $var-cip-font
+    text-offset: 2 0
+
+  TextQtHideToggleBox
+    id: accountEmailVisibilityBox
+    anchors.right: accountPasswordTextEdit.right
+    anchors.verticalCenter: emailLabel.verticalCenter
+
+    UICheckBox
+      id: accountEmailVisibilityToggle
+      size: 18 18
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.verticalCenter: parent.verticalCenter
+      image-rect: 0 0 18 18
+      margin-right: 1
+      image-source: /images/ui/hide_eye_small
+      @onCheckChange: |
+        self:getParent():getParent():getChildById('accountNameTextEdit'):setTextHidden(not self:isChecked())
+        self:getParent():getParent():getChildById('accountNameTextEdit'):setTextWrap(false)
+
+      $!checked:
+        image-clip: 0 0 18 18
+
+      $checked:
+        image-clip: 0 18 18 18
+
+  HiddenTextQtEdit
+    id: accountNameTextEdit
+    anchors.left: accountPasswordTextEdit.left
+    anchors.right: accountEmailVisibilityBox.left
+    margin-right: -2
+    anchors.verticalCenter: emailLabel.verticalCenter
+    font: $var-cip-font
+    padding-left: 2
+    padding-right: 1
+    padding-top: 3
+    text-offset: 3 0
+
+  HiddenTextQtEdit
+    id: accountPasswordTextEdit
+    anchors.right: parent.right
+    anchors.left: passwordLabel.right
+    anchors.verticalCenter: passwordLabel.verticalCenter
+    font: $var-cip-font
+    margin-left: 5
+    padding-top: 3
+
+  QtCheckBox
+    id: rememberEmailBox
+    !text: tr('Remember Email')
+    !tooltip: tr('Remember email when starts client')
+    anchors.left: passwordLabel.left
+    anchors.right: parent.right
+    anchors.top: accountPasswordTextEdit.bottom
+    margin-top: 10
+    margin-left: 2
+    text-offset: 16 0
+    color: $var-text-cip-color
+    font: $var-cip-font
+    @onCheckChange: |
+      self:getParent():getChildById('rememberEmailTip'):setOn(self:isChecked())
+
+  UIWidget
+    id: rememberEmailTip
+    image-source: /images/icons/show_gui_help_grey
+    !specialtooltip: 'Be aware that your email address will be stored on your configuration file "config.otml" if you activate this option.'
+    anchors.right: accountNameTextEdit.right
+    margin-right: -19
+    margin-top: 1
+    anchors.verticalCenter: rememberEmailBox.verticalCenter
+    visible: false
+
+    $on:
+      visible: true
+
+    $!on:
+      visible: false
+
+  QtCheckBox
+    id: rememberPasswordBox
+    !text: tr('Remember Password')
+    !tooltip: tr('Remember password when starts client')
+    anchors.left: passwordLabel.left
+    anchors.right: parent.right
+    anchors.top: rememberEmailBox.bottom
+    margin-top: 7
+    margin-left: 2
+    color: $var-text-cip-color
+    font: $var-cip-font
+    text-offset: 16 0
+    @onCheckChange: |
+      self:getParent():getChildById('rememberPasswordTip'):setOn(self:isChecked())
+
+  UIWidget
+    id: rememberPasswordTip
+    image-source: /images/icons/show_gui_help_grey
+    !specialtooltip: 'Be aware that your Password address will be stored on your configuration file "config.otml" if you activate this option.'
+    anchors.right: accountNameTextEdit.right
+    anchors.verticalCenter: rememberPasswordBox.verticalCenter
+    margin-right: -19
+    margin-top: 1
+    visible: false
+    $on:
+      visible: true
+    $!on:
+      visible: false
+
+  UIButton
+    !text: tr('Forgot password and/or email')
+    id: Forgot_password_email
+    font: Verdana-11px-lowspace-underline
+    text-align: left
+    anchors.left: rememberEmailBox.left
+    anchors.right: parent.right
+    anchors.top: rememberPasswordBox.bottom
+    color: $var-text-cip-color
+    margin-top: 6
+    margin-left: 1
+    @onClick: g_platform.openUrl(Services.websites)
+    @onSetup: | 
+        if Services and Services.websites then
+            self:setVisible(true)
+        else
+            self:setVisible(false)
+            self:hide()
+        end
+
+  HorizontalSeparator
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: Forgot_password_email.bottom
+    margin-top: 15
+    margin-left: 1
+
+  QtButton
+    !text: tr('Login')
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 11
+    margin-right: -1
+    text-offset: 0 1
+    size: 88 21
+    @onClick: EnterGame.doLogin()
+    color: #FFFFFF
+
+  QtButton
+    id: btnCreateNewAccount
+    !text: tr('Create New Account')
+    anchors.left: parent.left
+    anchors.top: prev.top
+    text-offset: 0 1
+    size: 110 21
+    color: #FFFFFF
+
+    @onClick: |
+      self:disable()
+      createWidgetAccount()
+
+    @onSetup: | 
+      if Services and Servers_init and table.size(Servers_init) == 1 and Services.createAccount then
+        self:setVisible(true)
+      else
+        self:setVisible(false)
+      end
+
+
+  Label
+    id: serverInfoLabel
+    font: verdana-11px-rounded
+    anchors.top: prev.top
+    anchors.left: parent.left
+    margin-top: 6
+    color: green
+    text-auto-resize: true
+

@@ -1,0 +1,409 @@
+MessageBoxBodyCip < UILabel
+  font: Verdana Bold-11px-new
+  color: #c0c0c0ff
+
+MessageBoxWindow < UIMessageBox
+  icon-rect: 4 4 16 16
+  size: 246 116
+  image-source: /images/ui/window-high
+  image-border: 20
+  &minimizedHeight: 17
+  anchors.centerIn: parent
+  draggable: false
+
+  $on:
+    image-border-bottom: 2
+
+  UIWidget
+    id: miniwindowTopBar
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.left: parent.left
+    margin-right: 3
+    margin-left: 3
+    margin-top: 2
+    height: 18
+    phantom: true
+
+  Label
+    id: title
+    font: $var-cip-font
+    text-offset: 0 0
+    text-align: top
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    color: #909090
+    text-offset: 0 1
+
+  MessageBoxBodyCip
+    id: content
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.top: parent.top
+    text-wrap: true
+    text-auto-resize: true
+    margin-top: 29
+
+  HorizontalSeparator
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: content.bottom
+    margin-top: 11
+    margin-right: 16
+    margin-left: 16
+
+  UIWidget
+    id: holder
+    anchors.right: prev.right
+    anchors.left: prev.left
+    anchors.top: prev.bottom
+    anchors.bottom: parent.bottom
+    margin-top: 11
+
+ModalHigh < UIMessageBox
+  size: 765 117
+  image-source: /images/ui/window-high
+  image-border: 10
+  &minimizedHeight: 17
+  anchors.centerIn: parent
+  draggable: false
+
+  $on:
+    image-border-bottom: 2
+
+  UIWidget
+    id: miniwindowTopBar
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.left: parent.left
+    margin-right: 3
+    margin-left: 3
+    margin-top: 2
+    height: 18
+    phantom: true
+
+  Label
+    id: title
+    font: $var-cip-font-new
+    text-offset: 0 0
+    text-align: center
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 18
+    opacity: 0.5
+
+  UIWidget
+    id: holder
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 26
+    margin-bottom: 10
+    text-offset: 0 -1
+    margin-right: 6
+
+  HorizontalSeparator
+    id: modalHighSep
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: holder.top
+    margin-left: 16
+    margin-right: 16
+    margin-bottom: 11
+
+  MessageBoxBodyCip
+    id: content
+    anchors.top: title.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: modalHighSep.top
+    margin-top: 4
+    margin-left: 15
+    margin-right: 18
+    margin-bottom: 3
+    text-wrap: true
+    text-align: left
+
+ImbueSuccessInfoModal < UIMessageBox
+  size: 410 104
+  image-source: /images/ui/window-high
+  image-border: 10
+  &minimizedHeight: 17
+  anchors.centerIn: parent
+  draggable: false
+
+  $on:
+    image-border-bottom: 2
+
+  UIWidget
+    id: miniwindowTopBar
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.left: parent.left
+    margin-right: 3
+    margin-left: 3
+    margin-top: 2
+    height: 18
+    phantom: true
+
+  Label
+    id: title
+    font: $var-cip-font-new
+    text-offset: 0 0
+    text-align: center
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 18
+    margin-top: 0
+    opacity: 0.5
+
+  UIWidget
+    id: holder
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 26
+    margin-bottom: 14
+
+  HorizontalSeparator
+    id: imbueSuccessSep
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: holder.top
+    margin-left: 12
+    margin-right: 12
+    margin-bottom: 11
+
+  MessageBoxBodyCip
+    id: content
+    anchors.top: title.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: imbueSuccessSep.top
+    margin-top: 4
+    margin-left: 12
+    margin-right: 12
+    margin-bottom: 4
+    text-wrap: true
+    text-align: center
+
+RotateHoldWarningMessageBox < UIMessageBox
+  size: 765 113
+  image-source: /images/ui/window-high
+  image-border: 10
+  &minimizedHeight: 17
+  anchors.centerIn: parent
+  draggable: false
+
+  $on:
+    image-border-bottom: 2
+
+  UIWidget
+    id: miniwindowTopBar
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.left: parent.left
+    margin-right: 3
+    margin-left: 3
+    margin-top: 2
+    height: 18
+    phantom: true
+
+  Label
+    id: title
+    font: $var-cip-font
+    text-offset: 0 0
+    text-align: center
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 18
+    opacity: 0.5
+
+  UIWidget
+    id: holder
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 26
+    margin-bottom: 10
+    text-offset: 0 -1
+    margin-right: 16
+
+  HorizontalSeparator
+    id: rotateWarnSep
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: holder.top
+    margin-left: 16
+    margin-right: 16 
+    margin-bottom: 11
+
+  MessageBoxBodyCip
+    id: content
+    anchors.top: title.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: rotateWarnSep.top
+    margin-top: 4
+    margin-left: 15 
+    margin-right: 18
+    margin-bottom: 3
+    text-wrap: true
+    text-align: left
+
+MessageBoxShopWindow < UIMessageBox
+  icon-rect: 4 4 16 16
+  size: 246 116
+  image-source: /images/ui/window-high
+  image-border: 25
+  image-border-top: 20
+  image-border-bottom: 4
+  &minimizedHeight: 17
+  anchors.centerIn: parent
+  draggable: false
+
+  $on:
+    image-border-bottom: 2
+
+  UIWidget
+    id: miniwindowTopBar
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.left: parent.left
+    margin-right: 3
+    margin-left: 3
+    margin-top: 2
+    height: 18
+    padding: 12
+    phantom: true
+
+  Label
+    id: title
+    font: $var-cip-font-new
+    color: #909090
+    text-offset: 0 2
+    text-align: top
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    text-vertical-auto-resize: true
+    margin-right: 10
+
+  MessageBoxBodyCip
+    id: content
+    anchors.left: parent.left
+    anchors.top: parent.top
+    text-wrap: true
+    text-auto-resize: true
+    margin-top: 29
+    margin-left: 15
+
+  OnePixelDownFrame
+    id: Box
+    size: 80 80
+    anchors.left: parent.left
+    anchors.top: content.bottom
+    margin-top: 11
+    margin-left: 16
+    background-color: #404040
+
+  OnePixelDownFrame
+    id: detailsPanel
+    size: 258 80
+    anchors.left: Box.left
+    anchors.right: parent.right
+    anchors.top: content.bottom
+    margin-top: 11
+    margin-left: 90
+    margin-right: 16
+    background-color: #404040
+
+    UIWidget
+      id: priceRow
+      anchors.left: parent.left
+      anchors.top: productLine.bottom
+      margin-left: 5
+      margin-top: 6
+      height: 14
+      layout:
+        type: horizontalBox
+        spacing: 2
+        fit-children: true
+
+      Label
+        id: priceLabel
+        height: 14
+        font: $var-cip-font-new
+        color: #c0c0c0
+        text-auto-resize: true
+        text-align: leftCenter
+        !text: tr('Price:')
+
+      Label
+        id: priceAmount
+        height: 14
+        font: $var-cip-font-new
+        color: #c0c0c0
+        text-auto-resize: true
+        text-align: leftCenter
+
+      UIWidget
+        id: priceCoin
+        size: 12 12
+        fixed-size: true
+        image-fixed-ratio: true
+
+    Label
+      id: productLine
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 20
+      margin-left: 5
+      margin-right: 4
+      font: $var-cip-font-new
+      color: #c0c0c0
+      text-wrap: true
+      text-auto-resize: true
+      text-align: topLeft
+
+  OnePixelDownFrame
+    id: doNotShowAgainPanel
+    height: 22
+    anchors.left: Box.left
+    anchors.right: parent.right
+    anchors.top: detailsPanel.bottom
+    margin-top: 11
+    margin-right: 16
+
+    QtCheckBox
+      id: doNotShowAgain
+      !text: tr('Do not show this dialog again!')
+      color: #c0c0c0
+      text-offset: 16  0
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: parent.top
+      margin-left: 0
+      margin-top: -1
+
+  HorizontalSeparator
+    anchors.left: Box.left
+    anchors.right: parent.right
+    anchors.top: doNotShowAgainPanel.bottom
+    margin-top: 11
+    margin-right: 16
+
+  UIWidget
+    id: holder
+    height: 20
+    anchors.right: parent.right
+    anchors.left: prev.left
+    anchors.top: prev.bottom
+    margin-top: 12
+    margin-right: 6

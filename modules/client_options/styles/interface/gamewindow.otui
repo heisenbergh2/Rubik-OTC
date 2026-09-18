@@ -1,0 +1,274 @@
+UIWidget
+  anchors.fill: parent
+  visible: false
+  padding-left: 1
+  padding-top: 1
+  padding-right: 1
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+    height: 22
+
+    OptionCheckBoxMarked
+      id: showTextualEffects
+      margin-top: -1
+      text-offset: 16 0
+      !text: tr('Show Textual Effects')
+      !tooltip: tr('Whenever creatures or characters lose hit points or gain\nexperience small numbers appear over their heads in the game\nwindow. If you prefer not to see this effect, you can turn it off by\ndisabling this option.')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 5
+    height: 22
+  
+    OptionCheckBoxMarked
+      id: showMessages
+      margin-top: -1
+      text-offset: 16 0
+      !text: tr('Show Messages')
+      !tooltip: tr('By deselecting this option it is possible to deactivate all kind of\nmessages in the game window. You can still see these messages in\nthe console unless you have turned them off.')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 5
+    height: 22
+  
+    OptionCheckBoxMarked
+      id: showPrivateMessages
+      margin-top: -1
+      text-offset: 16 0
+      !text: tr('Show Private Messages')
+      !tooltip: tr('By default, private messages will be displayed in blue font in the\ngame window and in the console. If this option is disabled, you will\nsee no private messages in the game window. However, they will\nbe displayed in the console normally.')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 5
+    height: 22
+  
+    OptionCheckBoxMarked
+      id: showPotionSoundEffects
+      margin-top: -1
+      text-offset: 16 0
+      !text: tr('Show Potion Sound Effects')
+      !tooltip: tr('Whenever you use a potion, a fitting sound effect appears next to\nthe character in the game window. If this option is disabled, such\nsound effects will no longer be displayed.')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 5
+    height: 22
+  
+    OptionCheckBoxMarked
+      id: showSpells
+      margin-top: -1
+      text-offset: 16 0
+      !text: tr('Show Spells')
+      !tooltip: tr('Whenever you cast a spell, you will see the magic words in your\ngame window. You can deactivate the display of your spells in the\ngame window by removing the tick in this option.')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 5
+    height: 22
+  
+    OptionCheckBoxMarked
+      id: showSpellsOfOthers
+      margin-top: -1
+      text-offset: 16 0
+      !text: tr('Show Spells of Others')
+      !tooltip: tr('Whenever another character casts a spell, you will see the magic\nwords in your game window. You can deactivate the display of\nother character\'s spells in the game window by removing the tick\nin this option.')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 5
+    height: 22
+  
+    OptionCheckBoxMarked
+      id: showHotkeyUsageNotifications
+      margin-top: -1
+      text-offset: 16 0
+      !text: tr('Show Hotkey Usage Notifications')
+      !tooltip: tr('Whenever you use an item via an action buttor or a hotkey, you\nget a message in the game window that informs you about the\nremaining amount of this item. You can deactivate the display of\nthese messages in the game window by removing the tick in this option.')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 5
+    height: 22
+  
+    OptionCheckBoxMarked
+      id: showLootMessages
+      margin-top: -1
+      text-offset: 16 0
+      !text: tr('Show Loot Messages')
+      !tooltip: tr('Whenever you kill a creature or loot its items, you get a message\nin the game window that informs you about the loot. You can\ndeactivate the display of these messages in the game window by\nremoving the tick in this option.')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 5
+    height: 22
+  
+    OptionCheckBoxMarked
+      id: showLootHighlighting
+      margin-top: -1
+      text-offset: 16 0
+      !text: tr('Show Loot Highlighting')
+      !tooltip: tr('When this option is ticked, dead creatures that contain loot will be\nvisually highlighted in the game window.')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 5
+    height: 22
+  
+    OptionCheckBoxMarked
+      id: showBoostedCreature
+      margin-top: -1
+      text-offset: 16 0
+      !text: tr('Show Boosted Creature')
+      !tooltip: tr('Whenever you log in the game, the current boosted creature will be\ndisplayed in your game window. If you are not interested in this\ninformation, remove the tick in this option.')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 5
+    height: 22
+  
+    OptionCheckBoxMarked
+      id: showOfflineTrainingProgress
+      margin-top: -1
+      text-offset: 16 0
+      !text: tr('Show Offline Training Progress')
+      !tooltip: tr('If you activated offline training for you character, the training\nprogress will be shown in the game window every time you log in\nthe game. You can deactivate the display of this message by\nremoving the tick in this option.')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 5
+    height: 22
+  
+    OptionCheckBoxMarked
+      id: showStoreNotificationsInCombat
+      margin-top: -1
+      text-offset: 16 0
+      !text: tr('Show Store Notifications in Combat')
+      !tooltip: tr('If your character is involved in some fight while a delayed Store\npurchase is completed, the purchase confirmation will be displayed\nin the game window. You can deactivate the display of this\nmessage by removing the tick in this option.')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 5
+    height: 22
+  
+    OptionCheckBoxMarked
+      id: showCombatFrames
+      margin-top: -1
+      text-offset: 16 0
+      !text: tr('Show Combat Frames')
+      !tooltip: tr('Select here whether you like to see frames in fights against\ncreatures.')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 5
+    height: 22
+  
+    OptionCheckBoxMarked
+      id: showPvPFrames
+      margin-top: -1
+      text-offset: 16 0
+      !text: tr('Show PvP Frames')
+      !tooltip: tr('Frames of different colours are indicators for various PvP\nsituations. Deselect this option if you do not want to see these PvP\nframes around characters and creatures.')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 5
+    height: 22
+  
+    OptionCheckBoxMarked
+      id: showMeleeAttackAnimation
+      margin-top: -1
+      text-offset: 16 0
+      !text: tr('Show Melee Attack Animation')
+      !tooltip: tr('Tick this box to enable animations for melee attacks against\ncreatures.')
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 5
+    height: 22
+  
+    OptionCheckBoxMarked
+      id: showInfoBanner
+      margin-top: -1
+      text-offset: 16 0
+      !text: tr('Show Info Banner')
+      !tooltip: tr('Tick this box to display an info banneer for certain ingame events.')
+
+  UIWidget
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 5
+    height: 22
+
+    Label
+      !text: tr('Mark Target Visually:')
+      anchors.left: parent.left
+      anchors.verticalCenter: parent.verticalCenter
+      margin-left: -1
+      font: $var-cip-font-new
+      color: #c0c0c0
+      text-auto-resize: true
+
+    QtComboBox
+      id: markTargetVisually
+      width: 150
+      anchors.verticalCenter: parent.verticalCenter
+      anchors.left: prev.right
+      margin-left: 7
+      margin-top: -1
+      text-offset: -11 1
+      mouse-scroll: false
+
+    UIWidget
+      id: markTargetVisuallyHelp
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.top: parent.top
+      margin-right: 5
+      margin-top: 4
+      !tooltip: tr('Choose how your current attack target is marked in the game\nwindow: with a coloured frame, a highlight on the creature, both,\nor not at all.')
+
+  QtButton
+    id: resetBtn
+    !text: tr('Reset')
+    size: 45 21
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    color: $var-text-color
+    @onClick: modules.client_options.resetGameWindowOptions()

@@ -1,0 +1,177 @@
+UIWidget
+  anchors.fill: parent
+  visible: false
+  image-border: 3
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+    height: 105
+
+    QtButton
+      id: ruleViolationsBtn
+      !text: tr('Rule Violations')
+      anchors.left: parent.left
+      anchors.top: parent.top
+      size: 130 20
+      margin-left: 1
+      margin-top: 1
+      color: $var-text-color
+      @onClick: g_game.processRuleViolation()
+
+    UIWidget
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: ruleViolationsBtn.verticalCenter
+      margin-right: 5
+      !specialtooltip: tr("Click this button if you like to learn how to report a rule violation.")
+
+    QtButton
+      id: manualBtn
+      !text: tr('Manual')
+      size: 130 20
+      margin-top: 5
+      anchors.top: ruleViolationsBtn.bottom
+      anchors.left: parent.left
+      margin-left: 1
+      color: $var-text-color
+      @onClick: g_platform.openUrl("https://tibia.com")
+
+    UIWidget
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: manualBtn.verticalCenter
+      margin-right: 5
+      !specialtooltip: tr("Clicking this button will open the manual on the Tibia website. The manual offers detailed descriptions concerning nearly all aspects of Tibia, e.g. game play, client interface or system requirements. Whatever information you need about Tibia, it is very likely that you will find it in the manual.")
+
+    QtButton
+      id: faqBtn
+      !text: tr('FAQ')
+      size: 130 20
+      margin-top: 5
+      anchors.top: manualBtn.bottom
+      anchors.left: parent.left
+      margin-left: 1
+      color: $var-text-color
+      @onClick: g_platform.openUrl("https://tibia.com")
+
+    UIWidget
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: faqBtn.verticalCenter
+      margin-right: 5
+      !specialtooltip: tr("This button will bring you to the FAQ section on the Tibia website. Here, a large number of questions concerning important aspects such as gameplay or the account system are answered in a concise and informative way. Some sections specifically cover problems with the client or with internet connections, so the FAQ can also aid you with troubleshooting if you have a technical problem with the game. Of course, the number of problems covered here is limited, but when it comes to finding answers quickly, nothing can beat the FAQ.")
+
+    QtButton
+      id: infoBtn
+      !text: tr('Info')
+      size: 130 20
+      margin-top: 5
+      anchors.top: faqBtn.bottom
+      anchors.left: parent.left
+      margin-left: 1
+      color: $var-text-color
+      @onClick: g_platform.openUrl("https://tibia.com")
+
+    UIWidget
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: infoBtn.verticalCenter
+      margin-right: 5
+      !specialtooltip: tr("Find information regarding client version, licences and copyright")
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    margin-left: 1
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    height: 105
+    margin-top: 10
+
+    QtButton
+      id: exportOptionsBtn
+      !text: tr('Export All Options')
+      size: 130 20
+      margin-bottom: 10
+      margin-right: 10
+      anchors.left: parent.left
+      margin-left: 1
+      anchors.top: parent.top
+      color: $var-text-color
+      @onClick: |
+        g_logger.info("Export All Options clicked")
+
+    UIWidget
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: exportOptionsBtn.verticalCenter
+      margin-right: 5
+      !specialtooltip: tr("Allows you to export all your client settings as well as per-character configuration files to a location of your choice. You can later restore your options using the 'Import All Options' button below.")
+
+    QtButton
+      id: exportMinimapBtn
+      !text: tr('Export Minimap')
+      size: 130 20
+      margin-top: 5
+      anchors.top: exportOptionsBtn.bottom
+      anchors.left: parent.left
+      margin-left: 1
+      color: $var-text-color
+      @onClick: |
+        g_logger.info("Export Minimap clicked")
+
+    UIWidget
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: exportMinimapBtn.verticalCenter
+      margin-right: 5
+      !specialtooltip: tr("Allows you to export your minimap files to a location of your choice. You can later restore your minimap using the 'Import Minimap' button below.")
+
+    QtButton
+      id: importBtn
+      !text: tr('Import Options/Minimap')
+      size: 130 20
+      margin-top: 5
+      anchors.top: exportMinimapBtn.bottom
+      anchors.left: parent.left
+      margin-left: 1
+      color: $var-text-color
+      @onClick: modules.client_options.openCipImportDialog()
+
+    UIWidget
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: importBtn.verticalCenter
+      margin-right: 5
+      !specialtooltip: tr("Restore either your minimap files or all your client options as well as per-character configuration files from a previously created backup. Warning! If you restore your client options, all of your current settings will be lost!")
+
+    QtButton
+      id: resetBtn
+      !text: tr('Reset All Options')
+      size: 130 20
+      margin-top: 5
+      anchors.top: importBtn.bottom
+      anchors.left: parent.left
+      margin-left: 1
+      color: $var-text-color
+      @onClick: |
+        g_settings.clear()
+        controller:scheduleEvent(function()
+          g_app.restart()
+        end, 1000)
+
+    UIWidget
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: resetBtn.verticalCenter
+      margin-right: 5
+      !specialtooltip: tr("Reset all game preferences to their default vales")

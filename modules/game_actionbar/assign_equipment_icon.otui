@@ -1,0 +1,160 @@
+EquipmentTypeButton < CheckBoxButton
+  size: 13 13
+  image-source: /images/ui/button-grey-up
+  image-border: 2
+  change-cursor-image: true
+  cursor: pointer
+  padding: 0
+  $checked:
+    image-source: /images/ui/button-grey-down
+
+  UIWidget
+    id: typeIcon
+    anchors.centerIn: parent
+    size: 9 9
+    phantom: true
+    visible: false
+
+EquipmentIconPickerOption < UIButton
+  size: 38 38
+  image-source: /images/game/actionbar/slot-actionbar-filled
+  image-size: 34 34
+  image-clip: 0 0 34 34
+  focusable: false
+  phantom: false
+
+  UIWidget
+    id: icon
+    anchors.centerIn: parent
+    size: 32 32
+    image-source: /images/game/spells/equipment-icons
+    image-size: 32 32
+    image-offset: -2 -1
+    phantom: true
+
+MainWindowHigh
+  !text: tr('Assign Equipment Icon')
+  text-offset: 0 1
+  color: #909090
+  size: 285 245
+  margin-top: -1
+  @onEscape: modules.game_actionbar.closeEquipmentAssignIconWindow(true)
+  @onEnter: modules.game_actionbar.equipmentAssignIconOk()
+
+  Label
+    id: descriptionLabel
+    !text: tr('Enter a short description:')
+    text-auto-resize: true
+    height: 20
+    margin-top: -8
+    margin-left: -1
+    anchors.top: parent.top
+    anchors.left: parent.left
+    font: $var-cip-font-new
+    color: #c0c0c0
+
+  TextEdit
+    id: descriptionTextEdit
+    height: 16
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 6
+    width: 218
+
+  Label
+    id: iconLabel
+    !text: tr('Select a icon:')
+    text-auto-resize: true
+    height: 20
+    margin-top: 12
+    margin-left: -1
+    anchors.top: descriptionTextEdit.bottom
+    anchors.left: parent.left
+    font: $var-cip-font-new
+    color: #c0c0c0
+
+  Panel
+    id: iconScrollFrame
+    image-source: /images/ui/1pixel-down-frame
+    image-border: 1
+    anchors.top: iconLabel.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 54
+    margin-top: 6
+    padding: 4
+
+    HorizontalQtScrollBar
+      id: iconHorizontalScroll
+      anchors.bottom: parent.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-bottom: -3
+      margin-left: -3
+      margin-right: -3
+      height: 12
+      step: 40
+      pixels-scroll: true
+      focusable: false
+
+    ScrollablePanel
+      id: iconScrollPanel
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: iconHorizontalScroll.top
+      margin-bottom: 3
+      horizontal-scrollbar: iconHorizontalScroll
+      layout:
+        type: horizontalBox
+        spacing: 4
+
+  Label
+    id: typeLabel
+    !text: tr('Select a type:')
+    text-auto-resize: true
+    height: 20
+    margin-top: 12
+    margin-left: -1
+    anchors.top: iconScrollFrame.bottom
+    anchors.left: parent.left
+    font: $var-cip-font-new
+    color: #c0c0c0
+
+  UIWidget
+    id: typeButtonsPanel
+    anchors.top: typeLabel.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 6
+    height: 13
+    layout:
+      type: horizontalBox
+      spacing: 3
+
+  HorizontalSeparator
+    anchors.top: typeButtonsPanel.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 2
+    margin-top: 11
+
+  Button
+    id: okButton
+    text: Ok
+    size: 43 20
+    margin-right: 10
+    text-offset: 0 0
+    anchors.bottom: parent.bottom
+    anchors.right: cancelButton.left
+    @onClick: modules.game_actionbar.equipmentAssignIconOk()
+
+  Button
+    id: cancelButton
+    text: Cancel
+    size: 43 20
+    text-offset: 0 0
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    @onClick: modules.game_actionbar.closeEquipmentAssignIconWindow(true)

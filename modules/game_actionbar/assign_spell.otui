@@ -1,0 +1,334 @@
+SpellAssignPreview < Panel
+  height: 46
+  phantom: true
+  focusable: false
+
+  UIWidget
+    id: previewSpellIcon
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    phantom: true
+    size: 32 32
+    image-size: 32 32
+    margin-top: -14
+
+  Panel
+    id: previewSpellGray
+    size: 32 32
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-top: -14
+    phantom: true
+    focusable: false
+    visible: false
+    image-source: /assets/images/game/actionbar/slot-disabled
+    image-size: 32 32
+
+  Label
+    id: previewSpellName
+    anchors.left: prev.right
+    anchors.right: parent.right
+    anchors.top: parent.top
+    margin-left: 5
+    margin-top: -4
+    font: $var-cip-font-new
+    color: #C0C0C0
+    text: name
+    text-auto-resize: true
+
+  Label
+    id: previewSpellWords
+    anchors.left: previewSpellIcon.right
+    anchors.right: parent.right
+    anchors.top: previewSpellName.bottom
+    margin-left: 5
+    margin-top: 1
+    font: $var-cip-font-new
+    color: #C0C0C0
+    text: words
+    text-auto-resize: true
+
+SpellListLabel < Panel
+  height: 34
+  focusable: true
+  background-color: alpha
+
+  UIWidget
+    id: spellIcon
+    phantom: true
+    size: 32 32
+    image-size: 32 32
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 2
+
+  Panel
+    id: spellIconGray
+    size: 32 32
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 2
+    phantom: true
+    focusable: false
+    visible: false
+    image-source: /assets/images/game/actionbar/slot-disabled
+    image-size: 32 32
+
+  UIWidget
+    id: groupCooldownIcon
+    phantom: true
+    size: 20 20
+    image-size: 20 20
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-right: 99
+
+  Label
+    id: spellLevel
+    phantom: true
+    focusable: false
+    anchors.left: groupCooldownIcon.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 6
+    margin-top: 2
+    font: verdana-11px-monochrome
+    color: #c0c0c0
+    text-auto-resize: true
+    text-align: right
+
+  Label
+    id: spellName
+    phantom: true
+    focusable: false
+    anchors.left: spellIcon.right
+    anchors.right: spellLevel.left
+    anchors.top: parent.top
+    margin-left: 3
+    margin-right: 6
+    margin-top: 4
+    font: verdana-11px-monochrome
+    color: #c0c0c0
+    text-auto-resize: true
+
+  Label
+    id: spellWords
+    phantom: true
+    focusable: false
+    anchors.left: spellName.left
+    anchors.right: spellLevel.left
+    anchors.top: spellName.bottom
+    margin-right: 6
+    margin-top: -2
+    font: verdana-11px-monochrome
+    color: #c0c0c0
+    text-auto-resize: true
+
+  $focus:
+    background-color: #585858
+
+  $!focus:
+    background-color: alpha
+
+MainWindowHigh
+  !text: tr('Assign Spell')
+  size: 375 609
+  font: $var-cip-font-new
+  color: #909090
+  text-offset: 0 2
+  @onEscape: modules.game_actionbar.closeSpellAssignWindow()
+  @onEnter: modules.game_actionbar.spellAssignOk()
+
+  SpellAssignPreview
+    id: spellPreview
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+
+  HorizontalSeparator
+    id: splitter
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: spellPreview.bottom
+    margin-top: -10
+    height: 2
+
+  Panel
+    id: spellsListFrame
+    anchors.top: splitter.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 420
+    margin-top: 11
+    image-source: /images/ui/1pixel-down-frame
+    image-border: 3
+    border-width: 0
+
+    TextEdit
+      id: filterTextEdit
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 1
+      margin-left: 1
+      margin-right: 1
+      !placeholder: tr('Type to search')
+      placeholder-color: #707070
+      padding: 3 18 1 4
+      @onTextChange: modules.game_actionbar.filterSpells(self:getText())
+
+    UIWidget
+      id: filterEraseButton
+      anchors.right: filterTextEdit.right
+      anchors.verticalCenter: filterTextEdit.verticalCenter
+      margin-right: 1
+      image-source: /images/ui/button-erase-18x18-up
+      @onClick: modules.game_actionbar.clearSpellFilter()
+      $pressed:
+        image-source: /images/ui/button-erase-18x18-down
+
+    TextList
+      id: spellsPanel
+      vertical-scrollbar: spellsPanelScrollbar
+      anchors.top: filterTextEdit.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      margin-top: 6
+      padding: 1
+      border-width: 0
+      background-color: alpha
+
+    VerticalQtScrollBar
+      id: spellsPanelScrollbar
+      anchors.top: spellsPanel.top
+      anchors.bottom: spellsPanel.bottom
+      anchors.right: spellsPanel.right
+      step: 34
+      pixels-scroll: true
+      margin: 1 1 1 0
+
+  Panel
+    id: onlyShowLearntSpellsPanel
+    anchors.top: spellsListFrame.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 22
+    margin-top: 6
+    image-source: /images/ui/1pixel-down-frame
+    image-border: 3
+    border-width: 0
+
+    CheckBox
+      id: onlyShowLearntSpellsCheckBox
+      anchors.left: parent.left
+      anchors.verticalCenter: parent.verticalCenter
+      !text: tr('Only show learnt spells')
+      text-auto-resize: true
+      margin-left: 5
+      @onSetup: self:setChecked(false)
+      text-offset: 15 0
+      color: #c0c0c0
+      font: $var-cip-font-new
+
+  Label
+    id: parameterLabel
+    text: Parameter:
+    anchors.left: parent.left
+    anchors.top: onlyShowLearntSpellsPanel.bottom
+    margin-top: 11
+    margin-left: -1
+    font: $var-cip-font-new
+    color: #c0c0c0
+
+  TextEdit
+    id: parameterTextEdit
+    image-source: /images/ui/1pixel-down-frame
+    background-color: #363636
+    height: 16
+    placeholder-color: #707070
+    image-border: 3
+    border-width: 0
+    anchors.top: onlyShowLearntSpellsPanel.bottom
+    anchors.right: parent.right
+    anchors.left: prev.right
+    margin-left: 4
+    margin-top: 11
+
+  Panel
+    id: castModePanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parameterTextEdit.bottom
+    margin-top: 0
+    height: 0
+    visible: false
+
+    RoundedCheckBox
+      id: castWithCrosshairRadio
+      anchors.left: parent.left
+      anchors.top: parent.top
+      margin-left: 1
+      !text: tr('Cast with crosshair')
+      font: $var-cip-font-new
+      color: #c0c0c0
+      text-auto-resize: true
+      text-offset: 15 0
+
+    RoundedCheckBox
+      id: castAtCursorRadio
+      anchors.left: castWithCrosshairRadio.left
+      anchors.top: castWithCrosshairRadio.bottom
+      margin-top: 2
+      !text: tr('Cast at cursor position')
+      font: $var-cip-font-new
+      color: #c0c0c0
+      text-auto-resize: true
+      text-offset: 15 0
+
+    RoundedCheckBox
+      id: castAtTargetRadio
+      anchors.left: castAtCursorRadio.left
+      anchors.top: castAtCursorRadio.bottom
+      margin-top: 2
+      !text: tr('Cast at target')
+      font: $var-cip-font-new
+      color: #c0c0c0
+      text-auto-resize: true
+      text-offset: 15 0
+
+  HorizontalSeparator
+    id: separatorBottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: applyButton.top
+    margin-bottom: 11
+    height: 2
+
+  Button
+    id: okButton
+    size: 43 20
+    anchors.right: applyButton.left
+    anchors.bottom: parent.bottom
+    text: Ok
+    text-offset: 0 0
+    margin-right: 6
+    @onClick: modules.game_actionbar.spellAssignOk()
+
+  Button
+    id: applyButton
+    size: 43 20
+    anchors.right: cancelButton.left
+    anchors.bottom: parent.bottom
+    text: Apply
+    text-offset: 0 0
+    margin-right: 6
+    @onClick: modules.game_actionbar.spellAssignApply()
+
+  Button
+    id: cancelButton
+    size: 43 20
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    text: Cancel
+    text-offset: 0 0
+    @onClick: modules.game_actionbar.closeSpellAssignWindow()

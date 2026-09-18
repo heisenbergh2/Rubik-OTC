@@ -1,0 +1,179 @@
+ObjectAssignPreviewFrame < UIWidget
+  size: 86 86
+  image-source: /images/ui/1pixel-down-frame
+
+ObjectAssignPreviewInnerItem < Item
+  size: 64 64
+  fixed-item-size: false
+  padding: 0
+  image-source:
+
+  UIWidget
+    id: tier
+    visible: false
+
+  UIWidget
+    id: bigtier
+    size: 19 16
+    image-source: /images/inventory/tiers-strip-big
+    image-clip: 0 0 10 9
+    image-size: 18 16
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin-right: -1
+    phantom: true
+    focusable: false
+    visible: false
+    image-smooth: true
+
+MainWindowHigh
+  id: assignWindow
+  size: 300 208
+  !text: tr('Assign Object')
+  color: #909090
+  text-offset: 0 1
+  margin-top: -1
+  @onEnter: modules.game_actionbar.objectAssignOk()
+
+  ObjectAssignPreviewFrame
+    id: previewSlot
+    margin-top: -7
+    anchors.left: parent.left
+    anchors.top: parent.top
+
+    ObjectAssignPreviewInnerItem
+      id: previewItem
+      anchors.centerIn: parent
+
+  RoundedCheckBox
+    id: useOnYourselfCheckbox
+    anchors.left: prev.right
+    anchors.top: prev.top
+    text: Use on yourself
+    font: $var-cip-font-new
+    color: #c0c0c0
+    text-auto-resize: true
+    margin-left: 6
+    text-offset: 15 0
+    enabled: false
+
+  RoundedCheckBox
+    id: useOnTargetCheckbox
+    anchors.left: prev.left
+    anchors.top: prev.bottom
+    text: Use on target
+    font: $var-cip-font-new
+    color: #c0c0c0
+    text-auto-resize: true
+    margin-top: 6
+    text-offset: 15 0
+    enabled: false
+
+  RoundedCheckBox
+    id: useWithCrosshairCheckbox
+    anchors.left: prev.left
+    anchors.top: prev.bottom
+    text: Use with crosshair
+    font: $var-cip-font-new
+    color: #c0c0c0
+    text-auto-resize: true
+    margin-top: 6
+    text-offset: 15 0
+    enabled: false
+
+  RoundedCheckBox
+    id: useCursorPositionCheckbox
+    anchors.left: prev.left
+    anchors.top: prev.bottom
+    text: Use at cursor position
+    font: $var-cip-font-new
+    color: #c0c0c0
+    text-auto-resize: true
+    margin-top: 6
+    text-offset: 15 0
+    enabled: false
+
+  RoundedCheckBox
+    id: equipCheckbox
+    anchors.left: prev.left
+    anchors.top: prev.bottom
+    text: Equip/Unequip
+    font: $var-cip-font-new
+    color: #c0c0c0
+    text-auto-resize: true
+    margin-top: 6
+    text-offset: 15 0
+    enabled: false
+
+  CheckBox
+    id: smartModeCheckbox
+    anchors.left: equipCheckbox.left
+    anchors.top: equipCheckbox.bottom
+    text: Smart mode
+    font: $var-cip-font-new
+    color: #c0c0c0
+    text-auto-resize: true
+    margin-top: 6
+    margin-left: 17
+    text-offset: 15 0
+    visible: false
+    enabled: false
+
+  RoundedCheckBox
+    id: useCheckbox
+    anchors.left: equipCheckbox.left
+    anchors.top: equipCheckbox.bottom
+    text: Use
+    font: $var-cip-font-new
+    color: #c0c0c0
+    text-auto-resize: true
+    margin-top: 6
+    text-offset: 15 0
+    enabled: false
+
+  Button
+    id: selectObjectButton
+    anchors.left: parent.left
+    anchors.top: previewSlot.bottom
+    anchors.right: previewSlot.right
+    text: Select Object
+    size: 86 20
+    margin-top: 6
+    text-offset: 0 0
+    @onClick: modules.game_actionbar.startChooseItem()
+
+  HorizontalSeparator
+    anchors.top: prev.bottom
+    anchors.right: parent.right
+    anchors.left: parent.left
+    height: 2
+    margin-top: 21
+
+  Button
+    id: okButton
+    size: 43 20
+    anchors.right: applyButton.left
+    anchors.bottom: parent.bottom
+    text: Ok
+    margin-right: 6
+    text-offset: 0 0
+    @onClick: modules.game_actionbar.objectAssignOk()
+
+  Button
+    id: applyButton
+    size: 43 20
+    anchors.right: cancelButton.left
+    anchors.bottom: parent.bottom
+    text: Apply
+    margin-right: 6
+    text-offset: 0 0
+    @onClick: modules.game_actionbar.objectAssignApply()
+
+  Button
+    id: cancelButton
+    size: 43 20
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    text: Cancel
+    text-offset: 0 0
+    @onClick: modules.game_actionbar.closeObjectAssignWindow()

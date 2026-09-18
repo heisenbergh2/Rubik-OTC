@@ -1,0 +1,214 @@
+OptionCheckBoxWithHelp < OptionCheckBox
+  UIWidget
+    id: helpIcon
+    image-source: /images/icons/show_gui_help_grey
+    size: 12 12
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-right: 5
+
+UIWidget
+  anchors.fill: parent
+  visible: false
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+    height: 22
+
+    OptionCheckBoxWithHelp
+      id: onlyCaptureGameWindow
+      !text: tr('Only Capture Game Window')
+      helpIcon.tooltip: teste1
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    height: 22
+    margin-top: 5
+
+    OptionCheckBoxWithHelp
+      id: keepBacklog
+      !text: tr('Keep Backlog of the Screenshots of the Last 5 Seconds')
+      helpIcon.tooltip: teste2
+
+  SmallReversedQtPanel
+    id: autoScreenshotsPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    height: 200
+    margin-top: 5
+
+    OptionCheckBoxWithHelp
+      id: enableAutoScreenshots
+      !text: tr('Enable Auto Screenshots')
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: parent.top
+      helpIcon.tooltip: teste3
+
+    Label
+      !text: tr('Select all events that should trigger auto screenshots:')
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: prev.bottom
+      margin-top: 5
+      margin-left: 18
+      font: $var-cip-font
+      color: #b9b9b9ff
+      text-align: left
+
+    UIWidget
+      id: leftColumn
+      anchors.left: parent.left
+      anchors.top: prev.bottom
+      margin-top: 5
+      margin-left: 18
+      width: 200
+      height: 180
+
+      OptionCheckBox
+        id: levelUp
+        !text: tr('Level Up')
+        anchors.left: parent.left
+        anchors.top: parent.top
+
+      OptionCheckBox
+        id: skillUp
+        !text: tr('Skill Up')
+        anchors.left: parent.left
+        anchors.top: prev.bottom
+        margin-top: 3
+
+      OptionCheckBox
+        id: achievement
+        !text: tr('Achievement')
+        anchors.left: parent.left
+        anchors.top: prev.bottom
+        margin-top: 3
+
+      OptionCheckBox
+        id: bestiaryUnlocked
+        !text: tr('Bestiary Entry Unlocked')
+        anchors.left: parent.left
+        anchors.top: prev.bottom
+        margin-top: 3
+
+      OptionCheckBox
+        id: bestiaryCompleted
+        !text: tr('Bestiary Entry Completed')
+        anchors.left: parent.left
+        anchors.top: prev.bottom
+        margin-top: 3
+
+      OptionCheckBox
+        id: treasureFound
+        !text: tr('Treasure Found')
+        anchors.left: parent.left
+        anchors.top: prev.bottom
+        margin-top: 3
+
+      OptionCheckBox
+        id: valuableLoot
+        !text: tr('Valuable Loot')
+        anchors.left: parent.left
+        anchors.top: prev.bottom
+        margin-top: 3
+
+      OptionCheckBox
+        id: bossDefeated
+        !text: tr('Boss Defeated')
+        anchors.left: parent.left
+        anchors.top: prev.bottom
+        margin-top: 3
+
+    UIWidget
+      id: rightColumn
+      anchors.left: leftColumn.right
+      anchors.top: leftColumn.top
+      margin-left: 10
+      width: 200
+      height: 180
+
+      OptionCheckBox
+        id: deathPvE
+        !text: tr('Death PvE')
+        anchors.left: parent.left
+        anchors.top: parent.top
+
+      OptionCheckBox
+        id: deathPvP
+        !text: tr('Death PvP')
+        anchors.left: parent.left
+        anchors.top: prev.bottom
+        margin-top: 3
+
+      OptionCheckBox
+        id: playerKill
+        !text: tr('Player Kill')
+        anchors.left: parent.left
+        anchors.top: prev.bottom
+        margin-top: 3
+
+      OptionCheckBox
+        id: playerKillAssist
+        !text: tr('Player Kill Assist')
+        anchors.left: parent.left
+        anchors.top: prev.bottom
+        margin-top: 3
+
+      OptionCheckBox
+        id: playerAttacking
+        !text: tr('Player Attacking')
+        anchors.left: parent.left
+        anchors.top: prev.bottom
+        margin-top: 3
+
+      OptionCheckBox
+        id: highestDamage
+        !text: tr('Highest Damage Dealt')
+        anchors.left: parent.left
+        anchors.top: prev.bottom
+        margin-top: 3
+
+      OptionCheckBox
+        id: highestHealing
+        !text: tr('Highest Healing Done')
+        anchors.left: parent.left
+        anchors.top: prev.bottom
+        margin-top: 3
+
+      OptionCheckBox
+        id: lowHealth
+        !text: tr('Low Health')
+        anchors.left: parent.left
+        anchors.top: prev.bottom
+        margin-top: 3
+
+      OptionCheckBox
+        id: giftOfLife
+        !text: tr('Gift of Life Triggered')
+        anchors.left: parent.left
+        anchors.top: prev.bottom
+        margin-top: 3
+
+  QtButton
+    id: openFolder
+    !text: tr('Open Screenshot Folder')
+    size: 130 20
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    color: $var-text-color
+    @onClick: modules.game_screenshot.OpenFolder()
+
+  QtButton
+    id: resetBtn
+    !text: tr('Reset')
+    size: 60 20
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    color: $var-text-color
+    @onClick: modules.game_screenshot.resetValues()

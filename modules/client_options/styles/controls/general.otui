@@ -1,0 +1,405 @@
+UIWidget
+  anchors.fill: parent
+  visible: false
+  margin-left: 1
+  margin-right: 1
+  UIWidget
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+    height: 21
+    margin-top: 1
+    padding-bottom: 1
+    margin-right: 10
+
+    Label
+      id: mousePresetLabel
+      !text: tr('Mouse Preset:')
+      anchors.left: parent.left
+      margin-left: -1
+      color: #c0c0c0ff
+      font: $var-cip-font
+      anchors.verticalCenter: parent.verticalCenter
+
+    QtComboBox
+      id: classicControls
+      width: 150
+      margin-left: 8
+      anchors.left: mousePresetLabel.right
+      anchors.verticalCenter: parent.verticalCenter
+      mouse-scroll: false
+      text-offset: -11 1
+
+    QtComboBox
+      id: lootSide
+      width: 150
+      margin-left: 6
+      anchors.left: classicControls.right
+      anchors.verticalCenter: parent.verticalCenter
+      mouse-scroll: false
+      text-offset: -11 1
+
+    UIWidget
+      id: mousePresetHelp
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: -5
+      !tooltip: tr("Here you can select one of three preset mouse controls:\n\n- Classic Controls:\nwalk: left-click on field\nlook at objects: click left and right mouse button simultaneously\nuse/attack target: right-click on target\nopen context menu: Ctrl + click on target with any mouse button\nquick looting: use \"Loot\" dropdown menu to select which mouse button is used to loot corpses\n\n- Regular Controls:\nwalk: left-click on field\nlook at objects: Shift + click on target with any mouse button\nuse/attack target: Ctrl + click on target with any mouse button\nopen context menu: right-click on object/character\nquick looting: Shift + right-click on corpse\n\n- Left Smart-Click:\nwalk: left-click on field\nlook at objects: left-click on object/character\nuse/attack target or say \"Hi\" to an NPC: left-click on target\nopen context menu: right-click on object/character\nquick looting: Alt + left-click on corpse")
+
+  OnePixelDownFrame
+    id: hotkeyDelayPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 5
+    height: 41
+
+    OptionCheckBox
+      id: useDefaultHotkeyDelay
+      !text: tr('Use Default Keyboard Delay (250 ms)')
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: parent.top
+      margin-left: 0
+      text-offset: 16 0
+
+    UIWidget
+      id: hotkeydelaydefault
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: useDefaultHotkeyDelay.verticalCenter
+      margin-top: 1
+      margin-right: 1
+      !tooltip: tr("Use the slider to increase or to lower your keyboard delay. A\nhigher keyboard delay might be helpful for players experiencing\nmovement problems when using very fast characters.")
+
+    OptionScaleScroll
+      id: hotkeyDelay
+      !text: tr('Keyboard Delay: 30 ms')
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: useDefaultHotkeyDelay.bottom
+      margin-left: -1
+      margin-top: 5
+      &minimumScrollValue: 0
+      &maximumScrollValue: 1000
+      &scrollSize: 21
+      @onSetup: |
+        local value = modules.client_options.getOption('hotkeyDelay')
+        self:setText(tr('Keyboard Delay: %d ms', value))
+        local valueBar = self:recursiveGetChildById('valueBar')
+        if valueBar then
+          valueBar:setMarginTop(1)
+          valueBar:setMarginRight(18)
+          valueBar:setWidth(175)
+        end
+
+    UIWidget
+      id: hotkeyDelayHelp
+      image-source: /images/icons/show_gui_help_grey
+      image-color: #ffffffff
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: hotkeyDelay.verticalCenter
+      margin-right: 1
+      margin-top: 1
+      visible: false
+      !tooltip: tr("Lower keyboard delay can increase responsiveness, but very low values may cause movement issues on fast characters.")
+
+  OnePixelDownFrame
+    id: walkDelayPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 5
+    height: 77
+
+    OptionCheckBox
+      id: useDefaultWalkDelay
+      !text: tr('Use Default Walk Delay (100 ms)')
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: parent.top
+      margin-left: 0
+      text-offset: 16 0
+
+    UIWidget
+      id: walkdelaydefault
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: useDefaultWalkDelay.verticalCenter
+      margin-top: 1
+      margin-right: 1
+      !tooltip: tr("Use these settings to control the delay applied after certain\nmovement actions. A higher delay may help prevent movement\nissues or unintended actions when playing with very fast\ncharacters or under unstable network conditions.")
+
+    OptionScaleScroll
+      id: walkTurnDelay
+      !text: tr('Walk Delay After Turn: 100 ms')
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: useDefaultWalkDelay.bottom
+      margin-left: -1
+      margin-top: 5
+      &minimumScrollValue: 0
+      &maximumScrollValue: 1000
+      &scrollSize: 21
+      @onSetup: |
+        local value = modules.client_options.getOption('walkTurnDelay')
+        self:setText(tr('Walk delay after turn: %d ms', value))
+        local valueBar = self:recursiveGetChildById('valueBar')
+        if valueBar then
+          valueBar:setMarginTop(1)
+          valueBar:setMarginRight(18)
+          valueBar:setWidth(175)
+        end
+
+    UIWidget
+      id: walkTurnDelayHelp
+      image-source: /images/icons/show_gui_help_grey
+      image-color: #ffffffff
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: walkTurnDelay.verticalCenter
+      margin-right: 1
+      margin-top: 1
+      visible: false
+      !tooltip: tr("Lower delay is more responsive after turning. Very low values can cause\ntrouble with very fast characters.")
+
+    OptionScaleScroll
+      id: walkTeleportDelay
+      !text: tr('Walk Delay After Teleport: 100 ms')
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: walkTurnDelay.bottom
+      margin-left: -1
+      margin-top: 5
+      &minimumScrollValue: 0
+      &maximumScrollValue: 1000
+      &scrollSize: 21
+      @onSetup: |
+        local value = modules.client_options.getOption('walkTeleportDelay')
+        self:setText(tr('Walk Delay After Teleport: %d ms', value))
+        local valueBar = self:recursiveGetChildById('valueBar')
+        if valueBar then
+          valueBar:setMarginTop(1)
+          valueBar:setMarginRight(18)
+          valueBar:setWidth(175)
+        end
+
+    UIWidget
+      id: walkTeleportDelayHelp
+      image-source: /images/icons/show_gui_help_grey
+      image-color: #ffffffff
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: walkTeleportDelay.verticalCenter
+      margin-right: 1
+      margin-top: 1
+      visible: false
+      !tooltip: tr("Time you cannot start walking after a long teleport. Higher values\ncan help avoid desync; lower values feel snappier.")
+
+    OptionScaleScroll
+      id: walkStairsDelay
+      !text: tr('Walk Delay After Floor Change: 100 ms')
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: walkTeleportDelay.bottom
+      margin-left: -1
+      margin-top: 5
+      &minimumScrollValue: 0
+      &maximumScrollValue: 1000
+      &scrollSize: 21
+      @onSetup: |
+        local value = modules.client_options.getOption('walkStairsDelay')
+        self:setText(tr('Walk Delay After Floor Change: %d ms', value))
+        local valueBar = self:recursiveGetChildById('valueBar')
+        if valueBar then
+          valueBar:setMarginTop(1)
+          valueBar:setMarginRight(18)
+          valueBar:setWidth(175)
+        end
+
+    UIWidget
+      id: walkStairsDelayHelp
+      image-source: /images/icons/show_gui_help_grey
+      image-color: #ffffffff
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: walkStairsDelay.verticalCenter
+      margin-right: 1
+      margin-top: 1
+      visible: false
+      !tooltip: tr("Time you cannot start walking right after a rope, ladder, or other floor\nchange. Low values are more responsive, high values avoid false steps.")
+
+  OnePixelDownFrame
+    id: rotateCharacterPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 6
+    height: 88
+
+    UIWidget
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: parent.top
+      margin-top: -1
+      height: 16
+
+      Label
+        id: rotateHoldIntro
+        !text: tr('To Rotate Your Character Hold:')
+        anchors.left: parent.left
+        anchors.verticalCenter: parent.verticalCenter
+        text-auto-resize: true
+        color: #c0c0c0ff
+        font: $var-cip-font
+        text-offset: 0 1
+
+      QtCheckBox
+        id: rotateHoldCtrl
+        !text: tr('Ctrl')
+        width: 52
+        anchors.left: prev.right
+        anchors.verticalCenter: parent.verticalCenter
+        margin-left: 7
+        text-offset: 16 0
+        color: $var-text-cip-color
+        @onCheckChange: modules.client_options.setOption(self:getId(), self:isChecked())
+
+      QtCheckBox
+        id: rotateHoldShift
+        !text: tr('Shift')
+        width: 58
+        anchors.left: prev.right
+        anchors.verticalCenter: parent.verticalCenter
+        margin-left: -2
+        text-offset: 16 0
+        color: $var-text-cip-color
+        @onCheckChange: modules.client_options.setOption(self:getId(), self:isChecked())
+
+      QtCheckBox
+        id: rotateHoldAlt
+        !text: tr('Alt')
+        width: 48
+        anchors.left: prev.right
+        anchors.verticalCenter: parent.verticalCenter
+        margin-left: -1
+        text-offset: 16 0
+        color: $var-text-cip-color
+        @onCheckChange: modules.client_options.setOption(self:getId(), self:isChecked())
+
+      UIWidget
+        id: mousePresetHelp
+        image-source: /images/icons/show_gui_help_grey
+        size: 12 12
+        anchors.right: parent.right
+        anchors.verticalCenter: parent.verticalCenter
+        margin-right: 1
+        margin-top: 1
+        !tooltip: tr("Select here whether you like to hold Ctrl, Shift or Alt to let your\ncharacter rotate when using the keys selected for walking.")
+
+
+    OptionCheckBox
+      id: alwaysTurnTowardsMovement
+      !text: tr('Always turn towards the direction of movement')
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: prev.bottom
+      margin-top: 9
+      margin-left: 0
+      text-offset: 16 0
+
+    UIWidget
+      id: mousePresetHelp
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 1
+      margin-top: 12
+      !tooltip: tr("When checked, the character will always turn in the direction it\ntries to walk, even if it targets a tile that cannot be walked on.")
+
+    OptionCheckBox
+      id: stabilizeCameraOnWalk
+      !text: tr('Stabilize camera during walk')
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: alwaysTurnTowardsMovement.bottom
+      margin-top: 9
+      margin-left: 0
+      text-offset: 16 0
+
+    UIWidget
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: stabilizeCameraOnWalk.verticalCenter
+      margin-right: 1
+      !tooltip: tr("Adds a small delay to camera movement proportional to pending steps.\nHelps reduce visual stuttering when walking with high ping.")
+
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 6
+    height: 22
+  
+    OptionCheckBox
+      id: moveStack
+      margin-top: -1
+      text-offset: 16 0
+      !text: tr('Press CTRL to Drag Complete Stacks')
+
+    UIWidget
+      id: mousePresetHelp
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 1
+      !tooltip: tr("If this option is enabled, you will also drag the complete stack if\nyou press CTRL while moving several of the same item.")
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 6
+    height: 22
+
+    OptionCheckBox
+      id: showFps
+      !text: tr('Show FPS and Lag Indicator')
+
+    UIWidget
+      id: showFpsHelp
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 1
+      !tooltip: tr("Displays your current connection latency  and frame rate per second.\nMonitoring these values can help identify performance or network\nissues that may affect gameplay responsiveness.")
+
+  OnePixelDownFrame
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 7
+    height: 22
+  
+    OptionCheckBox
+      id: smartWalk
+      !text: tr('Enable Smart Walking')
+
+    UIWidget
+      id: smartWalkHelp
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 1
+      !tooltip: tr("Automatically detects when to perform diagonal movement\nbased on the combination of keys being pressed. This can\nmake movement feel smoother and more responsive, especially\nwhen changing directions quickly.")

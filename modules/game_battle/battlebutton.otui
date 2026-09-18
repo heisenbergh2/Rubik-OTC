@@ -1,0 +1,29 @@
+BattleButton < CreatureButton
+  &isBattleButton: true
+
+  UIWidget
+    id: skull
+    height: 11
+    anchors.right: parent.right
+    anchors.top: creature.top
+    margin-right: 2
+    margin-top: 2
+    phantom: true
+
+  UIWidget
+    id: partyShield
+    height: 11
+    anchors.right: skull.left
+    anchors.top: creature.top
+    margin-right: 4
+    margin-top: 2
+    phantom: true
+
+  UIWidget
+    id: emblem
+    height: 11
+    anchors.right: partyShield.left
+    anchors.top: creature.top
+    margin-right: 4
+    margin-top: 2
+    phantom: true

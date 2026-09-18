@@ -1,0 +1,126 @@
+UIWidget
+  anchors.fill: parent
+  visible: false
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+    height: 22
+
+    OptionScaleScroll
+      id: uiVolume
+      text-offset: 0 0
+      &minimumScrollValue: 0
+      &maximumScrollValue: 100
+      &scrollSize: 21
+      @onSetup: |
+        local value = modules.client_options.getOption('uiVolume')
+        self:setText(tr('UI Volume: %d %%', value))
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 7
+    height: 22
+
+    OptionCheckBox
+      id: uiInteractions
+      !text: tr('UI Interactions')
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 7
+    height: 40
+
+    OptionCheckBox
+      id: toggleParty
+      anchors.top: parent.top
+      !text: tr('Join/leave Party')
+
+    OptionCheckBox
+      id: toggleVip
+      anchors.top: prev.bottom
+      margin-top: 5
+      !text: tr('VIP login/logout')
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 7
+    height: 186
+
+    OptionCheckBox
+      id: consoleMessages
+      anchors.top: parent.top
+      !text: tr('Console Messages')
+
+    OptionCheckBox
+      id: party
+      anchors.top: prev.bottom
+      margin-left: 18
+      margin-top: 5
+      !text: tr('Party')
+
+    OptionCheckBox
+      id: guild
+      anchors.top: prev.bottom
+      margin-left: 18
+      margin-top: 5
+      !text: tr('Guild')
+
+    OptionCheckBox
+      id: privateMessagesLocalChat
+      anchors.top: prev.bottom
+      margin-left: 18
+      margin-top: 5
+      !text: tr('Private Messages in Local Chat')
+
+    OptionCheckBoxMarked
+      id: privateMessages
+      anchors.top: prev.bottom
+      margin-left: 18
+      margin-top: 5
+      !text: tr('Private Messages')
+      !tooltip: tr('Tick this box if you like to hear a sound when a new message\nappears in a private chat channel or in a private conversation with\nanother player.')
+
+    OptionCheckBox
+      id: npcs
+      anchors.top: prev.bottom
+      margin-left: 18
+      margin-top: 5
+      !text: tr('NPCs')
+
+    OptionCheckBoxMarked
+      id: global
+      anchors.top: prev.bottom
+      margin-left: 18
+      margin-top: 5
+      !text: tr('Global')
+      !tooltip: tr('Tick this box if you like to hear a sound when a new message\nappears on a public channel, e.g. Advertising, English Chat or World\nChat Channel.')
+
+    OptionCheckBox
+      id: teamFinder
+      anchors.top: prev.bottom
+      margin-left: 18
+      margin-top: 5
+      !text: tr('Team Finder')
+
+    OptionCheckBox
+      id: raidAnnouncements
+      anchors.top: prev.bottom
+      margin-left: 18
+      margin-top: 5
+      !text: tr('Raid Announcements')
+
+    OptionCheckBoxMarked
+      id: systemAnnouncements
+      anchors.top: prev.bottom
+      margin-left: 18
+      margin-top: 5
+      !text: tr('System Announcements')
+      !tooltip: tr('Tick this box if you like yo hear a sound when a new message for\nthe whole game world appears, e.g. the game world is goind down\nor a CipSoft member makes an important announcement.')

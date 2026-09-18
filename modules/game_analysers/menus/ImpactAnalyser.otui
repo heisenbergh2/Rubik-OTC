@@ -1,0 +1,493 @@
+DamagePanel < UIWidget
+  id: damagePanel
+  size: 157 11
+  margin-top: 2
+  UIWidget
+    id: icon
+    size: 9 9
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.left: parent.left
+    margin-left: 2
+  Label
+    id: desc
+    text-align: right
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.right: parent.right
+    text-auto-resize: true
+    color: $var-text-cip-color
+    font: $var-cip-font
+    margin-right: 2
+
+NoDataLabel < Label
+  id: type
+  height: 15
+  !text: tr('No Data')
+  text-auto-resize: true
+  color: $var-text-cip-color
+  font: $var-cip-font
+
+MiniWindow
+  id: impactAnalyserMiniWindow
+  height: 225
+  &save: true
+  @onSetup: |
+    do
+      for _, id in ipairs({ 'newWindowButton', 'toggleFilterButton' }) do
+        local w = self:recursiveGetChildById(id)
+        if w then
+          w:setVisible(false)
+          w:setOn(false)
+        end
+      end
+
+      local contextMenuButton = self:recursiveGetChildById("contextMenuButton")
+      if contextMenuButton then
+        contextMenuButton:setMarginRight(-7)
+        contextMenuButton.onMousePress = function(widget, mousePosition, mouseButton)
+          if mouseButton == MouseLeftButton then
+            onImpactExtra(mousePosition, "false")
+            return true
+          end
+        end
+      end
+    end
+
+  UIWidget
+    id: miniwindowIcon
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 2
+    margin-left: 4
+    size: 12 12
+    image-source: /modules/game_analysers/images/icon-impactanalyser-widget
+    image-smooth: false
+  
+  Label
+    id: miniwindowTitle
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 1
+    margin-left: 20
+    font: verdana-11px-monochrome
+    height: 13
+    !text: tr('Impact Analyser')
+    color: #909090
+
+  ScrollablePanel
+    id: contentsPanel
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: miniwindowScrollBar.left
+    anchors.bottom: parent.bottom
+    margin-left: 5
+    margin-top: 16
+    margin-right: 1
+    margin-bottom: 5
+    vertical-scrollbar: miniwindowScrollBar
+    Label
+      !text: tr('Damage')
+      anchors.top: parent.top
+      anchors.left: parent.left
+      text-auto-resize: true
+      color: $var-text-cip-color-white
+      font: $var-cip-font
+      margin-top: -2
+    Label
+      id: dmgLabel
+      !text: tr('Total:')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: dmg
+      !text: tr('0')
+      anchors.top: prev.top
+      anchors.right: parent.right
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+      margin-right: 5
+
+    Label
+      id: maxDpsLabel
+      !text: tr('Max-DPS:')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: maxDps
+      !text: tr('0')
+      anchors.top: prev.top
+      anchors.right: parent.right
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+      margin-right: 5
+
+    Label
+      id: highLabel
+      !text: tr('All-Time High:')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: allTimeHigh
+      !text: tr('0')
+      anchors.top: prev.top
+      anchors.right: parent.right
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+      margin-right: 5
+
+    HorizontalSeparator
+      id: separatorAllTimeHigh
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 5
+      margin-left: 1
+      margin-right: 2
+
+    Label
+      id: targetDpsLabel
+      !text: tr('Target-DPS:')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 5
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: targetDps
+      !text: tr('0')
+      anchors.top: prev.top
+      anchors.right: parent.right
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+      margin-right: 5
+
+    UIWidget
+      id: dpsBG
+      size: 152 11
+      image-auto-resize: true
+      image-source: /images/game/analyzer/targetBG
+      anchors.top: prev.bottom
+      anchors.right: parent.right
+      margin-top: 6
+      margin-right: 4
+
+      UIWidget
+        id: dpsArrow
+        size: 9 8
+        image-auto-resize: true
+        image-source: /images/game/analyzer/arrow
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        margin-bottom: -1
+        margin-left: 71
+
+    Label
+      id: dpsLabel
+      !text: tr('DPS:')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 6
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: dps
+      !text: tr('0')
+      anchors.top: prev.top
+      anchors.right: parent.right
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+      margin-right: 5
+
+    HorizontalSeparator
+      id: separatorDps
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 6
+      margin-left: 1
+      margin-right: 2
+
+    UIGraph
+      id: graphDpsPanel
+      capacity: 240
+      background-color: #383636
+      color: red
+      size: 133 82
+      show-labels: false
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-left: 15
+      margin-top: 6
+      image-source: /images/game/analyzer/dpsGraphBG
+
+    UIWidget
+      id: graphHorizontal
+      size: 140 9
+      image-auto-resize: true
+      image-source: /images/game/analyzer/graphDpsHorizontal
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-left: 9
+      margin-top: 6
+
+    HorizontalSeparator
+      id: separatorGraphHorizontalDps
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 12
+      margin-left: 1
+      margin-right: 2
+
+    Label
+      id: damageTypeLabel
+      !text: tr('Damage Types')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 10
+      text-auto-resize: true
+      color: $var-text-cip-color-white
+      font: $var-cip-font
+    
+    Label
+      id: noDataLabel
+      !text: tr('No data')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    ScrollablePanel
+      id: dmgTypes
+      width: 145
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 5
+      layout:
+        type: verticalBox
+        fit-children: true
+
+    HorizontalSeparator
+      id: separatorDmgType
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 6
+      margin-left: 1
+      margin-right: 2
+
+    Label
+      id: healingLabel
+      !text: tr('Healing')
+      anchors.top: separatorDmgType.bottom
+      anchors.left: parent.left
+      margin-top: 10
+      text-auto-resize: true
+      color: $var-text-cip-color-white
+      font: $var-cip-font
+
+    Label
+      id: hpsLabel
+      !text: tr('Total:')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: hpsTotal
+      !text: tr('0')
+      anchors.top: prev.top
+      anchors.right: parent.right
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+      margin-right: 5
+
+    Label
+      id: maxHpsLabel
+      !text: tr('Max-HPS:')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: maxHps
+      !text: tr('0')
+      anchors.top: prev.top
+      anchors.right: parent.right
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+      margin-right: 5
+
+    Label
+      id: highLabel
+      !text: tr('All-Time High:')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: allTimeHighHealing
+      !text: tr('0')
+      anchors.top: prev.top
+      anchors.right: parent.right
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+      margin-right: 5
+
+    HorizontalSeparator
+      id: separatorAllTimeHighHealing
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 5
+      margin-left: 1
+      margin-right: 2
+
+    Label
+      id: targetHpsLabel
+      !text: tr('Target-HPS:')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 5
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: targetHps
+      !text: tr('0')
+      anchors.top: prev.top
+      anchors.right: parent.right
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+      margin-right: 5
+
+    UIWidget
+      id: hpsBG
+      size: 152 11
+      image-auto-resize: true
+      image-source: /images/game/analyzer/targetBG
+      anchors.top: prev.bottom
+      anchors.right: parent.right
+      margin-top: 6
+      margin-right: 4
+
+      UIWidget
+        id: hpsArrow
+        size: 9 8
+        image-auto-resize: true
+        image-source: /images/game/analyzer/arrow
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        margin-bottom: -1
+        margin-left: 71
+
+    Label
+      id: hpsLabelGauge
+      !text: tr('HPS:')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 6
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: hps
+      !text: tr('0')
+      anchors.top: prev.top
+      anchors.right: parent.right
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+      margin-right: 5
+
+    HorizontalSeparator
+      id: separatorHps
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 6
+      margin-left: 1
+      margin-right: 2
+
+    UIGraph
+      id: graphHealPanel
+      capacity: 240
+      background-color: #383636
+      color: red
+      size: 133 82
+      show-labels: false
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-left: 15
+      margin-top: 6
+      image-source: /images/game/analyzer/hpsGraphBG
+
+    UIWidget
+      id: graphHPSHorizontal
+      size: 140 9
+      image-auto-resize: true
+      image-source: /images/game/analyzer/graphDpsHorizontal
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-left: 9
+      margin-top: 6
+
+  UIWidget
+    id: miniborder
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    image-source: /images/ui/miniborder-bottom-left
+    size: 14 14
+    margin-left: 3
+    margin-bottom: 3
+
+  ResizeBorder
+    id: bottomResizeBorder
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 3
+    minimum: 117
+    margin-left: 3
+    margin-right: 3

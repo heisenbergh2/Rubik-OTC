@@ -1,0 +1,571 @@
+ListHighscore < UIWidget
+  height: 16
+  Panel
+    id: rank
+    width: 41
+    anchors.top: parent.top
+    anchors.left: parent.left
+    text-align: center
+    text-offset: -1 0 
+    font: $var-cip-font-new
+    color: $var-text-cip-color
+
+  UIWidget
+    anchors.left: prev.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    image-source: /images/ui/separator_vertical
+    margin-bottom: -1
+
+  Panel
+    id: name
+    width: 227
+    anchors.top: parent.top
+    anchors.left: prev.right
+    text-align: left
+    text-offset: 2 0
+    font: $var-cip-font-new 
+    color: $var-text-cip-color
+
+  UIWidget
+    anchors.left: prev.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    image-source: /images/ui/separator_vertical
+    margin-bottom: -1
+
+  Panel
+    id: vocation
+    width: 118
+    anchors.top: parent.top
+    anchors.left: prev.right
+    text-align: center
+    text-offset: -1 0
+    font: $var-cip-font-new
+    color: $var-text-cip-color
+
+  UIWidget
+    anchors.left: prev.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    image-source: /images/ui/separator_vertical
+    margin-bottom: -1
+
+  Panel
+    id: gameworld
+    width: 86
+    anchors.top: parent.top
+    anchors.left: prev.right
+    text-align: center
+    font: $var-cip-font-new
+    color: $var-text-cip-color
+
+  UIWidget
+    anchors.left: prev.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    image-source: /images/ui/separator_vertical
+    margin-bottom: -1
+
+  Panel
+    id: level
+    width: 42
+    anchors.top: parent.top
+    anchors.left: prev.right
+    text-align: center
+    font: $var-cip-font-new
+    color: $var-text-cip-color
+
+  UIWidget
+    anchors.left: prev.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    image-source: /images/ui/separator_vertical
+    margin-bottom: -1
+
+  Panel
+    id: points
+    width: 153
+    anchors.top: parent.top
+    anchors.left: prev.right
+    anchors.right: parent.right
+    text-align: right
+    margin-right: 4
+    text-auto-resize: true
+    font: $var-cip-font-new
+    color: $var-text-cip-color
+
+HighscoreMiniWindow < Panel
+  font: verdana-11px-antialised
+  icon-rect: 4 4 16 16
+  width: 192
+  height: 200
+  text-offset: 24 5
+  text-align: topLeft
+  image-source: /images/ui/miniwindow
+  image-border: 4
+  image-border-top: 23
+  image-border-bottom: 4
+  focusable: false
+  &minimizedHeight: 24
+
+
+MainWindowHigh
+  id: highscoresWindow
+  !text: tr('Highscores')
+  text-offset: 0 1
+  size: 700 566
+  @onEscape: modules.game_highscore.hide()
+
+  HighscoreMiniWindow
+    id: filters
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.left: parent.left
+    size: 668 118
+    margin-top: -7
+    !text: tr('Highscores Filter')
+    font: $var-cip-font-new
+    color: #909090
+    text-align: center
+    text-offset: 0 -50
+    image-source: /images/ui/t2pixel-up-frame-borderimage
+    image-border: 3
+
+    UIWidget
+      id: filterslabel
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right 
+      !text: tr("Highscores Filters")
+      font: $var-cip-font
+      color: $var-text-cip-color
+      text-auto-resize: true
+      visible: false
+
+    UIWidget
+      id: gameworldlabel
+      size: 85 12
+      anchors.top: parent.top
+      anchors.left: parent.left
+      !text: tr("Game World")..":"
+      font: $var-cip-font
+      color: $var-text-cip-color
+      text-auto-resize: true
+      margin-top: 25
+      margin-left: 7
+
+    QtComboBox
+      id: gameworldbox
+      size: 235 20
+      anchors.top: parent.top
+      anchors.left: gameworldlabel.right
+      text-align: center
+      margin-top: 22
+      margin-left: 12
+      mouse-scroll: false
+
+    UIWidget
+      id: vocationlabel
+      size: 85 12
+      anchors.top: parent.top
+      anchors.left: gameworldlabel.left
+      !text: tr("Vocation")..":"
+      font: $var-cip-font
+      color: $var-text-cip-color
+      text-auto-resize: true
+      margin-top: 50
+
+    QtComboBox
+      id: vocationbox
+      size: 235 20
+      anchors.top: parent.top
+      anchors.left: vocationlabel.right
+      text-align: center
+      margin-top: 47
+      margin-left: 34
+      mouse-scroll: false
+
+    UIWidget
+      id: categorylabel
+      anchors.top: vocationbox.top
+      anchors.left: vocationbox.right
+      margin-top: 3
+      margin-left: 13
+      !text: tr("Category")..":"
+      font: $var-cip-font
+      color: $var-text-cip-color
+      text-auto-resize: true
+
+    QtComboBox
+      id: categorybox
+      size: 235 20
+      anchors.top: vocationbox.top
+      anchors.left: categorylabel.right
+      text-align: center
+      margin-left: 10
+      mouse-scroll: false
+
+    UIWidget
+      id: worldtypelabel
+      anchors.top: parent.top
+      anchors.left: vocationlabel.left
+      margin-top: 76
+      !text: tr("World Type")..":"
+      font: $var-cip-font
+      color: $var-text-cip-color
+      text-auto-resize: true
+
+    CheckBox
+      id: openPvpCheck
+      anchors.top: worldtypelabel.top
+      anchors.left: worldtypelabel.right
+      margin-top: 1
+      margin-left: 16
+
+    UIWidget
+      id: openPvpLabel
+      anchors.top: openPvpCheck.top
+      anchors.left: openPvpCheck.right
+      text-offset: 3 -1
+      !text: tr("Open PvP")
+      font: $var-cip-font
+      color: $var-text-cip-color
+      text-auto-resize: true
+
+    CheckBox
+      id: optionalPvpCheck
+      anchors.top: openPvpLabel.top
+      anchors.left: openPvpLabel.right
+      margin-left: 84
+
+    UIWidget
+      id: optionalPvpLabel
+      anchors.top: optionalPvpCheck.top
+      anchors.left: optionalPvpCheck.right
+      text-offset: 3 -1
+      !text: tr("Optional PvP")
+      font: $var-cip-font
+      color: $var-text-cip-color
+      text-auto-resize: true
+
+    CheckBox
+      id: hardcorePvpCheck
+      anchors.top: optionalPvpLabel.top
+      anchors.left: optionalPvpLabel.right
+      margin-left: 61
+
+    UIWidget
+      id: hardcorePvpLabel
+      anchors.top: hardcorePvpCheck.top
+      anchors.left: hardcorePvpCheck.right
+      text-offset: 3 -1
+      !text: tr("Hardcore PvP")
+      font: $var-cip-font
+      color: $var-text-cip-color
+      text-auto-resize: true
+
+    CheckBox
+      id: retroOpenPvpCheck
+      anchors.top: openPvpCheck.bottom
+      anchors.left: openPvpCheck.left
+      margin-top: 6
+
+    UIWidget
+      id: retroOpenPvpLabel
+      anchors.top: retroOpenPvpCheck.top
+      anchors.left: retroOpenPvpCheck.right
+      text-offset: 3 -1
+      !text: tr("Retro Open PvP")
+      font: $var-cip-font
+      color: $var-text-cip-color
+      text-auto-resize: true
+
+    CheckBox
+      id: retroHardcorePvpCheck
+      anchors.top: retroOpenPvpLabel.top
+      anchors.left: optionalPvpCheck.left
+
+    UIWidget
+      id: retroHardcorePvpLabel
+      anchors.top: retroHardcorePvpCheck.top
+      anchors.left: retroHardcorePvpCheck.right
+      text-offset: 3 -1
+      !text: tr("Retro Hardcore PvP")
+      font: $var-cip-font
+      color: $var-text-cip-color
+      text-auto-resize: true
+
+    Button
+      id: submit
+      size: 43 20
+      anchors.bottom: parent.bottom
+      anchors.right: parent.right
+      margin-bottom: 7
+      margin-right: 11
+      text: Submit
+      text-offset: 0 0
+
+  UIWidget
+    id: boxList
+    size: 668 338
+    anchors.top: filters.bottom
+    anchors.left: filters.left
+    anchors.right: filters.right
+    image-source: /images/ui/1pixel-down-frame
+    image-border: 1
+    margin-top: 6
+    phantom: true
+
+  UIWidget
+    id: highscoreTable
+    anchors.top: filters.bottom
+    anchors.left: filters.left
+    anchors.right: filters.right
+    height: 16
+    margin-top: 6
+    background-color: #363636
+
+    UIWidget
+      id: rank
+      size: 42 14
+      anchors.top: parent.top
+      anchors.left: parent.left
+      !text: tr("Rank")
+      font: $var-cip-font-new
+      color: $var-text-cip-color
+      text-align: center
+      text-offset: -2 1
+
+    UIWidget
+      anchors.left: prev.right
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      image-source: /images/ui/separator_vertical
+      margin-top: 1
+      margin-bottom: -1
+
+    UIWidget
+      id: character
+      size: 228 14
+      anchors.top: parent.top
+      anchors.left: rank.right
+      !text: tr("Character")
+      font: $var-cip-font-new
+      color: $var-text-cip-color
+      text-align: left
+      text-offset: 3 1
+
+    UIWidget
+      anchors.left: prev.right
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      image-source: /images/ui/separator_vertical
+      margin-top: 1
+      margin-bottom: -1
+
+    UIWidget
+      id: vocation
+      size: 118 14
+      anchors.top: parent.top
+      anchors.left: prev.right
+      !text: tr("Vocation")
+      color: $var-text-cip-color
+      font: $var-cip-font-new
+      text-align: center
+      text-offset: -1 1
+
+    UIWidget
+      anchors.left: prev.right
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      image-source: /images/ui/separator_vertical
+      margin-top: 1
+      margin-bottom: -1
+
+    UIWidget
+      id: gameworld
+      size: 86 14
+      anchors.top: parent.top
+      anchors.left: prev.right
+      !text: tr("Game World")
+      color: $var-text-cip-color
+      font: $var-cip-font-new
+      text-align: center
+      text-offset: -1 1
+
+    UIWidget
+      anchors.left: prev.right
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      image-source: /images/ui/separator_vertical
+      margin-top: 1
+      margin-bottom: -1
+
+    UIWidget
+      id: level
+      size: 42 14
+      anchors.top: parent.top
+      anchors.left: prev.right
+      !text: tr("Level")
+      color: $var-text-cip-color
+      font: $var-cip-font-new
+      text-align: center
+      text-offset: -1 1
+
+    UIWidget
+      anchors.left: prev.right
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      image-source: /images/ui/separator_vertical
+      margin-top: 1
+      margin-bottom: -1
+
+    UIWidget
+      id: points
+      size: 151 14
+      anchors.top: parent.top
+      anchors.left: prev.right
+      anchors.right: parent.right
+      !text: tr("Points")
+      text-offset: -4 1
+      color: $var-text-cip-color
+      font: $var-cip-font-new
+      text-align: right
+
+  TextList
+    id: highscoreList
+    anchors.top: prev.bottom
+    anchors.left: filters.left
+    anchors.right: filters.right
+    anchors.bottom: parent.bottom
+    margin-top: 1
+    margin-bottom: 60
+
+  HorizontalSeparator
+    anchors.left: boxList.left
+    anchors.top: boxList.top
+    anchors.right: boxList.right
+    margin-left: 1
+    margin-right: 1
+    margin-top: 15
+
+  HorizontalSeparator
+    id: bottomSep
+    anchors.left: parent.left
+    anchors.top: boxList.bottom
+    anchors.right: parent.right
+    margin-top: 29
+
+  Button
+    id: close
+    !text: tr('Close')
+    size: 43 20
+    text-offset: 0 0
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 11
+    @onClick: modules.game_highscore.hide()
+
+  Button
+    id: showOwnRank
+    size: 100 20
+    anchors.bottom: bottomSep.top
+    anchors.left: parent.left
+    margin-left: 89
+    margin-bottom: 4
+    image-source: /images/game/highscore/own_rank
+    image-clip: 0 0 100 20
+    $pressed:
+      image-clip: 0 20 100 20
+    $hover !pressed:
+      image-clip: 0 0 100 20
+
+  Button
+    id: first
+    size: 20 20
+    anchors.bottom: prev.bottom
+    anchors.left: prev.right
+    margin-left: 6
+    image-source: /images/game/highscore/arrow
+    image-clip: 0 0 20 20
+    $pressed:
+      image-clip: 40 0 20 20
+    $hover !pressed:
+      image-clip: 0 0 20 20
+    $disabled:
+      image-source: /images/game/highscore/disable_arrow
+      image-clip: 0 0 20 20
+
+  Button
+    id: prevButton
+    size: 20 20
+    anchors.bottom: prev.bottom
+    anchors.left: prev.right
+    margin-left: 6
+    image-source: /images/game/highscore/arrow
+    image-clip: 0 20 20 20
+    $pressed:
+      image-clip: 40 20 20 20
+    $hover !pressed:
+      image-clip: 0 20 20 20
+    $disabled:
+      image-source: /images/game/highscore/disable_arrow
+      image-clip: 0 20 20 20
+
+  UIWidget
+    id: page
+    size: 90 20
+    padding-bottom: 3
+    anchors.bottom: prev.bottom
+    anchors.left: prevButton.right
+    anchors.right: nextButton.left
+    font: $var-cip-font 
+    color: $var-text-cip-color
+    text-auto-resize: true
+    text: 1/?
+    text-align: center
+
+  Button
+    id: nextButton
+    size: 20 20
+    anchors.bottom: prevButton.bottom
+    anchors.left: prevButton.right
+    margin-left: 91
+    image-source: /images/game/highscore/arrow
+    image-clip: 20 20 20 20
+    $pressed:
+      image-clip: 60 20 20 20
+    $hover !pressed:
+      image-clip: 20 20 20 20
+    $disabled:
+      image-source: /images/game/highscore/disable_arrow
+      image-clip: 20 20 20 20
+
+  Button
+    id: last
+    size: 20 20
+    anchors.bottom: prev.bottom
+    anchors.left: prev.right
+    margin-left: 6
+    image-source: /images/game/highscore/arrow
+    image-clip: 20 0 20 20
+    $pressed:
+      image-clip: 60 0 20 20
+    $hover !pressed:
+      image-clip: 20 0 20 20
+    $disabled:
+      image-source: /images/game/highscore/disable_arrow
+      image-clip: 20 0 20 20
+      
+  Label
+    id: lastUpdate
+    height: 21
+    anchors.bottom: prev.bottom
+    anchors.left: prev.right
+    margin-left: 5
+    margin-bottom: 2
+    !text: tr("Last Update...")
+    font: $var-cip-font
+    color: $var-text-cip-color
+    text-auto-resize: true

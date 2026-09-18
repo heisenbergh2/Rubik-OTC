@@ -1,0 +1,99 @@
+MainWindowHigh
+  !text: tr('Edit Hotkey')
+  size: 400 215
+  text-offset: 0 1
+  margin-top: -20
+  color: #909090
+  @onEscape: modules.game_actionbar.closeEditHotkeyWindow()
+
+  Label
+    id: chatMode
+    !text: tr('Mode: "Chat Off"')
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: -7
+    text-align: center
+    font: $var-cip-font-new
+    color: #C0C0C0
+    text-auto-resize: true
+
+  Panel
+    image-source: /images/ui/1pixel-down-frame
+    image-border: 1
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: chatMode.bottom
+    margin-top: 11
+    height: 33
+
+    Label
+      id: comboPreview
+      !text: tr('%s', '')
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      font: $var-cip-font-new
+      color: #C0C0C0
+      text-auto-resize: true
+      text-align: left
+
+  Label
+    id: hotkeyInstructionLabel
+    !text: tr('Click "Ok" to assign the hotkey. Click "Clear" to remove the hotkey.')
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-left: -2
+    margin-top: 11
+    font: $var-cip-font-new
+    color: #C0C0C0
+    text-auto-resize: true
+    text-wrap: true
+
+  Label
+    id: errorLabel
+    text: "This hotkey is already in use and will be overwritten."
+    color: red
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.top: prev.bottom
+    margin-top: 11
+    font: $var-cip-font-new
+    color: #F75F5F
+    visible: false
+
+  HorizontalSeparator
+    id: separator
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: next.top
+    margin-bottom: 11
+
+  Button
+    id: applyButton
+    !text: tr('Ok')
+    size: 43 20
+    text-offset: 0 0
+    margin-right: 6
+    anchors.bottom: parent.bottom
+    anchors.right: clearButton.left
+    @onClick: modules.game_actionbar.hotkeyCaptureOk(self:getParent())
+
+  Button
+    id: clearButton
+    !text: tr('Clear')
+    size: 43 20
+    text-offset: 0 0
+    margin-right: 6
+    anchors.bottom: parent.bottom
+    anchors.right: cancelButton.left
+    @onClick: modules.game_actionbar.hotkeyClear(self:getParent())
+
+  Button
+    id: cancelButton
+    !text: tr('Cancel')
+    size: 43 20
+    text-offset: 0 0
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    @onClick: modules.game_actionbar.closeEditHotkeyWindow()

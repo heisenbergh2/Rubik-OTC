@@ -1,0 +1,40 @@
+Cursors
+  default:
+    image: cursor-default
+    hot-spot: 0 0
+  point:
+    image: cursor-pointinghand
+    hot-spot: 0 0
+  look:
+    image: cursor-look
+    hot-spot: 0 0
+  walk:
+    image: cursor-walk
+    hot-spot: 0 0
+  attack:
+    image: cursor-attack
+    hot-spot: 0 0
+  talk:
+    image: cursor-talk
+    hot-spot: 0 0
+  target:
+    image: cursor-crosshair
+    hot-spot: 9 9
+  target-reject:
+    image: cursor-crosshair-reject
+    hot-spot: 9 9
+  horizontal:
+    image: cursor-resize-horizontal
+    hot-spot: 9 4
+  vertical:
+    image: cursor-resize-vertical
+    hot-spot: 4 9
+  diagonal-nw:
+    image: cursor-resize-diagonal-tlbr
+    hot-spot: 8 8
+  diagonal-ne:
+    image: cursor-resize-diagonal-bltr
+    hot-spot: 8 8
+  text:
+    image: cursor-default
+    hot-spot: 0 0

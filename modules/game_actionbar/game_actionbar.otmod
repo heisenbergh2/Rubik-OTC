@@ -1,0 +1,8 @@
+Module
+  name: game_actionbar
+  sandboxed: true
+  scripts: [ logics/ActionBarPresetStorage, game_actionbar, logics/MultiActionLogic, logics/ActionBarLogic ]
+  autoload: true
+  autoload-priority: 1001
+  @onLoad: init()
+  @onUnload: terminate()

@@ -1,0 +1,85 @@
+CreatureButton < UICreatureButton
+  height: 20
+  margin-bottom: 5
+
+  UICreature
+    id: creature
+    size: 20 20
+    anchors.left: parent.left
+    anchors.top: parent.top
+    margin-left: 2
+    phantom: true
+
+  UIWidget
+    id: spacer
+    width: 5
+    anchors.left: creature.right
+    anchors.top: creature.top
+    phantom: true
+
+  UIWidget
+    id: skull
+    height: 11
+    anchors.left: spacer.right
+    anchors.top: spacer.top
+    phantom: true
+
+  UIWidget
+    id: emblem
+    height: 11
+    anchors.right: parent.right
+    anchors.top: creature.top
+    margin-right: 2
+    margin-top: 2
+    phantom: true
+
+  UIWidget
+    id: iconsMonsterSlot1
+    height: 11
+    width: 11
+    anchors.right: emblem.left
+    anchors.top: creature.top
+    margin-right: 4
+    margin-top: 2
+    phantom: true
+
+  UIWidget
+    id: iconsMonsterSlot2
+    height: 11
+    width: 11
+    anchors.right: prev.left
+    anchors.top: creature.top
+    margin-right: 4
+    margin-top: 2
+    phantom: true
+    
+  UIWidget
+    id: iconsMonsterSlot3
+    height: 11
+    width: 11
+    anchors.right: prev.left
+    anchors.top: creature.top
+    margin-right: 4
+    margin-top: 2
+    phantom: true
+
+  Label
+    id: label
+    anchors.left: skull.right
+    anchors.right: iconsMonsterSlot3.left
+    anchors.top: creature.top
+    color: #888888
+    margin-left: 2
+    margin-right: 4
+    phantom: true
+    font: verdana-11px-monochrome
+    text-align: left
+
+  LifeProgressBar
+    id: lifeBar
+    height: 5
+    anchors.left: spacer.right
+    anchors.right: parent.right
+    anchors.top: label.bottom
+    margin-top: 2
+    phantom: true

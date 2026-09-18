@@ -1,0 +1,7 @@
+Splitter < UISplitter
+  size: 4 4
+  opacity: 0
+
+ResizeBorder < UIResizeBorder
+  size: 4 4
+  opacity: 0

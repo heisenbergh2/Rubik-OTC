@@ -1,0 +1,75 @@
+CountWindow < MainWindowHigh
+  id: countWindow
+  !text: tr('Move Items')
+  size: 245 130
+  text-offset: 0 1
+  margin-top: -47
+  focusable: true
+
+  SpinBox
+    id: spinBox
+    anchors.left: parent.left
+    anchors.top: parent.top
+    margin-top: -7
+    size: 32 32
+    focusable: true
+
+  Item
+    id: item
+    anchors.left: parent.left
+    anchors.top: parent.top
+    margin-top: -7
+    focusable: false
+    virtual: true
+    always-show-count: true
+
+  Label
+    id: infoLabel
+    anchors.left: item.right
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin-top: -7
+    margin-left: 11
+    margin-right: -5
+    font: verdana-11px-monochrome
+    color: #c0c0c0
+    height: 30
+    text-align: left
+    text-wrap: true
+    space-width: 1
+    !text: tr('Set or type the number of\nitems you want to move')
+
+  HorizontalQtScrollBar
+    id: countScrollBar
+    anchors.left: item.right
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-left: 11
+    margin-top: 2
+    focusable: false
+    default-scroll: true
+
+  HorizontalSeparator
+    anchors.bottom: next.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-bottom: 11
+
+  Button
+    id: buttonCancel
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    size: 43 20
+    !text: tr('Cancel')
+    text-offset: 0 0
+    focusable: true
+
+  Button
+    id: buttonOk
+    anchors.right: prev.left
+    anchors.bottom: parent.bottom
+    margin-right: 6
+    size: 43 20
+    !text: tr('Ok')
+    text-offset: 0 0
+    focusable: true

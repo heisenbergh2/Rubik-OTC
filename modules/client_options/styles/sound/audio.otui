@@ -1,0 +1,106 @@
+UIWidget
+  anchors.fill: parent
+  visible: false
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+    height: 22
+
+    OptionScaleScroll
+      id: masterVolume
+      text-offset: 0 0
+      &minimumScrollValue: 0
+      &maximumScrollValue: 100
+      &scrollSize: 21
+      @onSetup: |
+        local value = modules.client_options.getOption('masterVolume')
+        self:setText(tr('Master Volume: %d %%', value))
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 7
+    height: 40
+
+    OptionScaleScroll
+      id: musicVolume
+      text-offset: 0 0
+      &minimumScrollValue: 0
+      &maximumScrollValue: 100
+      &scrollSize: 21
+      @onSetup: |
+        local value = modules.client_options.getOption('musicVolume')
+        self:setText(tr('Music Volume: %d %%', value))
+
+    OptionCheckBox
+      id: anthem
+      !text: tr('Anthem')
+      anchors.top: prev.bottom
+      margin-top: 5
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 7
+    height: 22
+
+    OptionScaleScroll
+      id: ambienceVolume
+      text-offset: 0 0
+      &minimumScrollValue: 0
+      &maximumScrollValue: 100
+      &scrollSize: 21
+      @onSetup: |
+        local value = modules.client_options.getOption('ambienceVolume')
+        self:setText(tr('Ambience Volume: %d %%', value))
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 7
+    height: 60
+
+    OptionScaleScroll
+      id: itemVolume
+      text-offset: 0 0
+      &minimumScrollValue: 0
+      &maximumScrollValue: 100
+      &scrollSize: 21
+      @onSetup: |
+        local value = modules.client_options.getOption('itemVolume')
+        self:setText(tr('Item Volume: %d %%', value))
+
+    OptionCheckBox
+      id: foodAndBeverages
+      !text: tr('Food and Beverages')
+      anchors.top: prev.bottom
+      margin-top: 5
+
+    OptionCheckBox
+      id: moveItem
+      !text: tr('Move Item')
+      anchors.top: prev.bottom
+      margin-top: 5
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 7
+    height: 22
+
+    OptionScaleScrollMarked
+      id: eventVolume
+      text-offset: 0 0
+      &minimumScrollValue: 0
+      &maximumScrollValue: 100
+      &scrollSize: 21
+      !tooltip: tr('Use this setting to change the volume of sound played on special\noccasions such as level advancements or winning achievements')
+      @onSetup: |
+        local value = modules.client_options.getOption('eventVolume')
+        self:setText(tr('Event Volume: %d %%', value))

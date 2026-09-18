@@ -1,0 +1,40 @@
+TutorialPopupWindow < UIWindow
+  id: tutorialWindow
+  size: 432 427
+  font: $var-cip-font
+  color: #909090
+  text-offset: -1 1
+  image-source: /images/ui/popupwindow
+  image-border: 4
+  image-border-top: 17
+  padding: 16
+  anchors.centerIn: parent
+  @onEscape: modules.game_tutorial.hide()
+
+  UIWidget
+    id: hintImage
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 13
+    image-smooth: true
+    image-fixed-ratio: true
+
+  HorizontalSeparator
+    anchors.bottom: okButton.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-bottom: 11
+
+  Button
+    id: okButton
+    size: 43 20
+    !text: tr('Ok')
+    font: cipsoftFont
+    text-offset: 0 1
+    color: #ffffff
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    @onClick: modules.game_tutorial.hide()
+
+    $pressed:
+      text-offset: 1 2

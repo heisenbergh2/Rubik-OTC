@@ -1,0 +1,128 @@
+DraggableSpellIcon < UIItem
+  id: moveableImage
+  size: 32 32
+  draggable: true
+  virtual: true
+  &selectable: true
+  &editable: false
+  image-source: /images/game/spells/spell-icons-32x32
+
+SpellListData < UIWidget
+  size: 155 34
+
+  UIItem
+    id: fixedImage
+    size: 32 32
+    anchors.left: parent.left
+    anchors.top: parent.top
+    margin-top: 1
+    margin-left: 2
+    image-source: /images/game/spells/spell-icons-32x32
+    phantom: true
+
+  DraggableSpellIcon
+    anchors.left: parent.left
+    anchors.top: parent.top
+    margin-top: 1
+    margin-left: 2
+
+  Panel
+    id: gray
+    size: 32 32
+    anchors.left: parent.left
+    anchors.top: parent.top
+    margin-top: 1
+    margin-left: 2
+    image-source: /images/ui/ditherpattern
+    visible: false
+    phantom: true
+
+  UIWidget
+    id: activeSpell
+    size: 32 32
+    anchors.left: parent.left
+    anchors.top: parent.top
+    margin-top: 1
+    margin-left: 2
+    image-source: /assets/images/game/actionbar/border_activespell
+    image-size: 32 32
+    visible: false
+    phantom: true
+    focusable: false
+
+  UIWidget
+    id: name
+    font: $var-cip-font
+    color: $var-text-cip-color
+    anchors.left: prev.right
+    anchors.top: parent.top
+    margin-top: 3
+    margin-left: 2
+    text-auto-resize: true
+    phantom: true
+
+  UIWidget
+    id: words
+    font: $var-cip-font
+    color: $var-text-cip-color
+    anchors.left: fixedImage.right
+    anchors.top: prev.bottom
+    margin-top: -1
+    margin-left: 2
+    text-auto-resize: true
+    phantom: true
+
+SpellListSearchRow < Panel
+  id: searchRow
+  height: 20
+  focusable: true
+
+  TextEdit
+    id: searchEdit
+    anchors.fill: parent
+    padding: 2 20 2 4
+    focusable: true
+    cursor-visible: false
+    placeholder: Type to search
+    placeholder-color: #6E706F
+    @onTextChange: modules.game_spelllist.onSearchTextChange(self)
+    @onClick: modules.game_spelllist.onSearchEditClick()
+
+  Button
+    id: searchClearButton
+    size: 18 18
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-right: 1
+    icon: /images/ui/button-erase-18x18-up.png
+    z-index: 1
+    @onClick: modules.game_spelllist.onSearchClear()
+    $pressed:
+      icon: /images/ui/button-erase-18x18-down.png
+
+SpellListWindow
+  id: spellListMiniWindow
+  !text: tr('Spell List')
+  font: $var-cip-font
+  text-offset: 20 0
+  height: 180
+  icon: /images/icons/icon-spell-list-widget
+  focusable: true
+
+  UIWidget
+    id: miniborder
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    image-source: /images/ui/miniborder-bottom-left
+    size: 14 14
+    margin-left: 2
+    margin-bottom: 2
+    phantom: true
+
+  SpellListSearchRow
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 15
+    margin-left: 4
+    margin-right: 4

@@ -1,0 +1,1135 @@
+CombatBox < UICheckBox
+  size: 20 20
+  image-clip: 0 0 20 20
+  margin: 2 4
+
+  $checked:
+    image-clip: 0 20 20 20
+
+ChaseModeBox < CombatBox
+  image-source: /images/game/combatmodes/chasemode
+MiniPanel < Panel
+  text-offset: 0 3
+  text-align: top
+  image-source: /images/ui/t2pixel-up-frame-borderimage
+  image-border: 3
+  image-border-top: 22
+  padding-left: 6
+  padding-bottom: 6
+  padding-top: 25
+  padding-right: 6
+  color: #929292
+
+RotateButton < UIButton
+  anchors.bottom: parent.bottom
+  size: 20 20
+  margin-bottom: 3
+  image-source: /images/ui/outfits/buttons_rotate
+
+PresetButton < Panel
+  height: 100
+  image-source: /images/ui/button-grey-up
+  image-border: 10
+  border: 1 alpha
+  focusable: true
+  phantom: false
+
+  $hover:
+    image-color: #ffffff
+
+  $focus:
+    border: 1 white
+
+  Panel
+    id: presetIconRow
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.top: parent.top
+    margin-top: 5
+    size: 128 64
+    phantom: true
+
+    UICreature
+      id: creature
+      anchors.left: parent.left
+      anchors.verticalCenter: parent.verticalCenter
+      size: 64 64
+      fixed-creature-size: true
+      base-scale: true
+      phantom: true
+
+    UICreature
+      id: presetFamiliar
+      anchors.left: creature.right
+      anchors.verticalCenter: parent.verticalCenter
+      size: 64 64
+      margin-left: 1
+      fixed-creature-size: true
+      base-scale: true
+      phantom: true
+      visible: false
+      @onSetup: |
+        if not g_game.getFeature(GamePlayerFamiliars) then
+          self:hide()
+        end
+  
+  Label
+    id: title
+    anchors.top: presetIconRow.bottom
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    font: $var-cip-font-new
+    color: #c0c0c0
+    margin-bottom: 5
+    text-align: bottom
+    text-wrap: true
+
+SelectionButton < Panel
+  image-source: /images/ui/button-grey-up
+  image-border: 3
+  border: 1 alpha
+  focusable: true
+  phantom: false
+  $focus:
+    border: 1 white
+
+  // Faixa de 70px de largura do cartao: o sprite fica no centro (por largura) sem ser filho aninhado, para manter button.outfit no Lua
+  Panel
+    id: selectionIconRow
+    height: 64
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    phantom: true
+
+  UICreature
+    id: outfit
+    size: 64 64
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    fixed-creature-size: true
+    base-scale: true
+    margin-bottom: 31
+    margin-right: 22
+    phantom: true
+
+  Panel
+    id: bar
+    anchors.centerIn: parent
+    visible: false
+
+  Label
+    id: name
+    anchors.top: selectionIconRow.bottom
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-left: 2
+    margin-right: 2
+    margin-bottom: 5
+    text-align: bottom
+    text-wrap: true
+    font: $var-cip-font-new
+    color: #c0c0c0
+
+OutfitColorModeHead < UICheckBox
+  size: 63 18
+  image-source: /images/ui/outfits/buttons_header_colors
+  image-smooth: false
+  focusable: true
+  change-cursor-image: true
+  cursor: pointer
+  $!checked:
+    image-clip: 0 0 63 18
+  $checked:
+    image-clip: 0 18 63 18
+
+OutfitColorModePrimary < UICheckBox
+  size: 64 18
+  image-source: /images/ui/outfits/buttons_header_colors
+  image-smooth: false
+  focusable: true
+  change-cursor-image: true
+  cursor: pointer
+  $!checked:
+    image-clip: 63 0 64 18
+  $checked:
+    image-clip: 63 18 64 18
+
+OutfitColorModeSecondary < UICheckBox
+  size: 63 18
+  image-source: /images/ui/outfits/buttons_header_colors
+  image-smooth: false
+  focusable: true
+  change-cursor-image: true
+  cursor: pointer
+  $!checked:
+    image-clip: 127 0 63 18
+  $checked:
+    image-clip: 127 18 63 18
+
+OutfitColorModeDetail < UICheckBox
+  size: 64 18
+  image-source: /images/ui/outfits/buttons_header_colors
+  image-smooth: false
+  focusable: true
+  change-cursor-image: true
+  cursor: pointer
+  $!checked:
+    image-clip: 190 0 64 18
+  $checked:
+    image-clip: 190 18 64 18
+
+OutfitCopyAllButton < UIButton
+  size: 55 28
+  image-source: /images/ui/outfits/buttons_copy
+  image-smooth: false
+  image-clip: 0 0 55 28
+  enabled: false
+
+  $pressed:
+    image-clip: 0 28 55 28
+
+  $disabled:
+    image-clip: 0 56 55 28
+
+OutfitCopyColoursButton < UIButton
+  size: 55 28
+  image-source: /images/ui/outfits/buttons_copy
+  image-smooth: false
+  image-clip: 55 0 55 28
+  enabled: false
+
+  $pressed:
+    image-clip: 55 28 55 28
+
+  $disabled:
+    image-clip: 55 56 55 28
+
+OutfitPasteColoursButton < UIButton
+  size: 55 28
+  image-source: /images/ui/outfits/buttons_copy
+  image-smooth: false
+  image-clip: 165 0 55 28
+  enabled: false
+
+  $pressed:
+    image-clip: 165 28 55 28
+
+  $disabled:
+    image-clip: 165 56 55 28
+
+OutfitPasteAllButton < UIButton
+  size: 55 28
+  image-source: /images/ui/outfits/buttons_copy
+  image-smooth: false
+  image-clip: 110 0 55 28
+  enabled: false
+
+  $pressed:
+    image-clip: 110 28 55 28
+
+  $disabled:
+    image-clip: 110 56 55 28
+
+OutfitPresetNewButton < UIButton
+  size: 43 20
+  fixed-size: true
+  text-align: top
+  margin-top: -3
+  image-source: /images/ui/outfits/buttons_presset
+  image-smooth: false
+  image-clip: 0 0 43 20
+
+  $pressed:
+    image-clip: 0 20 43 20
+
+  $disabled:
+    image-clip: 0 40 43 20
+
+OutfitPresetRenameButton < UIButton
+  size: 43 20
+  fixed-size: true
+  text-align: top
+  margin-top: -3
+  image-source: /images/ui/outfits/buttons_presset
+  image-smooth: false
+  image-clip: 43 0 43 20
+
+  $pressed:
+    image-clip: 43 20 43 20
+
+  $disabled:
+    image-clip: 43 40 43 20
+
+OutfitPresetSaveButton < UIButton
+  size: 43 20
+  fixed-size: true
+  text-align: top
+  margin-top: -3
+  image-source: /images/ui/outfits/buttons_presset
+  image-smooth: false
+  image-clip: 86 0 43 20
+
+  $pressed:
+    image-clip: 86 20 43 20
+
+  $disabled:
+    image-clip: 86 40 43 20
+
+OutfitPresetDeleteButton < UIButton
+  size: 43 20
+  fixed-size: true
+  text-align: top
+  margin-top: -3
+  image-source: /images/ui/outfits/buttons_presset
+  image-smooth: false
+  image-clip: 129 0 43 20
+
+  $pressed:
+    image-clip: 129 20 43 20
+
+  $disabled:
+    image-clip: 129 40 43 20
+
+OutfitColorBox < UICheckBox
+  size: 13 13
+  focusable: false
+  change-cursor-image: true
+  cursor: pointer
+
+  UIWidget
+    id: color
+    anchors.centerIn: parent
+    size: 9 9
+    phantom: true
+    focusable: false
+    image-source: /images/ui/colorbox
+    image-clip: 2 2 12 12
+    image-smooth: false
+
+  UIWidget
+    id: selection
+    anchors.centerIn: parent
+    size: 13 13
+    phantom: true
+    focusable: false
+    visible: false
+    image-source: /images/ui/outfits/selection_color
+    image-smooth: false
+
+  @onSetup: |
+    if self.selection then
+      self.selection:setVisible(self:isChecked())
+    end
+
+  @onCheckChange: |
+    if self.selection then
+      self.selection:setVisible(self:isChecked())
+    end
+
+OutfitWindow < MainWindowHigh
+  size: 756 537
+  text: Customise Character
+  margin-top: 43
+  text-offset: 0 2
+  font: $var-cip-font-new
+  color: #909090
+  @onEnter: modules.game_outfit.accept()
+  @onEscape: modules.game_outfit.destroy()
+
+  MiniPanel
+    id: preview
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: -7
+    size: 479 221
+    text: Preview
+    font: $var-cip-font-new
+    text-offset: 0 2
+    color: #909090 
+
+    Panel
+      id: options
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.bottom: parent.bottom
+      width: 132
+      margin-top: -3
+      margin-left: 1
+      layout:
+        type: verticalBox
+        spacing: 5
+
+      OnePixelDownFrame
+        id: movement
+        height: 22
+        padding: 5
+
+        CheckBox
+          id: check
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          anchors.right: parent.right
+          text: Movement
+          checked: true
+          margin-bottom: 1
+          text-offset: 15 0
+          font: $var-cip-font-new
+          color: #c0c0c0
+
+      OnePixelDownFrame
+        id: showOutfit
+        height: 22
+        padding: 5
+
+        CheckBox
+          id: check
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          anchors.right: parent.right
+          text: Show Outfit
+          checked: true
+          margin-bottom: 1
+          text-offset: 15 0
+          font: $var-cip-font-new
+          color: #c0c0c0
+
+      OnePixelDownFrame
+        id: showFamiliar
+        height: 22
+        padding: 5
+        @onSetup: |
+          if not g_game.getFeature(GamePlayerFamiliars) then
+            self:hide()
+            self:setHeight(0)
+            self:setPadding(0)
+          end
+
+        CheckBox
+          id: check
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          anchors.right: parent.right
+          text: Show Familiar
+          margin-bottom: 1
+          text-offset: 15 0
+          font: $var-cip-font-new
+          color: #c0c0c0
+          @onSetup: |
+            if not g_game.getFeature(GamePlayerFamiliars) then
+              self:hide()
+            end
+
+      OnePixelDownFrame
+        id: showFloor
+        height: 22
+        padding: 5
+
+        CheckBox
+          id: check
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          anchors.right: parent.right
+          text: Show Floor
+          margin-bottom: 1
+          text-offset: 15 0
+          font: $var-cip-font-new
+          color: #c0c0c0
+
+    OnePixelDownFrame
+      id: panel
+      anchors.top: parent.top
+      anchors.left: prev.right
+      size: 320 192
+      padding: 1
+      margin-left: 14 
+      margin-top: -3
+      clipping: true
+
+      Panel
+        id: floor
+        anchors.top: parent.top
+        anchors.left: parent.left
+        size: 954 384
+
+        FloorTile
+          id: floorR1C1
+          anchors.top: parent.top
+          anchors.left: parent.left
+
+        FloorTile
+          id: floorR1C2
+          anchors.top: parent.top
+          anchors.left: parent.left
+
+        FloorTile
+          id: floorR1C3
+          anchors.top: parent.top
+          anchors.left: parent.left
+
+        FloorTile
+          id: floorR2C1
+          anchors.top: parent.top
+          anchors.left: parent.left
+
+        FloorTile
+          id: floorR2C2
+          anchors.top: parent.top
+          anchors.left: parent.left
+
+        FloorTile
+          id: floorR2C3
+          anchors.top: parent.top
+          anchors.left: parent.left
+
+        FloorTile
+          id: floorR3C1
+          anchors.top: parent.top
+          anchors.left: parent.left
+
+        FloorTile
+          id: floorR3C2
+          anchors.top: parent.top
+          anchors.left: parent.left
+
+        FloorTile
+          id: floorR3C3
+          anchors.top: parent.top
+          anchors.left: parent.left
+
+      Panel
+        id: previewRow
+        anchors.centerIn: parent
+        margin-top: 1
+        margin-left: 1
+        size: 262 128
+        phantom: true
+
+        UIItem
+          id: podiumPreview
+          anchors.horizontalCenter: parent.horizontalCenter
+          anchors.verticalCenter: parent.verticalCenter
+          margin-top: 29
+          margin-left: 29
+          size: 70 70
+          virtual: true
+          fixed-item-size: false
+          item-visible: true
+          podium-preview: true
+          draggable: false
+          phantom: true
+
+        UICreature
+          id: creature
+          anchors.left: parent.left
+          anchors.verticalCenter: parent.verticalCenter
+          size: 128 128
+          phantom: true
+
+        UICreature
+          id: UIfamiliar
+          anchors.left: creature.right
+          anchors.verticalCenter: parent.verticalCenter
+          margin-left: 1
+          size: 128 128
+          phantom: true
+          @onSetup: |
+            if not g_game.getFeature(GamePlayerFamiliars) then
+              self:hide()
+            end
+
+      RotateButton
+        anchors.left: parent.left
+        margin-left: 1
+        margin-bottom: 1
+        image-clip: 0 0 20 20
+        @onClick: modules.game_outfit.rotate(1)
+
+        $pressed:
+          image-clip: 0 20 20 20
+      
+      RotateButton
+        anchors.right: parent.right
+        margin-right: 1
+        margin-bottom: 1
+        image-clip: 20 0 20 20
+        @onClick: modules.game_outfit.rotate(-1)
+
+        $pressed:
+          image-clip: 20 20 20 20
+  
+  MiniPanel
+    id: configure
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    margin-top: 6
+    size: 146 234
+    text: Configure
+    font: $var-cip-font-new
+    text-offset: 0 2
+    color: #909090
+    layout:
+      type: verticalBox
+      spacing: 5
+
+    OnePixelDownFrame
+      id: outfit
+      height: 0
+      padding: 0
+      margin-top: -3
+      margin-left: 2
+      visible: false
+
+      CheckBox
+        id: check
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        anchors.right: parent.right
+        text: Outfit
+        margin-bottom: 1
+        text-offset: 15 0
+        font: $var-cip-font-new
+        color: #c0c0c0
+
+    OnePixelDownFrame
+      id: addon1
+      height: 22
+      padding: 5
+      margin-top: -3
+      margin-left: 2
+
+      CheckBox
+        id: check
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        anchors.right: parent.right
+        text: Addon 1
+        margin-bottom: 1
+        text-offset: 15 0
+        font: $var-cip-font-new
+        color: #c0c0c0
+
+    OnePixelDownFrame
+      id: addon2
+      height: 22
+      padding: 5
+      margin-left: 2
+
+      CheckBox
+        id: check
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        anchors.right: parent.right
+        text: Addon 2
+        margin-bottom: 1
+        text-offset: 15 0
+        font: $var-cip-font-new
+        color: #c0c0c0
+
+    OnePixelDownFrame
+      id: mount
+      height: 22
+      padding: 5
+      margin-left: 2
+
+      CheckBox
+        id: check
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        anchors.right: parent.right
+        text: Mount
+        margin-bottom: 1
+        text-offset: 15 0
+        font: $var-cip-font-new
+        color: #c0c0c0
+
+    OnePixelDownFrame
+      id: podium
+      height: 0
+      padding: 0
+      margin-left: 2
+      visible: false
+
+      CheckBox
+        id: check
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        anchors.right: parent.right
+        text: Podium
+        margin-bottom: 1
+        text-offset: 15 0
+        font: $var-cip-font-new
+        color: #c0c0c0
+
+  MiniPanel
+    id: appearance
+    anchors.top: preview.bottom
+    anchors.left: prev.right
+    anchors.right: preview.right
+    anchors.bottom: prev.bottom
+    margin-top: 6
+    margin-left: 6
+    text: Change Appearance
+    font: $var-cip-font-new
+    text-offset: 0 2
+    color: #909090
+
+    ScrollablePanel
+      id: settings
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      padding-right: 1
+      padding-left: 1
+      height: 86
+      margin-top: -3
+      vertical-scrollbar: scrollbar
+      layout:
+        type: verticalBox
+        spacing: 2
+
+      Panel
+        id: outfit
+        height: 20
+
+        CheckBox
+          id: check
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          image-source: /images/ui/checkboxcircle
+          text-offset: 15 0
+          text: Outfit:
+          font: $var-cip-font-new
+          color: #c0c0c0
+          width: 85
+        
+        OnePixelDownFrame
+          id: name
+          anchors.top: parent.top
+          anchors.bottom: parent.bottom
+          anchors.left: prev.right
+          anchors.right: parent.right
+          text-offset: 0 1
+          font: $var-cip-font-new
+          color: #c0c0c0
+
+      Panel
+        id: mount
+        height: 20
+
+        CheckBox
+          id: check
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          image-source: /images/ui/checkboxcircle
+          text-offset: 15 0
+          text: Mount:
+          font: $var-cip-font-new
+          color: #c0c0c0
+          width: 85
+
+        OnePixelDownFrame
+          id: name
+          anchors.top: parent.top
+          anchors.bottom: parent.bottom
+          anchors.left: prev.right
+          anchors.right: parent.right
+          text-offset: 0 1
+          font: $var-cip-font-new
+          color: #c0c0c0
+
+      Panel
+        id: familiar
+        height: 20
+        @onSetup: |
+          if not g_game.getFeature(GamePlayerFamiliars) then
+            self:hide()
+            self:setHeight(0)
+          end
+
+        CheckBox
+          id: check
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          image-source: /images/ui/checkboxcircle
+          text-offset: 15 0
+          text: Familiar:
+          font: $var-cip-font-new
+          color: #c0c0c0
+          width: 85
+          @onSetup: |
+            if not g_game.getFeature(GamePlayerFamiliars) then
+              self:hide()
+            end
+
+        OnePixelDownFrame
+          id: name
+          anchors.top: parent.top
+          anchors.bottom: parent.bottom
+          anchors.left: prev.right
+          anchors.right: parent.right
+          text-offset: 0 1
+          font: $var-cip-font-new
+          color: #c0c0c0
+          @onSetup: |
+            if not g_game.getFeature(GamePlayerFamiliars) then
+              self:hide()
+            end
+
+      Panel
+        id: preset
+        height: 20
+
+        CheckBox
+          id: check
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          image-source: /images/ui/checkboxcircle
+          text-offset: 15 0
+          text: Preset:
+          font: $var-cip-font-new
+          color: #c0c0c0
+          width: 85
+        
+        OnePixelDownFrame
+          id: name
+          anchors.top: parent.top
+          anchors.bottom: parent.bottom
+          anchors.left: prev.right
+          anchors.right: parent.right
+          text-offset: 0 1
+          font: $var-cip-font-new
+          color: #c0c0c0
+
+    Panel
+      id: colorSection
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      # margin-top 6 (era 22): desloca o bloco 16px para cima, equivalente a tirar o -16 do header sem Y negativo (hittest pega o header inteiro).
+      # margin-top 16 no color: mantem a grade de cores no mesmo y global de antes (22+0 = 6+16) e 2px de sobreposi��o com o header.
+      size: 254 114
+      margin-left: 1
+      margin-top: 6
+      padding: 0
+
+      Panel
+        id: colorBoxBackground
+        anchors.top: parent.top
+        margin-top: 16
+        anchors.left: parent.left
+        image-source: /images/ui/outfits/colors
+        size: 254 98
+        image-smooth: false
+
+        Panel
+          id: colorBoxPanel
+          anchors.top: parent.top
+          anchors.left: parent.left
+          margin-left: 4
+          margin-top: 3
+          size: 247 91
+          layout:
+            type: grid
+            cell-size: 13 13
+            cell-spacing: 0
+            num-columns: 19
+            num-lines: 7
+
+      Panel
+        id: colorMode
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: 18
+        layout:
+          type: horizontalBox
+          spacing: 0
+
+        OutfitColorModeHead
+          id: head
+        OutfitColorModePrimary
+          id: primary
+        OutfitColorModeSecondary
+          id: secondary
+        OutfitColorModeDetail
+          id: detail
+
+      # ancorar na area real (header 16px acima da base + grade) para a malha cobrir os botoes
+      UIWidget
+        id: colorsDisabledOverlay
+        anchors.top: colorMode.top
+        anchors.left: colorMode.left
+        anchors.right: colorBoxBackground.right
+        anchors.bottom: colorBoxBackground.bottom
+        margin-top: 1
+        margin-left: 1
+        margin-bottom: 1
+        margin-right: 1
+        image-source: /images/game/forge/malha
+        image-clip: 1 1 126 64
+        image-repeated: true
+        image-repeat-spacing: 0
+        image-draw-order: 2
+        image-smooth: false
+        image-fixed-ratio: false
+        visible: false
+        focusable: false
+
+    Panel
+      id: colorCopyButtons
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      size: 55 88
+      margin-right: 1
+      margin-bottom: 1
+      layout:
+        type: verticalBox
+        spacing: 2
+
+      OutfitCopyAllButton
+        id: copyAll
+
+      OutfitCopyColoursButton
+        id: copyColours
+
+      OutfitPasteColoursButton
+        id: pasteColours
+
+  MiniPanel
+    id: presetButtons
+    anchors.top: parent.top
+    anchors.left: preview.right
+    margin-left: 6
+    margin-top: -7
+    text-offset: 0 2
+    padding-left: 27
+    size: 240 49
+    text: Manage Presets
+    font: $var-cip-font-new
+    color: #909090
+    layout:
+      type: horizontalBox
+      spacing: 5
+
+    OutfitPresetNewButton
+      size: 43 20
+      @onClick: modules.game_outfit.newPreset()
+
+    OutfitPresetRenameButton
+      id: presetRename
+      size: 43 20
+      @onClick: modules.game_outfit.renamePreset()
+
+    OutfitPresetSaveButton
+      id: presetSave
+      size: 43 20
+      @onClick: modules.game_outfit.savePreset()
+
+    OutfitPresetDeleteButton
+      id: presetDelete
+      size: 43 20
+      @onClick: modules.game_outfit.deletePreset()
+
+  MiniPanel
+    id: listSearch
+    anchors.top: parent.top
+    anchors.left: preview.right
+    anchors.right: parent.right
+    margin-left: 6
+    margin-top: -7
+    text-offset: 0 2
+    size: 240 51
+    text: Filter
+    font: $var-cip-font-new
+    color: #909090 
+    
+    QtCheckBox
+      id: onlyMine
+      anchors.verticalCenter: parent.verticalCenter
+      anchors.left: parent.left
+      margin-top: -3
+      text-offset: 16 1
+      text: "Only mine"
+      font: $var-cip-font-new
+      color: #c0c0c0
+      width: 84
+
+    TextEdit
+      id: search
+      anchors.bottom: parent.bottom
+      anchors.right: parent.right
+      size: 135 22
+      margin-bottom: 1
+      margin-right: 1
+      placeholder: Type to search
+      placeholder-color: #707070 
+      padding-top: 4
+      padding-right: 21
+
+    UIWidget
+      id: clearSearchButton
+      anchors.top: search.top
+      anchors.right: search.right
+      margin-top: 1
+      margin-right: 1
+      size: 20 20
+      image-source: /images/ui/button-clear-20x20-up
+      tooltip: Clear all text from the search field.
+
+      $pressed:
+        image-source: /images/ui/button-clear-20x20-down
+      @onClick: modules.game_outfit.clearFilterSearch()
+
+  ScrollablePanel
+    id: presetsList
+    anchors.top: presetButtons.bottom
+    anchors.left: presetButtons.left
+    anchors.right: parent.right
+    anchors.bottom: separator.top
+    margin-top: 6
+    margin-bottom: 6
+    image-source: /images/ui/1pixel-down-frame
+    image-border: 1
+    padding-left: 4
+    padding-top: 5
+    padding-right: 18
+    padding-bottom: 4
+    vertical-scrollbar: presetsScroll
+    auto-focus: none
+    visible: false
+    clipping: true
+    layout:
+      type: verticalBox
+      spacing: 2
+  
+  VerticalQtScrollBar
+    id: presetsScroll
+    anchors.top: presetsList.top
+    anchors.right: presetsList.right
+    anchors.bottom: presetsList.bottom
+    margin-right: 1
+    margin-bottom: 1
+    margin-top: 1
+    step: 100
+    pixel-scroll: true
+    visible: false
+
+  ScrollablePanel
+    id: selectionList
+    anchors.top: presetButtons.bottom
+    anchors.left: presetButtons.left
+    anchors.right: parent.right
+    anchors.bottom: separator.top 
+    margin-left: 0
+    margin-top: 8 
+    margin-bottom: 6
+    image-source: /images/ui/1pixel-down-frame
+    image-border: 1
+    padding: 1
+    vertical-scrollbar: selectionScroll
+
+    UIWidget
+      id: selectionListGrid
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      padding-top: 4
+      padding-left: 4
+      padding-right: 16
+      padding-bottom: 8
+      layout:
+        type: grid
+        cell-size: 108 100
+        cell-spacing: 2
+        flow: true
+        fit-children: true
+  
+  VerticalQtScrollBar
+    id: selectionScroll
+    anchors.top: selectionList.top
+    anchors.right: selectionList.right
+    anchors.bottom: selectionList.bottom
+    margin-right: 1
+    margin-bottom: 1
+    margin-top: 1
+    step: 20
+    pixel-scroll: true
+
+  HorizontalSeparator
+    id: separator
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-bottom: 25
+
+  Button
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    text: Cancel
+    text-offset: 0 0
+    size: 43 20
+    color: #c0c0c0
+    @onClick: modules.game_outfit.destroy()
+  
+  Button
+    id: acceptButton
+    anchors.bottom: parent.bottom
+    anchors.right: prev.left
+    text: Ok
+    text-offset: 0 0
+    size: 43 20
+    color: #c0c0c0
+    margin-right: 11
+    @onClick: modules.game_outfit.accept()
+
+  MainWindowHigh
+    id: renamePresetModal
+    margin-top: -53
+    size: 360 121
+    text: Rename Preset
+    text-offset: 0 2
+    font: $var-cip-font-new
+    color: #909090
+    visible: false
+    anchors.centerIn: parent
+    @onEscape: modules.game_outfit.cancelRenamePresetModal()
+
+    TextEdit
+      id: renamePresetInput
+      size: 328 16
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.top: parent.top
+      margin-top: 11
+      max-length: 30
+      text-align: left
+
+    HorizontalSeparator
+      id: renamePresetSeparator
+      anchors.top: renamePresetInput.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 11
+
+    Button
+      id: renamePresetCancel
+      anchors.top: renamePresetSeparator.bottom
+      anchors.right: parent.right
+      margin-top: 11
+      text: Cancel
+      text-offset: 0 0
+      size: 43 20
+      color: #c0c0c0
+      @onClick: modules.game_outfit.cancelRenamePresetModal()
+
+    Button
+      id: renamePresetOk
+      anchors.top: renamePresetSeparator.bottom
+      anchors.right: renamePresetCancel.left
+      margin-top: 11
+      margin-right: 11
+      text: Ok
+      text-offset: 0 0
+      size: 43 20
+      color: #c0c0c0
+      @onClick: modules.game_outfit.confirmRenamePresetModal()

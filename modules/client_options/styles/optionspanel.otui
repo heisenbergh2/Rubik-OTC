@@ -1,0 +1,328 @@
+UIWidget
+  anchors.fill: parent
+  visible: false
+
+  Window
+    id: gameplay
+    anchors.fill: parent
+    margin-bottom: 335
+    visible: false
+    !text: tr('Gameplay')
+    padding-top: 12
+    padding-left: 2
+    text-offset: 0 0
+    visible: true
+    draggable: false
+    image-source: /images/ui/window_new
+    image-border: 4
+    image-border-top: 30
+    image-border-bottom: 4
+  
+    UIWidget
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: parent.top
+      height: 28
+      margin-top: 5
+      margin-right: 10
+  
+      Label
+        id: mousePresetLabel
+        !text: tr('Mouse Preset:')
+        anchors.left: parent.left
+        margin-left: 8
+        color: #c0c0c0ff
+        font: $var-cip-font
+        anchors.verticalCenter: parent.verticalCenter
+  
+      QtComboBox
+        id: classicControls
+        width: 130
+        margin-left: 8
+        anchors.left: mousePresetLabel.right
+        anchors.verticalCenter: parent.verticalCenter
+        mouse-scroll: false
+  
+      QtComboBox
+        id: lootSide
+        width: 130
+        margin-left: 5
+        anchors.left: classicControls.right
+        anchors.verticalCenter: parent.verticalCenter
+        mouse-scroll: false
+  
+      UIWidget
+        id: mousePresetHelp
+        image-source: /images/icons/show_gui_help_grey
+        size: 12 12
+        anchors.right: parent.right
+        anchors.verticalCenter: parent.verticalCenter
+        margin-right: 3
+        !tooltip: tr('Mouse preset configuration')
+  
+    SmallReversedQtPanel
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: prev.bottom
+      height: 22
+      margin-left: 6
+      margin-right: 10
+  
+      OptionCheckBoxMarked
+        id: allowInspect
+        font: $var-cip-font
+        !text: tr('Allow All to Inspect Me')
+        !tooltip: tr('Allow all players to inspect you')
+  
+    SmallReversedQtPanel
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: prev.bottom
+      height: 22
+      margin-top: 5
+      margin-left: 6
+      margin-right: 10
+  
+      OptionCheckBoxMarked
+        id: quickLootCorpses
+        font: $var-cip-font
+        !text: tr('Quick Loot Nearby Corpses')
+        !tooltip: tr('Enable quick loot for nearby corpses')
+  
+  Window
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: gameplay.bottom
+    margin-top: 10
+    height: 140
+    visible: true
+    !text: tr('Interface')
+    padding-top: 12
+    padding-left: 2
+    padding-right: 2
+    text-offset: 0 0
+    draggable: false
+    image-source: /images/ui/window_new
+    image-border: 4
+    image-border-top: 30
+    image-border-bottom: 4
+  
+    UIWidget
+      id: hudStylePanel
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: parent.top
+      height: 22
+      margin-top: 5
+      margin-right: 10
+  
+      Label
+        id: hudStyleLabel
+        !text: tr('HUD Style:')
+        anchors.left: parent.left
+        margin-left: 8
+        color: #c0c0c0ff
+        anchors.verticalCenter: parent.verticalCenter
+  
+      OptionCheckBox
+        id: showBars
+        !text: tr('Show Bars')
+        anchors.left: hudStyleLabel.right
+        margin-left: 100
+        margin-right: 238
+        anchors.verticalCenter: parent.verticalCenter
+  
+      OptionCheckBox
+        id: showArcs
+        !text: tr('Show Arcs')
+        anchors.left: showBars.right
+        margin-left: 10
+        anchors.verticalCenter: parent.verticalCenter
+  
+      UIWidget
+        id: hudStyleHelp
+        image-source: /images/icons/show_gui_help_grey
+        size: 12 12
+        anchors.right: parent.right
+        anchors.verticalCenter: parent.verticalCenter
+        margin-right: 3
+        !tooltip: tr('HUD style configuration')
+  
+    SmallReversedQtPanel
+      id: actionBarsPanel
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: prev.bottom
+      height: 58
+      margin-top: 5
+      margin-left: 6
+      margin-right: 6
+  
+      Label
+        id: bottomBarsLabel
+        !text: tr('Show Bottom Action Bars:')
+        anchors.left: parent.left
+        anchors.top: parent.top
+        margin-left: 2
+        margin-top: 1
+        color: #c0c0c0ff
+  
+      OptionCheckBox
+        id: bottomBarsAll
+        !text: tr('All')
+        anchors.left: bottomBarsLabel.right
+        anchors.top: bottomBarsLabel.top
+        margin-left: 20
+  
+      OptionCheckBox
+        id: bottomBarsBar1
+        !text: tr('Bar 1')
+        anchors.left: bottomBarsAll.right
+        anchors.top: bottomBarsLabel.top
+        margin-left: 10
+  
+      OptionCheckBox
+        id: bottomBarsBar2
+        !text: tr('Bar 2')
+        anchors.left: bottomBarsBar1.right
+        anchors.top: bottomBarsLabel.top
+        margin-left: 10
+  
+      OptionCheckBox
+        id: bottomBarsBar3
+        !text: tr('Bar 3')
+        anchors.left: bottomBarsBar2.right
+        anchors.top: bottomBarsLabel.top
+        margin-left: 10
+  
+      UIWidget
+        id: bottomBarsHelp
+        image-source: /images/icons/show_gui_help_grey
+        size: 12 12
+        anchors.right: parent.right
+        anchors.top: bottomBarsBar3.top
+        margin-right: 3
+        !tooltip: tr('Bottom action bars configuration')
+  
+      Label
+        id: leftBarsLabel
+        !text: tr('Show Left Action Bars:')
+        anchors.left: parent.left
+        anchors.top: bottomBarsLabel.bottom
+        margin-left: 2
+        margin-top: 4
+        color: #707070
+  
+      OptionCheckBox
+        id: leftBarsAll
+        !text: tr('All')
+        anchors.left: leftBarsLabel.right
+        anchors.top: leftBarsLabel.top
+        margin-left: 38
+        enabled: false
+        color: #707070
+  
+      OptionCheckBox
+        id: leftBarsBar1
+        !text: tr('Bar 1')
+        anchors.left: leftBarsAll.right
+        anchors.top: leftBarsLabel.top
+        margin-left: 10
+        enabled: false
+        color: #707070
+  
+      OptionCheckBox
+        id: leftBarsBar2
+        !text: tr('Bar 2')
+        anchors.left: leftBarsBar1.right
+        anchors.top: leftBarsLabel.top
+        margin-left: 10
+        enabled: false
+        color: #707070
+  
+      OptionCheckBox
+        id: leftBarsBar3
+        !text: tr('Bar 3')
+        anchors.left: leftBarsBar2.right
+        anchors.top: leftBarsLabel.top
+        margin-left: 10
+        enabled: false
+        color: #707070
+  
+      Label
+        id: rightBarsLabel
+        !text: tr('Show Right Action Bars:')
+        anchors.left: parent.left
+        anchors.top: leftBarsLabel.bottom
+        margin-left: 2
+        margin-top: 2
+        color: #707070
+  
+      OptionCheckBox
+        id: rightBarsAll
+        !text: tr('All')
+        anchors.left: rightBarsLabel.right
+        anchors.top: rightBarsLabel.top
+        margin-left: 32
+        enabled: false
+        color: #707070
+  
+      OptionCheckBox
+        id: rightBarsBar1
+        !text: tr('Bar 1')
+        anchors.left: rightBarsAll.right
+        anchors.top: rightBarsLabel.top
+        margin-left: 10
+        enabled: false
+        color: #707070
+  
+      OptionCheckBox
+        id: rightBarsBar2
+        !text: tr('Bar 2')
+        anchors.left: rightBarsBar1.right
+        anchors.top: rightBarsLabel.top
+        margin-left: 10
+        enabled: false
+        color: #707070
+  
+      OptionCheckBox
+        id: rightBarsBar3
+        !text: tr('Bar 3')
+        anchors.left: rightBarsBar2.right
+        anchors.top: rightBarsLabel.top
+        margin-left: 10
+        enabled: false
+        color: #707070
+  
+    UIWidget
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: prev.bottom
+      height: 32
+      margin-top: 5
+      margin-left: 6
+      margin-right: 10
+  
+      Label
+        !text: tr('Colourise Loot Value:')
+        anchors.left: parent.left
+        color: #c0c0c0ff
+        anchors.verticalCenter: parent.verticalCenter
+  
+      QtComboBox
+        id: colouriseLootValue
+        width: 150
+        margin-left: 10
+        anchors.verticalCenter: prev.verticalCenter
+        anchors.left: prev.right
+        mouse-scroll: false
+  
+      UIWidget
+        id: colouriseLootHelp
+        image-source: /images/icons/show_gui_help_grey
+        size: 12 12
+        anchors.right: parent.right
+        anchors.verticalCenter: parent.verticalCenter
+        margin-right: 3
+        !tooltip: tr('Colourise loot value configuration')
+  

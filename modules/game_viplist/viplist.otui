@@ -1,0 +1,83 @@
+VipListLabel < GameLabel
+  text-offset: 14 0
+  image-rect: 0 1 12 12
+  image-clip: 0 0 12 12
+  image-source: /images/game/creatures/vip-icons
+  font: verdana-11px-monochrome
+  margin-top: 2
+  phantom: false
+
+VipGroupList < UIWidget
+  size: 156 20
+  margin-top: 6
+
+  Label
+    id: group
+    anchors.top: parent.top
+    anchors.left: parent.left
+    font: $var-cip-font-new
+    color: #f7f7f7
+    text-align: topLeft
+    !text: tr('No Group')
+    text-auto-resize: true
+  
+  HorizontalSeparator
+    width: 158
+    anchors.left: parent.left
+    anchors.top: parent.top
+    margin-top: 15
+  
+  Panel
+    id: panel
+    size: 156 45
+    anchors.left: parent.left
+    anchors.top: parent.top
+    margin-top: 19
+    layout:
+      type: verticalBox
+      fit-children: true
+
+MiniWindow
+  id: vipWindow
+  height: 150
+  @onOpen: modules.game_viplist.onMiniWindowOpen()
+  @onClose: modules.game_viplist.onMiniWindowClose()
+  &save: true
+
+  UIWidget
+    id: miniwindowIcon
+    anchors.top: miniwindowHeader.top
+    anchors.left: miniwindowHeader.left
+    margin-top: 2
+    margin-left: 4
+    image-source: /images/topbuttons/viplist
+    image-rect: 0 0 12 12
+    image-smooth: false
+
+  Label
+    id: miniwindowTitle
+    anchors.top: miniwindowHeader.top
+    anchors.left: miniwindowHeader.left
+    anchors.right: miniwindowHeader.right
+    margin-top: 1
+    margin-left: 20
+    margin-right: 50
+    font: verdana-11px-monochrome
+    height: 13
+    !text: tr('VIP')
+    color: #909090
+
+  MiniWindowContents
+    padding-left: 5
+    padding-right: 5
+    layout: verticalBox
+    &onMousePress: modules.game_viplist.onVipListMousePress
+  
+  UIWidget
+    id: miniborder
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    image-source: /images/ui/miniborder-bottom-left
+    size: 14 14
+    margin-left: 2
+    margin-bottom: 2

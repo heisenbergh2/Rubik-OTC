@@ -1,0 +1,8 @@
+Module
+  name: game_market
+  description: Market like real Tibia.
+  author:
+  sandboxed: true
+  scripts: [ t_market, classes/t_history, classes/t_ownOffers ]
+  @onLoad: init()
+  @onUnload: terminate()

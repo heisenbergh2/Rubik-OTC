@@ -1,0 +1,184 @@
+TradeWindow < MiniWindow
+  !text: tr('Trade')
+  height: 132
+  @onSetup: |
+    do
+      for _, id in ipairs({ 'newWindowButton', 'contextMenuButton', 'toggleFilterButton' }) do
+        local w = self:recursiveGetChildById(id)
+        if w then
+          w:setVisible(false)
+          w:setOn(false)
+        end
+      end
+
+      local title = self:recursiveGetChildById('miniwindowTitle')
+      if title then
+        title:setVisible(true)
+        title:setText(tr('Trade'))
+        title:setMarginLeft(20)
+      end
+
+      local scrollBar = self:recursiveGetChildById('miniwindowScrollBar')
+      if scrollBar then
+        scrollBar:destroy()
+      end
+    end
+
+  Label
+    id: ownTradeLabel
+    anchors.bottom: topSeparator.top
+    anchors.left: parent.left
+    anchors.right: parent.horizontalCenter
+    margin-left: 5
+    text-align: left
+    visible: true
+
+  Label
+    id: counterTradeLabel
+    anchors.bottom: topSeparator.top
+    anchors.left: parent.horizontalCenter
+    anchors.right: parent.right
+    margin-left: 5
+    margin-right: 16
+    text-align: left
+    visible: true
+  
+  HorizontalSeparator
+    id: topSeparator
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+    margin-left: 4
+    margin-right: 4
+    margin-top: 25
+
+  Item
+    id: headerItem
+    virtual: true
+    size: 17 17
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-left: 2
+
+  MiniWindowContents
+    padding: 2
+    anchors.top: topSeparator.bottom
+    anchors.bottom: botSeparator.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+
+    Panel
+      id: tradeItemsArea
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      anchors.left: parent.left
+      anchors.right: tradeScrollBar.left
+      margin-right: 1
+
+    ScrollableFlatPanel
+      id: ownTradeContainer
+      image-source: ""
+      image-border: 0
+      anchors.top: tradeItemsArea.top
+      anchors.bottom: tradeItemsArea.bottom
+      anchors.left: tradeItemsArea.left
+      anchors.right: tradeItemsArea.horizontalCenter
+      margin-right: 1
+      padding: 3
+      vertical-scrollbar: ownTradeScrollBar
+      layout:
+        type: grid
+        num-columns: 2
+        cell-size: 34 34
+        flow: true
+        cell-spacing: 3
+
+    VerticalScrollBar
+      id: ownTradeScrollBar
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      anchors.left: parent.left
+      width: 0
+      opacity: 0
+      enabled: false
+      focusable: false
+      step: 34
+      pixels-scroll: true
+
+    VerticalScrollBar
+      id: tradeScrollBar
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      anchors.right: parent.right
+      margin-right: 1
+      step: 34
+      pixels-scroll: true
+
+    ScrollableFlatPanel
+      id: counterTradeContainer
+      image-source: ""
+      image-border: 0
+      anchors.top: tradeItemsArea.top
+      anchors.bottom: tradeItemsArea.bottom
+      anchors.left: tradeItemsArea.horizontalCenter
+      anchors.right: tradeItemsArea.right
+      margin-left: 1
+      padding: 3
+      vertical-scrollbar: counterTradeScrollBar
+      layout:
+        type: grid
+        num-columns: 2
+        cell-size: 34 34
+        flow: true
+        cell-spacing: 3
+
+    VerticalScrollBar
+      id: counterTradeScrollBar
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      anchors.left: parent.left
+      width: 0
+      opacity: 0
+      enabled: false
+      focusable: false
+      step: 34
+      pixels-scroll: true
+    
+  HorizontalSeparator
+    id: botSeparator
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-left: 4
+    margin-right: 4
+    margin-bottom: 28
+
+  VerticalSeparator
+    id: middleSeparator
+    anchors.top: topSeparator.bottom
+    anchors.bottom: botSeparator.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-left: -7
+
+  Button
+    id: acceptButton
+    !text: tr('Accept')
+    color: #c0c0c0
+    size: 43 20
+    anchors.top: botSeparator.bottom
+    anchors.right: rejectButton.left
+    margin-top: 3
+    margin-right: 6
+    enabled: false
+    @onClick: g_game.acceptTrade(); self:disable()
+
+  Button
+    id: rejectButton
+    !text: tr('Reject')
+    color: #c0c0c0
+    size: 43 20
+    anchors.top: botSeparator.bottom
+    anchors.right: parent.right
+    margin-top: 3
+    margin-right: 6
+    @onClick: g_game.rejectTrade()

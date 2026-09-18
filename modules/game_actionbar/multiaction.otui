@@ -1,0 +1,171 @@
+MultiActionSubSlot < UIActionSlot
+  size: 34 34
+  image-source: /assets/images/game/actionbar/slot-actionbar-empty
+  image-size: 34 34
+  font: Verdana-8px-outline
+  color: #ffffff
+  show-count: false
+  always-show-count: false
+  focusable: true
+  phantom: false
+
+  Label
+    id: count
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    margin-bottom: 0
+    margin-right: 1
+    phantom: true
+    text-auto-resize: true
+    font: Verdana-8px-outline
+    color: #ffffff
+    visible: false
+
+  UIWidget
+    id: tier
+    size: 9 8
+    image-source: /images/inventory/tiers-strip
+    image-clip: 0 0 9 8
+    image-size: 9 8
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin-right: 1
+    margin-top: 1
+    phantom: true
+    focusable: false
+    visible: false
+
+  UIWidget
+    id: spellIcon
+    size: 32 32
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.verticalCenter: parent.verticalCenter
+    image-size: 32 32
+    visible: false
+    phantom: true
+    focusable: false
+
+  Panel
+    id: gray
+    size: 32 32
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.verticalCenter: parent.verticalCenter
+    image-source: /assets/images/game/actionbar/slot-disabled
+    image-size: 32 32
+    visible: false
+
+  Label
+    id: text
+    anchors.fill: parent
+    text-auto-resize: true
+    text-wrap: true
+    text-align: center
+    margin-left: -1
+    font: Verdana-8px-outline
+    color: #ffffff
+
+  Label
+    id: spellParameter
+    width: 34
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    phantom: true
+    text-auto-resize: false
+    text-align: right
+    font: Verdana-8px-outline
+    color: #ffffff
+    visible: false
+
+  UIWidget
+    id: activeSpell
+    size: 32 32
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.verticalCenter: parent.verticalCenter
+    image-source: /assets/images/game/actionbar/border_activespell
+    image-size: 32 32
+    visible: false
+    phantom: true
+    focusable: false
+
+slot-multi-action-bottom < HeadlessWindow
+  id: multiActionPanel
+  size: 67 116
+  image-source: /assets/images/game/actionbar/slot-multi-action-bottom
+  draggable: false
+  focusable: false
+  @onEscape: modules.game_actionbar.closeCurrentMultiActionPanel()
+
+  MultiActionSubSlot
+    id: actionButton3
+    anchors.top: parent.top
+    anchors.right: parent.right
+
+  MultiActionSubSlot
+    id: actionButton2
+    anchors.top: actionButton3.bottom
+    anchors.right: parent.right
+    margin-top: 3
+
+  MultiActionSubSlot
+    id: actionButton1
+    anchors.top: actionButton2.bottom
+    anchors.right: parent.right
+    margin-top: 3
+
+LeftMultiAction < HeadlessWindow
+  id: multiActionPanel
+  size: 116 67
+  image-source: /assets/images/game/actionbar/slot-multi-action-left
+  draggable: false
+  focusable: false
+  @onEscape: modules.game_actionbar.closeCurrentMultiActionPanel()
+
+  MultiActionSubSlot
+    id: actionButton1
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    margin-left: 0
+    margin-bottom: 0
+
+  MultiActionSubSlot
+    id: actionButton2
+    anchors.left: actionButton1.right
+    anchors.bottom: parent.bottom
+    margin-left: 3
+    margin-bottom: 0
+
+  MultiActionSubSlot
+    id: actionButton3
+    anchors.left: actionButton2.right
+    anchors.bottom: parent.bottom
+    margin-left: 3
+    margin-bottom: 0
+
+RightMultiAction < HeadlessWindow
+  id: multiActionPanel
+  size: 116 67
+  image-source: /assets/images/game/actionbar/slot-multi-action-right
+  draggable: false
+  focusable: false
+  @onEscape: modules.game_actionbar.closeCurrentMultiActionPanel()
+
+  MultiActionSubSlot
+    id: actionButton1
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-right: 0
+    margin-bottom: 0
+
+  MultiActionSubSlot
+    id: actionButton2
+    anchors.right: actionButton1.left
+    anchors.bottom: parent.bottom
+    margin-right: 3
+    margin-bottom: 0
+
+  MultiActionSubSlot
+    id: actionButton3
+    anchors.right: actionButton2.left
+    anchors.bottom: parent.bottom
+    margin-right: 3
+    margin-bottom: 0

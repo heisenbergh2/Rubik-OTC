@@ -1,0 +1,9 @@
+Module
+  name: client_options
+  description: Create the options window
+  author: edubart, BeniS
+  website: https://github.com/edubart/otclient
+  sandboxed: true
+  scripts: [ options, keybins, custom_hotkey_manager, custom_hotkeys_controller, custom_hotkeys, cip_import_mappings, cip_import_reader, cip_import_converter, cip_import_applier, cip_import ]
+  @onLoad: controller:init()
+  @onUnload: controller:terminate()

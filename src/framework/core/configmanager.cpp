@@ -1,0 +1,229 @@
+/*
+ * Copyright (c) 2010-2026 OTClient <https://github.com/edubart/otclient>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+#include "configmanager.h"
+#include <INIReader.h>
+#include "resourcemanager.h"
+
+ConfigManager g_configs;
+
+void ConfigManager::init() {
+    m_settings = std::make_shared<Config>();
+
+    // Comment out or remove this line to skip loading config.ini.
+    loadPublicConfig("config.ini");
+}
+
+void ConfigManager::terminate()
+{
+    if (m_settings) {
+        // ensure settings are saved
+        m_settings->save();
+
+        m_settings->unload();
+        m_settings = nullptr;
+    }
+
+    for (auto config : m_configs) {
+        config->unload();
+        config = nullptr;
+    }
+
+    m_configs.clear();
+}
+
+ConfigPtr ConfigManager::getSettings()
+{
+    return m_settings;
+}
+
+ConfigPtr ConfigManager::get(const std::string& file)
+{
+    for (const auto& config : m_configs) {
+        if (config->getFileName() == file) {
+            return config;
+        }
+    }
+    return nullptr;
+}
+
+ConfigPtr ConfigManager::loadSettings(const std::string& file)
+{
+    if (file.empty()) {
+        g_logger.error("Must provide a configuration file to load.");
+    } else {
+        if (m_settings->load(file)) {
+            return m_settings;
+        }
+    }
+    return nullptr;
+}
+
+ConfigPtr ConfigManager::create(const std::string& file)
+{
+    auto config = load(file);
+    if (!config) {
+        config = std::make_shared<Config>();
+
+        config->load(file);
+        config->save();
+
+        m_configs.emplace_back(config);
+    }
+    return config;
+}
+
+ConfigPtr ConfigManager::load(const std::string& file)
+{
+    if (file.empty()) {
+        g_logger.error("Must provide a configuration file to load.");
+        return nullptr;
+    }
+    auto config = get(file);
+    if (!config) {
+        config = std::make_shared<Config>();
+
+        if (config->load(file)) {
+            m_configs.emplace_back(config);
+        } else {
+            // cannot load config
+            config = nullptr;
+        }
+    }
+    return config;
+}
+
+void ConfigManager::setRenderBackend(const std::string& backend)
+{
+    if (backend != "gl" && backend != "vulkan") {
+        g_logger.warning("[config] unknown render backend '{}' - ignoring", backend);
+        return;
+    }
+
+    m_publicConfig.graphics.renderBackend = backend;
+
+    // Always update the public config discovered beside init.lua. The process
+    // current directory may be unrelated when the client is launched through
+    // a shortcut, IDE or updater.
+    const std::string path = g_resources.getWorkDir() + "config.ini";
+    std::ifstream in(path);
+
+    std::vector<std::string> lines;
+    std::string line;
+    bool graphicsSection = false;
+    bool foundGraphicsSection = false;
+    bool replaced = false;
+
+    while (in.is_open() && std::getline(in, line)) {
+        const auto first = line.find_first_not_of(" \t");
+        const auto last = line.find_last_not_of(" \t\r");
+        const std::string_view trimmed = first == std::string::npos
+                                             ? std::string_view{}
+                                             : std::string_view(line).substr(first, last - first + 1);
+
+        if (trimmed.starts_with('[') && trimmed.ends_with(']')) {
+            if (graphicsSection && !replaced) {
+                lines.push_back("renderBackend = " + backend);
+                replaced = true;
+            }
+            graphicsSection = trimmed == "[graphics]";
+            foundGraphicsSection = foundGraphicsSection || graphicsSection;
+        }
+
+        if (graphicsSection && (trimmed.starts_with("renderBackend=") || trimmed.starts_with("renderBackend "))) {
+            lines.push_back("renderBackend = " + backend);
+            replaced = true;
+        } else {
+            lines.push_back(line);
+        }
+    }
+    in.close();
+
+    if (!foundGraphicsSection) {
+        if (!lines.empty() && !lines.back().empty())
+            lines.emplace_back();
+        lines.emplace_back("[graphics]");
+    }
+
+    if (!replaced)
+        lines.push_back("renderBackend = " + backend);
+
+    std::ofstream out(path, std::ios::trunc);
+    if (!out.is_open()) {
+        g_logger.warning("[config] cannot write {}", path);
+        return;
+    }
+
+    for (const auto& l : lines)
+        out << l << "\n";
+
+    g_logger.info("[config] render backend set to '{}' - takes effect after a client restart", backend);
+}
+
+bool ConfigManager::unload(const std::string& file)
+{
+    if (auto config = get(file)) {
+        config->unload();
+        remove(config);
+        config = nullptr;
+        return true;
+    }
+    return false;
+}
+
+void ConfigManager::remove(const ConfigPtr& config) { m_configs.remove(config); }
+
+void ConfigManager::saveSettings()
+{
+    if (m_settings)
+        m_settings->save();
+}
+
+void ConfigManager::loadPublicConfig(const std::string& fileName) {
+    if (!g_resources.fileExists(fileName)) {
+        g_logger.info("[config] Optional '{}' not found; using built-in defaults", fileName);
+        return;
+    }
+    try {
+        auto content = g_resources.readFileContents(fileName);
+        INIReader reader(content.c_str(), content.size());
+
+        if (reader.ParseError() != 0) {
+            g_logger.error("Failed to parse public INI '{}' (error/line {})", fileName, reader.ParseError());
+            return;
+        }
+
+        m_publicConfig.graphics.maxAtlasSize = std::max<int>(2048, reader.GetInteger("graphics", "maxAtlasSize", m_publicConfig.graphics.maxAtlasSize));
+        m_publicConfig.graphics.mapAtlasSize = reader.GetInteger("graphics", "mapAtlasSize", m_publicConfig.graphics.mapAtlasSize);
+        m_publicConfig.graphics.foregroundAtlasSize = reader.GetInteger("graphics", "foregroundAtlasSize", m_publicConfig.graphics.foregroundAtlasSize);
+        m_publicConfig.graphics.renderBackend = reader.Get("graphics", "renderBackend", m_publicConfig.graphics.renderBackend);
+        m_publicConfig.graphics.renderPath = reader.Get("graphics", "renderPath", m_publicConfig.graphics.renderPath);
+        
+        m_publicConfig.font.widget = reader.Get("font", "widget", m_publicConfig.font.widget);
+        m_publicConfig.font.staticText = reader.Get("font", "static-text", m_publicConfig.font.staticText);
+        m_publicConfig.font.animatedText = reader.Get("font", "animated-text", m_publicConfig.font.animatedText);
+        m_publicConfig.font.creatureText = reader.Get("font", "creature-text", m_publicConfig.font.creatureText);
+        m_publicConfig.font.itemCount = reader.Get("font", "item-count", m_publicConfig.font.itemCount);
+    } catch (const std::exception& e) {
+        g_logger.error("Failed to parse public config '{}': {}", fileName, e.what());
+    }
+}

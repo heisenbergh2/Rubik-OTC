@@ -1,0 +1,103 @@
+TutorialWorldMapView < ImageView
+  __class: TutorialWorldMapView
+  image-smooth: false
+  image-fixed-ratio: false
+  draggable: true
+  focusable: false
+  border-width: 0
+
+TutorialMainlandWindow < MainLogoWindow
+  id: tutorialMainlandWindow
+  size: 907 505
+  !text: ''
+  clipping: false
+  @onEscape: modules.game_tutorial.hide()
+
+  Panel
+    id: mainlandContent
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-top: -22
+
+    UIWidget
+      id: mainlandBanner
+      size: 320 44
+      anchors.top: parent.top
+      anchors.left: parent.left
+      image-source: /images/game/tutorial/banner_tutorialpopup_welcometotibia
+      margin-left: 278
+      image-smooth: true
+      image-fixed-ratio: true
+
+    UIWidget
+      id: mainlandContentFrame
+      size: 875 421
+      image-source: /images/ui/1pixel-down-frame
+      image-border: 5
+      anchors.top: mainlandBanner.bottom
+      anchors.horizontalCenter: parent.horizontalCenter
+      margin-top: 11
+
+      Panel
+        id: realMapViewport
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.left: mainlandBackdrop.right
+        margin-top: 1
+        margin-right: 1
+        margin-bottom: 1
+        margin-left: -48
+        clipping: true
+        image-smooth: true
+
+        TutorialWorldMapView
+          id: realMap
+          anchors.fill: parent
+
+        UIWidget
+          id: worldMapPin
+          size: 126 41
+          image-source: /images/game/tutorial/overlay_pin
+          image-smooth: true
+          phantom: true
+          visible: false
+
+      UIWidget
+        id: mainlandBackdrop
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        margin: 1
+        image-source: /images/game/tutorial/backdrop_popup_welcometonewhaven
+        image-smooth: true
+        image-fixed-ratio: true
+        phantom: true
+
+      UIWidget
+        size: 120 33
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        margin-left: 158
+        margin-bottom: 27
+        image-source: /images/game/tutorial/button_startplaying_idle
+        image-smooth: true
+        image-fixed-ratio: true
+        phantom: true
+
+        UIButton
+          id: buttonMainlandContinue
+          size: 108 20
+          anchors.left: parent.left
+          anchors.bottom: parent.bottom
+          image-source: /images/game/tutorial/buttons/button-journey
+          image-clip: 0 0 108 20
+          margin-left: 6
+          margin-bottom: 7
+          image-smooth: true
+          @onClick: modules.game_tutorial.hide()
+
+          $pressed:
+            image-clip: 0 20 108 20

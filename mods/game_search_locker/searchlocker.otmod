@@ -1,0 +1,9 @@
+Module
+  name: game_search_locker
+  description: Depot Locker Search
+  author: Rokam
+  sandboxed: true
+  dependencies: [ game_stash ]
+  scripts: [ searchlocker ]
+  @onLoad: init()
+  @onUnload: terminate()

@@ -1,0 +1,34 @@
+historyData < UIWidget
+  height: 16
+  Label
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.bottom : parent.bottom
+    id: rank
+    width: 150
+    !text: tr('1')
+    text-align: center
+    color: #dfdfdfcf
+    phantom: false
+    margin-left: 4
+
+  VerticalSeparator
+    id: separator
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    margin-top: -1
+    margin-bottom: -1
+    margin-left: 155
+    
+  Label
+    anchors.top: parent.top
+    anchors.left: prev.right
+    anchors.bottom : parent.bottom
+    id: name
+    width: 216
+    !text: tr('-')
+    text-align: left
+    color: #ff0000cf
+    phantom: true
+    margin-left: 5

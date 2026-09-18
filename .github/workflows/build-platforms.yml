@@ -1,0 +1,209 @@
+name: Reusable platform build
+
+on:
+  workflow_call:
+    inputs:
+      platform:
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rubikotc-platforms-${{ github.ref }}-${{ inputs.platform || 'all' }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(inputs.platform == 'linux' && '{"include":[{"platform":"linux","build_type":"Release","artifact":"RubikOTC-linux-release","os":"ubuntu-24.04","triplet":"x64-linux"},{"platform":"linux","build_type":"Debug","artifact":"RubikOTC-linux-debug","os":"ubuntu-24.04","triplet":"x64-linux"}]}' || inputs.platform == 'macos' && '{"include":[{"platform":"macos","build_type":"Release","artifact":"RubikOTC-macos-release","os":"macos-15","triplet":"arm64-osx"}]}' || inputs.platform == 'browser' && '{"include":[{"platform":"browser","build_type":"Release","artifact":"RubikOTC-browser-release","os":"ubuntu-24.04","triplet":"wasm32-emscripten-pthread"}]}' || '{"include":[{"platform":"linux","build_type":"Release","artifact":"RubikOTC-linux-release","os":"ubuntu-24.04","triplet":"x64-linux"},{"platform":"linux","build_type":"Debug","artifact":"RubikOTC-linux-debug","os":"ubuntu-24.04","triplet":"x64-linux"},{"platform":"macos","build_type":"Release","artifact":"RubikOTC-macos-release","os":"macos-15","triplet":"arm64-osx"},{"platform":"browser","build_type":"Release","artifact":"RubikOTC-browser-release","os":"ubuntu-24.04","triplet":"wasm32-emscripten-pthread"}]}') }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 180
+    defaults:
+      run:
+        shell: bash
+    env:
+      CCACHE_DIR: ${{ github.workspace }}/.cache/ccache
+      CCACHE_MAXSIZE: 2G
+      CCACHE_BASEDIR: ${{ github.workspace }}
+      CMAKE_BUILD_PARALLEL_LEVEL: 2
+      VCPKG_MAX_CONCURRENCY: 2
+      EMSDK_VERSION: 6.0.9
+      LUA_VERSION: 5.1.5
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install Linux tools
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends autoconf autoconf-archive automake \
+            build-essential ccache curl git libtool ninja-build pkg-config unzip zip \
+            gcc-14 g++-14 libasound2-dev libgl1-mesa-dev libglew-dev libglu1-mesa-dev \
+            libx11-dev libxext-dev
+          if [ '${{ matrix.platform }}' = linux ]; then
+            echo 'CC=gcc-14' >> "$GITHUB_ENV"
+            echo 'CXX=g++-14' >> "$GITHUB_ENV"
+          fi
+      - name: Install macOS tools and XQuartz
+        if: runner.os == 'macOS'
+        run: |
+          brew install ccache ninja autoconf automake libtool pkgconf
+          brew install --cask xquartz
+          echo 'CMAKE_PREFIX_PATH=/opt/X11' >> "$GITHUB_ENV"
+          echo 'PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig' >> "$GITHUB_ENV"
+      - name: Read dependency baseline
+        id: baseline
+        run: |
+          baseline=$(python3 -c 'import json; print(json.load(open("vcpkg.json"))["builtin-baseline"])')
+          [[ "$baseline" =~ ^[0-9a-f]{40}$ ]]
+          echo "commit=$baseline" >> "$GITHUB_OUTPUT"
+          mkdir -p .cache/vcpkg "$CCACHE_DIR"
+      - name: Restore compiled dependencies
+        id: dependencies
+        uses: actions/cache/restore@v6
+        with:
+          path: |
+            .cache/vcpkg
+            vcpkg/downloads
+          key: deps-${{ matrix.os }}-${{ matrix.triplet }}-${{ hashFiles('vcpkg.json', 'browser/overlay-ports/**', 'browser/triplets/**') }}-complete-v1
+          restore-keys: |
+            deps-${{ matrix.os }}-${{ matrix.triplet }}-${{ hashFiles('vcpkg.json', 'browser/overlay-ports/**', 'browser/triplets/**') }}-
+            deps-${{ matrix.os }}-${{ matrix.triplet }}-
+      - name: Restore compiler cache
+        uses: actions/cache/restore@v6
+        with:
+          path: .cache/ccache
+          key: compiler-${{ matrix.os }}-${{ matrix.triplet }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: compiler-${{ matrix.os }}-${{ matrix.triplet }}-
+      - name: Install pinned vcpkg
+        uses: lukka/run-vcpkg@b1a0dd252f06b9e25b3c022a9a03bd7a427fb6a2
+        with:
+          vcpkgGitCommitId: ${{ steps.baseline.outputs.commit }}
+          vcpkgJsonGlob: vcpkg.json
+      - name: Select persisted binary cache
+        run: |
+          echo "VCPKG_DEFAULT_BINARY_CACHE=$GITHUB_WORKSPACE/.cache/vcpkg" >> "$GITHUB_ENV"
+          echo "VCPKG_BINARY_SOURCES=clear;files,$GITHUB_WORKSPACE/.cache/vcpkg,readwrite" >> "$GITHUB_ENV"
+      - name: Cache Emscripten toolchain
+        if: matrix.platform == 'browser'
+        id: emsdk-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: ${{ runner.temp }}/emsdk
+          key: emsdk-${{ runner.os }}-${{ runner.arch }}-${{ env.EMSDK_VERSION }}
+      - name: Install Emscripten
+        id: emsdk-install
+        if: matrix.platform == 'browser'
+        run: |
+          if [ ! -d "$RUNNER_TEMP/emsdk/.git" ]; then
+            git clone --depth 1 --branch "$EMSDK_VERSION" https://github.com/emscripten-core/emsdk.git "$RUNNER_TEMP/emsdk"
+          fi
+          "$RUNNER_TEMP/emsdk/emsdk" install "$EMSDK_VERSION"
+          "$RUNNER_TEMP/emsdk/emsdk" activate "$EMSDK_VERSION"
+      - name: Restore WebAssembly Lua library
+        if: matrix.platform == 'browser'
+        id: wasm-lua-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: .cache/wasm-lua51
+          key: wasm-lua-${{ env.LUA_VERSION }}-emsdk-${{ env.EMSDK_VERSION }}-${{ hashFiles('browser/build-lua51.sh') }}
+      - name: Build Lua 5.1 for WebAssembly
+        if: matrix.platform == 'browser' && steps.wasm-lua-cache.outputs.cache-hit != 'true'
+        id: wasm-lua-build
+        run: |
+          source "$RUNNER_TEMP/emsdk/emsdk_env.sh"
+          bash browser/build-lua51.sh .cache/wasm-lua51
+      - name: Validate WebAssembly Lua library
+        if: matrix.platform == 'browser'
+        run: test -s .cache/wasm-lua51/liblua.a
+      - name: Configure and compile
+        id: compile
+        env:
+          PLATFORM: ${{ matrix.platform }}
+          BUILD_TYPE: ${{ matrix.build_type }}
+          TRIPLET: ${{ matrix.triplet }}
+        run: |
+          args=(-DCMAKE_BUILD_TYPE="$BUILD_TYPE" -DTOGGLE_BIN_FOLDER=ON -DBUILD_STATIC_LIBRARY=ON
+            -DOPTIONS_ENABLE_CCACHE=ON -DOPTIONS_ENABLE_SCCACHE=OFF -DOPTIONS_ENABLE_IPO=OFF
+            -DOTCLIENT_BUILD_TESTS=OFF -DTOGGLE_PRE_COMPILED_HEADER=OFF -DVCPKG_TARGET_TRIPLET="$TRIPLET"
+            -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake")
+          if [ "$PLATFORM" = linux ] && [ "$BUILD_TYPE" = Debug ]; then
+            args+=(-DDEBUG_LOG=ON -DSPEED_UP_BUILD_UNITY=OFF)
+          fi
+          if [ "$PLATFORM" = browser ]; then
+            # Non-CMake ports such as OpenSSL also read CC/CXX from the
+            # environment. Native GCC cannot accept wasm atomics flags.
+            unset CC CXX
+            source "$RUNNER_TEMP/emsdk/emsdk_env.sh"
+            args+=(-DWASM=ON -DWASM_USE_WASM_EXCEPTIONS=OFF
+              -DOTCLIENT_WASM_LUA_LIBRARY="$GITHUB_WORKSPACE/.cache/wasm-lua51/liblua.a"
+              -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE="$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake"
+              -DVCPKG_OVERLAY_TRIPLETS="$GITHUB_WORKSPACE/browser/triplets"
+              -DVCPKG_OVERLAY_PORTS="$GITHUB_WORKSPACE/browser/overlay-ports")
+          fi
+          cmake -G Ninja -S . -B build/platform "${args[@]}"
+          cmake --build build/platform --target otclient --parallel 2
+      - name: Save Emscripten even when client compilation fails
+        if: ${{ always() && steps.emsdk-install.outcome == 'success' && steps.emsdk-cache.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v6
+        with:
+          path: ${{ runner.temp }}/emsdk
+          key: emsdk-${{ runner.os }}-${{ runner.arch }}-${{ env.EMSDK_VERSION }}
+      - name: Save WebAssembly Lua library
+        if: ${{ always() && matrix.platform == 'browser' && steps.wasm-lua-cache.outputs.cache-hit != 'true' && steps.wasm-lua-build.outcome == 'success' }}
+        uses: actions/cache/save@v6
+        with:
+          path: .cache/wasm-lua51
+          key: wasm-lua-${{ env.LUA_VERSION }}-emsdk-${{ env.EMSDK_VERSION }}-${{ hashFiles('browser/build-lua51.sh') }}
+      - name: Save dependency cache, including completed packages from failed builds
+        if: ${{ always() && steps.baseline.outcome == 'success' && steps.dependencies.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v6
+        with:
+          path: |
+            .cache/vcpkg
+            vcpkg/downloads
+          key: deps-${{ matrix.os }}-${{ matrix.triplet }}-${{ hashFiles('vcpkg.json', 'browser/overlay-ports/**', 'browser/triplets/**') }}-${{ steps.compile.outcome == 'success' && 'complete-v1' || format('{0}-{1}', github.run_id, github.run_attempt) }}
+      - name: Save compiler cache
+        if: ${{ always() && steps.baseline.outcome == 'success' }}
+        uses: actions/cache/save@v6
+        with:
+          path: .cache/ccache
+          key: compiler-${{ matrix.os }}-${{ matrix.triplet }}-${{ github.run_id }}-${{ github.run_attempt }}
+      - name: Report cache statistics
+        if: always()
+        run: ccache --show-stats
+      - name: Package client and runtime files
+        env:
+          PLATFORM: ${{ matrix.platform }}
+          ARTIFACT: ${{ matrix.artifact }}
+        run: |
+          mkdir -p artifacts/RubikOTC
+          if [ "$PLATFORM" = browser ]; then
+            test -n "$(find build/platform/bin -name '*.wasm' -print -quit)"
+            cp -a build/platform/bin/. artifacts/RubikOTC/
+          else
+            test -x build/platform/bin/otclient
+            install -m 755 build/platform/bin/otclient artifacts/RubikOTC/RubikOTC
+            cp -a init.lua config.ini otclientrc.lua cacert.pem assets modules mods artifacts/RubikOTC/
+          fi
+          cp docs/platform-builds.md artifacts/RubikOTC/BUILD-NOTES.md
+          # Build output may contain diagnostic logs. Runtime packages must not.
+          find artifacts/RubikOTC -type f -name '*.log' -delete
+          tar -C artifacts -czf "$ARTIFACT.tar.gz" RubikOTC
+      - name: Upload package
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.artifact }}
+          path: ${{ matrix.artifact }}.tar.gz
+          if-no-files-found: error
+      - name: Upload dependency diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: diagnostics-${{ matrix.platform }}
+          path: |
+            build/platform/vcpkg-manifest-install.log
+            vcpkg/buildtrees/**/*.log
+          if-no-files-found: ignore

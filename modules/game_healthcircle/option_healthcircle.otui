@@ -1,0 +1,98 @@
+UIWidget
+  anchors.fill: parent
+  visible: false
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+    height: 22
+
+    OptionCheckBoxMarked
+      id: healthCheckBox
+      !text: tr('Health circle')
+      !tooltip: tr('Show health red circle.')
+      @onCheckChange: |
+        if self:isChecked() then
+          modules.game_healthcircle.setHealthCircle(true)
+        else
+          modules.game_healthcircle.setHealthCircle(false)
+        end
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 7
+    height: 22
+  
+    OptionCheckBoxMarked
+      id: manaCheckBox
+      !text: tr('Mana circle')
+      !tooltip: tr('Show mana blue circle.')
+      @onCheckChange: |
+        if self:isChecked() then
+          modules.game_healthcircle.setManaCircle(true)
+        else
+          modules.game_healthcircle.setManaCircle(false)
+        end
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 7
+    height: 22
+
+    OptionScaleScrollMarked
+      id: distFromCenScrollbar
+      !text: tr('Distance from center' .. ':')
+      !tooltip: tr('Set distance from center.')
+      anchors.fill: parent
+      &minimumScrollValue: 0
+      &maximumScrollValue: 100
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 7
+    height: 22
+
+    OptionScaleScrollMarked
+      id: opacityScrollbar
+      !text: tr('Opacity' .. ':')
+      !tooltip: tr('Set circle opacity.')
+      anchors.fill: parent
+      &minimumScrollValue: 0
+      &maximumScrollValue: 100
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 7
+    height: 32
+  
+    Label
+      !text: tr('Bar Style:')
+      anchors.left: parent.left
+      margin-left: 18
+      color: #c0c0c0ff
+      anchors.verticalCenter: parent.verticalCenter
+
+    QtComboBox
+      id: chooseStatsBarPlacement
+      width: 120
+      margin-left: 10
+      anchors.verticalCenter: prev.verticalCenter
+      anchors.left: prev.right
+      mouse-scroll: false
+
+    QtComboBox
+      id: chooseStatsBarDimension
+      width: 120
+      margin-left: 10
+      anchors.verticalCenter: prev.verticalCenter
+      anchors.right: parent.right
+      anchors.left: prev.right
+      mouse-scroll: false

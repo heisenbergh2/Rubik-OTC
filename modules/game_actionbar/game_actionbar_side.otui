@@ -1,0 +1,254 @@
+ActionSlotV < UIActionSlot
+  size: 34 34
+  image-source: /assets/images/game/actionbar/slot-actionbar-empty
+  anchors.left: parent.left
+  anchors.top: prev.bottom
+  margin-top: 3
+  image-size: 34 34
+  font: Verdana-8px-outline
+  color: #ffffff
+  border-color: #ffffff
+  show-count: false
+  always-show-count: false
+  visible: false
+  $pressed:
+    opacity: 1.0
+  $!pressed:
+    opacity: 1.0
+
+  Label
+    id: count
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    margin-bottom: 0
+    margin-right: 1
+    phantom: true
+    text-auto-resize: true
+    font: Verdana-8px-outline
+    color: #ffffff
+    visible: false
+
+  UIWidget
+    id: tier
+    size: 9 8
+    image-source: /images/inventory/tiers-strip
+    image-clip: 0 0 9 8
+    image-size: 9 8
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin-right: 1
+    margin-top: 1
+    phantom: true
+    focusable: false
+    visible: false
+    image-smooth: true
+
+  UIWidget
+    id: spellIcon
+    size: 32 32
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.verticalCenter: parent.verticalCenter
+    image-size: 32 32
+    visible: false
+    phantom: true
+    focusable: false
+
+  Panel
+    id: gray
+    size: 32 32
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.verticalCenter: parent.verticalCenter
+    image-source: /assets/images/game/actionbar/slot-disabled
+    image-size: 32 32
+    visible: false
+
+  Label
+    id: key
+    anchors.top: parent.top
+    anchors.right: parent.right
+    text-auto-resize: true
+    margin-right: 1
+    font: Verdana-8px-outline
+    color: #ffffff
+
+  Label
+    id: text
+    anchors.fill: parent
+    text-auto-resize: true
+    text-wrap: true
+    text-align: center
+    margin-left: -1
+    font: Verdana-8px-outline
+    color: #ffffff
+
+  Label
+    id: spellParameter
+    width: 34
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    margin-bottom: 0
+    margin-right: 1
+    phantom: true
+    text-auto-resize: false
+    text-align: right
+    font: Verdana-8px-outline
+    color: #ffffff
+    visible: false
+
+  UIWidget
+    id: multiIcon
+    size: 5 11
+    image-source: /assets/images/game/actionbar/marker-multiactionbutton
+    image-size: 5 11
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-left: 1
+    margin-top: 1
+    phantom: true
+    focusable: false
+    visible: false
+
+  UIWidget
+    id: equipmentTypeIcon
+    size: 9 9
+    image-size: 9 9
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    margin-left: 1
+    margin-bottom: 1
+    phantom: true
+    focusable: false
+    visible: false
+
+  UIWidget
+    id: activeSpell
+    size: 32 32
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.verticalCenter: parent.verticalCenter
+    image-source: /assets/images/game/actionbar/border_activespell
+    image-size: 32 32
+    visible: false
+    phantom: true
+    focusable: false
+
+UIWindow
+  visible: false
+  width: 36
+  text-align: center
+  auto-focus: first
+  draggable: false
+  phantom: false
+  focusable: false
+  clipping: false
+  image-source: /images/ui/background
+  image-repeated: true
+
+  UIButton
+    id: sideLockButton
+    width: 34
+    height: 16
+    focusable: false
+    phantom: false
+    visible: false
+    text-offset: 0 0
+    image-offset: 0 0
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    margin-bottom: 2
+    margin-left: 0
+    @onClick: |
+      modules.game_actionbar.setLocked(not modules.game_actionbar.getLocked())
+
+  ScrollablePanel
+    id: actionBarPanel
+    anchors.top: prevButton.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: nextButton.top
+    margin-top: 0
+    margin-bottom: 2
+    margin-left: 0
+    vertical-scrollbar: verticalScroll
+    inverted-scroll: false
+    clip-children: true
+
+  VerticalScrollBar
+    id: verticalScroll
+    anchors.top: prevButton.bottom
+    anchors.bottom: nextButton.top
+    anchors.right: parent.right
+    margin-top: 0
+    margin-bottom: 2
+    pixels-scroll: true
+    visible: false
+
+  UIButton
+    id: prevButton
+    image-source: /assets/images/game/actionbar/button-prev-up
+    image-clip: 0 0 17 17
+    anchors.left: parent.left
+    anchors.top: parent.top
+    margin-left: 0
+    margin-top: 1
+    size: 17 17
+    @onClick: |
+      modules.game_actionbar.onDecrementVerticalScroll(self:getParent(), 36)
+
+    $pressed:
+      image-clip: 0 17 17 17
+
+    $disabled:
+      image-clip: 0 34 17 17
+
+  UIButton
+    id: prevSkipButton
+    image-source: /assets/images/game/actionbar/button-skip-up
+    image-clip: 0 0 17 17
+    anchors.left: prevButton.right
+    anchors.top: prevButton.top
+    margin-left: 1
+    size: 17 17
+    @onClick: |
+      modules.game_actionbar.onDecrementVerticalScroll(self:getParent(), 999)
+
+    $pressed:
+      image-clip: 0 17 17 17
+
+    $disabled:
+      image-clip: 0 34 17 17
+
+  UIButton
+    id: nextButton
+    image-source: /assets/images/game/actionbar/button-prev-down
+    image-clip: 0 0 17 17
+    anchors.right: nextSkipButton.left
+    anchors.bottom: sideLockButton.top
+    margin-right: 1
+    margin-bottom: 1
+    size: 17 17
+    @onClick: |
+      modules.game_actionbar.onIncrementVerticalScroll(self:getParent(), 36)
+
+    $pressed:
+      image-clip: 0 17 17 17
+
+    $disabled:
+      image-clip: 0 34 17 17
+
+  UIButton
+    id: nextSkipButton
+    image-source: /assets/images/game/actionbar/button-skip-down
+    image-clip: 0 0 17 17
+    anchors.right: parent.right
+    anchors.bottom: sideLockButton.top
+    margin-right: 0
+    margin-bottom: 1
+    size: 17 17
+    @onClick: |
+      modules.game_actionbar.onIncrementVerticalScroll(self:getParent(), 999)
+
+    $pressed:
+      image-clip: 0 17 17 17
+
+    $disabled:
+      image-clip: 0 34 17 17

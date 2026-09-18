@@ -1,0 +1,155 @@
+TopButton < UIButton
+  size: 26 26
+  image-source: /images/ui/button_top
+  image-clip: 0 0 26 26
+  image-border: 3
+  image-color: #ffffffff
+  icon-color: #ffffffff
+
+  $on:
+    image-source: /images/ui/button_top_blink
+
+  $hover !disabled:
+    image-color: #ffffff99
+    image-clip: 26 0 26 26
+
+  $pressed:
+    image-clip: 52 0 26 26
+
+  $disabled:
+    image-color: #ffffff44
+    icon-color: #ffffff44
+
+TopToggleButton < UIButton
+  size: 26 26
+  image-source: /images/ui/button_topgame
+  image-clip: 26 0 26 26
+  image-border: 3
+  icon-offset: 0 0
+
+  $pressed:
+    image-clip: 52 0 26 26
+    icon-offset: 1 1
+
+  $disabled:
+    image-clip: 0 0 26 26
+    icon-offset: 1 1
+
+largeToggleButton < UIButton
+  size: 108 20
+  image-source: /images/options/store_large
+  image-clip: 0 0 108 20
+  image-border: 3
+
+  $pressed:
+    image-clip: 0 20 108 20
+
+  $on:
+    image-clip: 0 20 108 20
+
+TopBarBlueButton < UIButton
+  size: 108 20
+  font: cipsoftFont
+  color: #dfdfdfff
+  text-offset: 0 1
+  image-source: /images/ui/button-blue-up
+  image-border: 1
+
+  $pressed:
+    image-source: /images/ui/button-blue-down
+    text-offset: 1 2
+
+  UIWidget
+    id: lastUpdatesHighlight
+    phantom: true
+    focusable: false
+    anchors.fill: parent
+    margin-top: -1
+    margin-left: -1
+    margin-right: -1
+    margin-bottom: -1
+    image-source: /images/options/store-highlight
+    image-border: 2
+    visible: false
+
+  UIWidget
+    id: lastUpdatesFlagNew
+    phantom: true
+    focusable: false
+    anchors.top: lastUpdatesHighlight.top
+    anchors.left: lastUpdatesHighlight.left
+    size: 20 20
+    margin-top: 1
+    margin-left: 1
+    image-source: /images/options/button-store-new
+    visible: false
+
+  UIWidget
+    id: lastUpdatesAnimation
+    anchors.fill: parent
+    phantom: true
+    focusable: false
+    image-source: /images/animations/button-store-animation
+    visible: false
+    opacity: 0.6
+	
+MainToggleButton < UIButton
+  size: 20 20
+  image-source: /images/options/button_empty
+  image-clip: 0 0 20 20
+  image-border: 3
+
+  $pressed:
+    image-clip: 20 0 20 20
+
+  $on:
+    image-clip: 20 0 20 20
+
+WeaponProficiencyMainToggleButton < MainToggleButton
+  clipping: false
+
+  UIWidget
+    id: proficiencyShortcutHighlight
+    size: 22 22
+    phantom: true
+    clipping: false
+    image-source: /images/animations/button-highlight-22x22
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.verticalCenter: parent.verticalCenter
+    visible: false
+
+MainToggleButtonVertical < UIButton
+  size: 20 20
+  image-source: /images/options/button_empty
+  image-clip: 0 0 20 20
+  image-border: 3
+
+  $pressed:
+    image-clip: 0 20 20 20
+
+  $on:
+    image-clip: 0 20 20 20
+
+TopMenuButtonsPanel < Panel
+  layout:
+    type: horizontalBox
+    spacing: 2
+    fit-children: true
+  padding: 6 2
+  padding-top: 3
+  padding-right: 7
+
+TopMenuPanel < Panel
+  height: 36
+  image-source: /images/ui/panel_top
+  image-repeated: true
+  focusable: false
+
+TopMenuFrameCounterLabel < Label
+  font: verdana-11px-rounded
+  color: white
+  margin-top: 4
+  margin-left: 5
+
+TopMenuPingLabel < Label
+  font: verdana-11px-rounded

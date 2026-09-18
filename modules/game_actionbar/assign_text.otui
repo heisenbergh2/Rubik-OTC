@@ -1,0 +1,90 @@
+MainWindowHigh
+  !text: tr('Assign Text')
+  text-offset: 0 1
+  color: #909090
+  size: 275 148
+  margin-top: -1
+  @onEscape: modules.game_actionbar.closeTextAssignWindow()
+  @onEnter: modules.game_actionbar.textAssignOk()
+
+  Label
+    id: textLabel
+    text: Text:
+    text-auto-resize: true
+    height: 20
+    margin-top: -7
+    margin-left: -1 
+    anchors.top: parent.top
+    anchors.left: parent.left
+    font: $var-cip-font-new
+    color: #c0c0c0
+
+  TextEdit
+    id: textToSendTextEdit
+    height: 16
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 6
+    width: 218
+    @onTextChange: modules.game_actionbar.textAssignUpdateButtons()
+
+  Panel
+    image-source: /images/ui/1pixel-down-frame
+    image-border: 1
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    size: 200 22
+    margin-top: 6 
+    padding: 2
+
+    CheckBox
+      margin-top: 2
+      margin-left: 3
+      id: sendAutomaticallyCheckBox
+      text: Send automatically
+      anchors.fill: parent
+      text-auto-resize: true
+      @onSetup: self:setChecked(true)
+      text-offset: 15 -1
+      font: $var-cip-font-new
+      color: #c0c0c0
+
+  HorizontalSeparator
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 2
+    margin-top: 11
+
+  Button
+    id: okButton
+    text: Ok
+    size: 43 20
+    margin-right: 6
+    text-offset: 0 0
+    anchors.bottom: parent.bottom
+    anchors.right: applyButton.left
+    enabled: false
+    @onClick: modules.game_actionbar.textAssignOk()
+
+  Button
+    id: applyButton
+    text: Apply
+    size: 43 20
+    anchors.bottom: parent.bottom
+    anchors.right: cancelButton.left
+    margin-right: 6
+    text-offset: 0 0
+    enabled: false
+    @onClick: modules.game_actionbar.textAssignApply()
+
+  Button
+    id: cancelButton
+    text: Cancel
+    size: 43 20
+    text-offset: 0 0
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    @onClick: modules.game_actionbar.closeTextAssignWindow()

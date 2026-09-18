@@ -1,0 +1,274 @@
+AnnouncementsTabButton < UIButton
+  size: 301 34
+  image-source: /images/ui/button-grey-up
+  image-border: 5
+  change-cursor-image: false
+  focusable: false
+
+  $pressed:
+    image-source: /images/ui/button-grey-down
+
+  $checked:
+    image-source: /images/ui/button-grey-down
+
+  UIWidget
+    id: tabIcon
+    size: 32 32
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 6
+    phantom: true
+    image-smooth: true
+
+  Label
+    id: tabTitle
+    size: 257 32
+    anchors.left: tabIcon.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 6
+    font: $var-cip-font-new
+    color: #c0c0c0
+    text-align: center
+    phantom: true
+
+  UIWidget
+    id: tabNewBadge
+    size: 28 28
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    image-source: /images/game/announcements/icon-category-new
+    image-smooth: true
+    visible: false
+    phantom: true
+
+AnnouncementsNewsItem < UIWidget
+  size: 182 22
+  image-source: /images/ui/1pixel-down-frame
+  image-border: 5
+
+  UIButton
+    id: button
+    size: 179 20
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-left: 1
+    margin-top: 1
+    image-source: /images/ui/button-grey-up
+    image-border: 5
+    change-cursor-image: true
+    focusable: false
+
+    $pressed:
+      image-source: /images/ui/button-grey-down
+
+    $checked:
+      image-source: /images/ui/button-grey-down
+
+    Label
+      id: headline
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: parent.top
+      margin-left: 6
+      margin-top: 4
+      font: cipsoftFont
+      color: #ffffff
+      text-align: left
+      text-elide: true
+      phantom: true
+
+    UIWidget
+      id: newBadge
+      size: 20 20
+      anchors.left: parent.left
+      anchors.bottom: parent.bottom
+      image-source: /images/game/announcements/icon-entry-new
+      image-smooth: true
+      visible: false
+      phantom: true
+      @onSetup: self:raise()
+
+AnnouncementsContentDate < UIWidget
+  height: 14
+
+  Label
+    id: date
+    anchors.fill: parent
+    font: $var-cip-font-new
+    color: #c0c0c0
+    text-align: right
+
+AnnouncementsContentLine < UIWidget
+  height: 14
+
+  UIWidget
+    id: icon
+    size: 12 9
+    anchors.left: parent.left
+    anchors.top: parent.top
+    margin-top: 2
+    image-source: /images/game/announcements/icon-yes
+    image-smooth: true
+    visible: false
+    phantom: true
+
+  Label
+    id: text
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+    margin-left: 2
+    font: $var-cip-font-new
+    color: #c0c0c0
+    text-align: left
+    text-wrap: true
+    text-auto-resize: true
+
+AnnouncementsWindow < MainLogoWindow
+  size: 937 638
+  clipping: false
+  @onSetup: |
+    local logo = self:getChildById('logoBackdropCrest')
+    if logo then
+      logo:setMarginTop(-68)
+      logo:raise()
+    end
+
+  UIWidget
+    id: tabBar
+    size: 905 36
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: -7
+    image-source: /images/ui/1pixel-down-frame
+    image-border: 5
+
+    AnnouncementsTabButton
+      id: tabPtcUpdates
+      size: 451 34
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-left: 1
+      margin-top: 1
+      @onSetup: |
+        self:recursiveGetChildById('tabIcon'):setImageSource('/images/game/announcements/icon-ptc-updates')
+        self:recursiveGetChildById('tabTitle'):setText(tr('PTC Updates'))
+
+    AnnouncementsTabButton
+      id: tabServerUpdates
+      size: 451 34
+      anchors.top: prev.top
+      anchors.left: prev.right
+      margin-left: 1
+      @onSetup: |
+        self:recursiveGetChildById('tabIcon'):setImageSource('/images/game/announcements/icon-server-updates')
+        self:recursiveGetChildById('tabTitle'):setText(tr('Server Updates'))
+
+    // AnnouncementsTabButton
+    //   id: tabAnnouncements
+    //   anchors.top: prev.top
+    //   anchors.left: prev.right
+    //   margin-left: 1
+    //   @onSetup: |
+    //     self:recursiveGetChildById('tabIcon'):setImageSource('/images/game/announcements/icon-announcements')
+    //     self:recursiveGetChildById('tabTitle'):setText(tr('Announcements'))
+
+  UIWidget
+    id: announcementsSidebar
+    size: 195 510
+    anchors.top: tabBar.bottom
+    anchors.left: parent.left
+    margin-top: 6
+    image-source: /images/ui/2pixel_up_frame_borderimage_dark
+    image-border: 5
+    padding: 2 3 2 3
+
+    UIWidget
+      id: announcementsSidebarList
+      anchors.fill: parent
+      padding: 4
+      layout:
+        type: verticalBox
+        spacing: 6
+
+  UIWidget
+    id: tabContent
+    size: 705 510
+    anchors.top: tabBar.bottom
+    anchors.right: parent.right
+    margin-top: 6
+    image-source: /images/ui/popupwindow-sem-borda-interna
+    image-border: 20
+
+    Panel
+      id: announcementsContentFrame
+      size: 691 481
+      anchors.centerIn: parent
+      image-source: /images/ui/1pixel-down-frame
+      image-border: 3
+      border-width: 0
+      margin-top: 8
+
+      ScrollablePanel
+        id: announcementsScrollPanel
+        anchors.fill: parent
+        vertical-scrollbar: announcementsScrollBar
+        background-color: alpha
+        padding: 13 25 13 13
+        clipping: true
+        layout:
+          type: verticalBox
+          spacing: 4
+
+        UIWidget
+          id: announcementsBannerWrap
+          height: 48
+
+          UIWidget
+            id: announcementsBanner
+            size: 330 44
+            anchors.top: parent.top
+            anchors.horizontalCenter: parent.horizontalCenter
+            image-source: /images/game/announcements/banner-top
+            image-smooth: true
+
+      VerticalQtScrollBar
+        id: announcementsScrollBar
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        margin-right: 1
+        margin-top: 1
+        margin-bottom: 1
+        step: 16
+        pixels-scroll: true
+
+  UIButton
+    id: buttonClose
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    size: 43 20
+    enabled: false
+    text: (5s)
+    text-offset: 0 1
+    color: #ffffff
+    font: cipsoftFont
+    image-source: /images/ui/buttons-blue
+    image-clip: 0 0 43 20
+    image-border: 1
+
+    $pressed !disabled:
+      image-clip: 0 20 43 20
+      text-offset: 1 2
+
+    $disabled:
+      image-clip: 0 0 43 20
+      text-offset: 0 1
+      change-cursor-image: false
+
+  HorizontalSeparator
+    id: footerSeparator
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: buttonClose.top
+    margin-bottom: 11

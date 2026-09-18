@@ -1,0 +1,80 @@
+ChangeNameTitle < Label
+  font: $var-cip-font-new
+  color: #909090
+
+ChangeNameLabel < Label
+  font: $var-cip-font-new
+  color: #c0c0c0
+
+StoreWindow
+  id: changeNameWindow
+  size: 360 121
+  padding: 3
+  visible: false
+  !text: tr('Enter New Character Name')
+  font: $var-cip-font-new
+  color: #909090
+  text-offset: 0 2
+
+  ChangeNameLabel
+    id: descriptionText
+    !text: tr('Please enter the new name for your character:')
+    text-wrap: true
+    text-auto-resize: true
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 26
+    margin-left: 12
+    margin-right: 4
+
+  TextEdit
+    id: transferPointsText
+    height: 16
+    font: $var-cip-font-new
+    color: #c0c0c0
+    anchors.top: descriptionText.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 6
+    margin-left: 13
+    margin-right: 13
+    text-align: left
+
+  HorizontalSeparator
+    anchors.left: parent.left
+    margin-left: 13
+    anchors.right: parent.right
+    margin-right: 13
+    anchors.top: closeButton.top
+    margin-top: -12
+
+  CipsoftButton
+    id: closeButton
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-right: 13
+    margin-bottom: 13
+    !text: tr('Cancel')
+    size: 43 20
+    text-offset: 0 1
+    color: #ffffff
+
+  CipsoftButton
+    id: buttonOk
+    anchors.right: closeButton.left
+    anchors.bottom: closeButton.bottom
+    margin-right: 11
+    !text: tr('Ok')
+    size: 43 20
+    text-offset: 0 1
+    color: #ffffff
+    enabled: false
+
+    $disabled:
+      color: #c0c0c0
+      opacity: 0.8
+      change-cursor-image: false
+
+    $hover !disabled:
+      color: #ffffff

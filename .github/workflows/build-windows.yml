@@ -1,0 +1,165 @@
+name: Build - Windows CMake
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+env:
+  CMAKE_BUILD_PARALLEL_LEVEL: 2
+  VCPKG_MAX_CONCURRENCY: 2
+  VCPKG_BINARY_SOURCES: "clear;files,${{ github.workspace }}/.vcpkg-binary-cache,readwrite"
+
+jobs:
+  build:
+    name: CMake ${{ matrix.configuration }}
+    runs-on: windows-2022
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      # Both configurations use independent runners and cache keys.
+      max-parallel: 2
+      matrix:
+        include:
+          - configuration: Release
+            preset: windows-release
+            artifact: windows-cmake-release
+            executable: RubikOTC.exe
+            symbol_base: RubikOTC
+            require_ilk: false
+            cache_flavor: release
+          - configuration: Debug
+            preset: windows-debug
+            artifact: windows-cmake-debug
+            executable: RubikOTC-Debug.exe
+            symbol_base: RubikOTC-Debug
+            require_ilk: true
+            cache_flavor: debug
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Read pinned vcpkg baseline
+        id: baseline
+        shell: pwsh
+        run: |
+          $json = Get-Content vcpkg.json -Raw | ConvertFrom-Json
+          $commit = $json.'builtin-baseline'
+          if ($commit -notmatch '^[0-9a-f]{40}$') {
+            throw 'vcpkg builtin-baseline must be a full 40-character commit SHA.'
+          }
+          "commit=$commit" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          New-Item -ItemType Directory -Force -Path .vcpkg-binary-cache | Out-Null
+
+      - name: Restore compiled dependency cache
+        id: dependencies
+        uses: actions/cache/restore@v6
+        with:
+          path: |
+            ${{ github.workspace }}/.vcpkg-binary-cache
+            ${{ github.workspace }}/vcpkg/downloads
+          key: vcpkg-windows-static-${{ hashFiles('vcpkg.json') }}-${{ matrix.cache_flavor }}-complete-v2
+          restore-keys: |
+            vcpkg-windows-static-${{ hashFiles('vcpkg.json') }}-${{ matrix.cache_flavor }}-
+            vcpkg-windows-static-${{ hashFiles('vcpkg.json') }}-release-
+            vcpkg-windows-static-${{ hashFiles('vcpkg.json') }}-
+            vcpkg-windows-static-
+
+      - name: Configure compiler cache
+        uses: hendrikmuhs/ccache-action@v1.2.23
+        with:
+          max-size: 1G
+          variant: sccache
+          key: windows-static-${{ matrix.configuration }}
+
+      - name: Install pinned vcpkg
+        uses: lukka/run-vcpkg@b1a0dd252f06b9e25b3c022a9a03bd7a427fb6a2
+        with:
+          vcpkgDirectory: ${{ github.workspace }}/vcpkg
+          vcpkgGitCommitId: ${{ steps.baseline.outputs.commit }}
+          vcpkgJsonGlob: vcpkg.json
+
+      - name: Set up CMake and Ninja
+        uses: lukka/get-cmake@v3.31.6
+
+      - name: Set up MSVC environment
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Prepare persistent vcpkg cache
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path "$env:GITHUB_WORKSPACE\.vcpkg-binary-cache" | Out-Null
+          "VCPKG_DEFAULT_BINARY_CACHE=$env:GITHUB_WORKSPACE/.vcpkg-binary-cache" >> $env:GITHUB_ENV
+          "VCPKG_BINARY_SOURCES=clear;files,$env:GITHUB_WORKSPACE/.vcpkg-binary-cache,readwrite" >> $env:GITHUB_ENV
+
+      - name: Configure and build
+        id: compile
+        shell: pwsh
+        run: |
+          cmake --preset ${{ matrix.preset }} -DTOGGLE_BIN_FOLDER=ON -DOPTIONS_ENABLE_IPO=OFF -DOTCLIENT_BUILD_TESTS=OFF
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          cmake --build --preset ${{ matrix.preset }} --parallel 2
+          exit $LASTEXITCODE
+
+      - name: Save compiled dependency cache
+        if: ${{ always() && steps.compile.outcome == 'success' && steps.dependencies.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v6
+        with:
+          path: |
+            ${{ github.workspace }}/.vcpkg-binary-cache
+            ${{ github.workspace }}/vcpkg/downloads
+          key: vcpkg-windows-static-${{ hashFiles('vcpkg.json') }}-${{ matrix.cache_flavor }}-complete-v2
+
+      - name: Stage binary-only artifact
+        shell: pwsh
+        run: |
+          $source = Join-Path $env:GITHUB_WORKSPACE "build/${{ matrix.preset }}/bin"
+          $destination = Join-Path $env:GITHUB_WORKSPACE "artifacts/${{ matrix.artifact }}"
+          $exe = Join-Path $source 'otclient.exe'
+          $pdb = Join-Path $source 'otclient.pdb'
+          $ilk = Join-Path $source 'otclient.ilk'
+
+          if (-not (Test-Path -LiteralPath $exe)) { throw "Executable not found: $exe" }
+          if (-not (Test-Path -LiteralPath $pdb)) { throw "Program database not found: $pdb" }
+          if ('${{ matrix.require_ilk }}' -eq 'true' -and -not (Test-Path -LiteralPath $ilk)) {
+            throw "Incremental linker file not found: $ilk"
+          }
+
+          New-Item -ItemType Directory -Force -Path $destination | Out-Null
+          Copy-Item -LiteralPath $exe -Destination (Join-Path $destination '${{ matrix.executable }}')
+          Copy-Item -LiteralPath $pdb -Destination (Join-Path $destination '${{ matrix.symbol_base }}.pdb')
+          if (Test-Path -LiteralPath $ilk) {
+            Copy-Item -LiteralPath $ilk -Destination (Join-Path $destination '${{ matrix.symbol_base }}.ilk')
+          }
+
+          $unexpected = @(Get-ChildItem -LiteralPath $destination -File | Where-Object Extension -NotIn '.exe', '.pdb', '.ilk')
+          if ($unexpected.Count -gt 0) {
+            throw "Unexpected artifact files: $($unexpected.Name -join ', ')"
+          }
+
+      - name: Validate static third-party linkage
+        shell: pwsh
+        run: |
+          $exe = Join-Path $env:GITHUB_WORKSPACE "artifacts/${{ matrix.artifact }}/${{ matrix.executable }}"
+          $headers = & dumpbin.exe /nologo /headers $exe
+          if ($LASTEXITCODE -ne 0 -or @($headers -match 'machine \(x64\)').Count -eq 0) {
+            throw 'Packaged executable is not a valid x64 PE image.'
+          }
+
+          $imports = (& dumpbin.exe /nologo /dependents $exe) -join "`n"
+          if ($LASTEXITCODE -ne 0) { throw 'dumpbin failed while checking dependencies.' }
+          $forbidden = '(?i)(abseil|brotli|bz2|crypto|fmt|freetype|glew|libpng|lua51|lzma|openal|ogg|physfs|protobuf|ssl|vorbis|vcruntime|msvcp|concrt)[^\r\n]*\.dll'
+          $matches = [regex]::Matches($imports, $forbidden) | ForEach-Object Value | Sort-Object -Unique
+          if ($matches.Count -gt 0) {
+            throw "Build still imports non-system runtime DLLs: $($matches -join ', ')"
+          }
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.artifact }}
+          path: artifacts/${{ matrix.artifact }}
+          if-no-files-found: error
+          retention-days: 14

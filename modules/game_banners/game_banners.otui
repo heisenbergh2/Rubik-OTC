@@ -1,0 +1,164 @@
+GameBannerPanel < UIWidget
+  size: 355 105
+  phantom: true
+  focusable: false
+  visible: false
+  clipping: false
+
+  UIWidget
+    id: bannerIcon
+    size: 72 75
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    clipping: false
+    image-smooth: true
+    image-fixed-ratio: true
+
+    UIWidget
+      id: bannerIconSpell
+      size: 32 32
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.verticalCenter: parent.verticalCenter
+      margin-top: -1
+      image-source: /images/game/spells/spell-icons-32x32
+      image-smooth: true
+      phantom: true
+      visible: false
+
+    UIWidget
+      id: bannerIconSpellBorder
+      size: 40 40
+      anchors.horizontalCenter: bannerIconSpell.horizontalCenter
+      anchors.verticalCenter: bannerIconSpell.verticalCenter
+      image-source: /images/game/banners/border-vocationinfo-spells
+      image-smooth: true
+      phantom: true
+      visible: false
+
+  UICreature
+    id: bannerIconCreature
+    size: 64 64
+    anchors.top: bannerIcon.top
+    anchors.left: bannerIcon.left
+    margin-left: 4
+    margin-top: 5
+    fixed-creature-size: true
+    base-scale: true
+    creature-center: true
+    ignore-displacement-shift: true
+    clipping: false
+    phantom: true
+    visible: false
+
+  Panel
+    id: bannerClipPanel
+    height: 88
+    width: 0
+    anchors.left: bannerIcon.right
+    anchors.verticalCenter: bannerIcon.verticalCenter
+    margin-left: -74
+    margin-top: 23
+    clipping: true
+    phantom: true
+    visible: false
+
+    UIWidget
+      id: backdropBottomAnim
+      size: 289 88
+      anchors.left: parent.left
+      anchors.top: parent.top
+      image-source: /images/game/banners/backdrop-infobanner-bottom
+      image-smooth: true
+      image-fixed-ratio: true
+
+  UIWidget
+    id: backdropBottom
+    size: 289 88
+    anchors.left: bannerIcon.right
+    anchors.verticalCenter: bannerIcon.verticalCenter
+    margin-left: -74
+    margin-top: 23
+    image-source: /images/game/banners/backdrop-infobanner-bottom
+    image-smooth: true
+    image-fixed-ratio: true
+    visible: false
+
+  UIWidget
+    id: backdropMid
+    size: 11 40
+    anchors.left: backdropBottom.left
+    anchors.top: backdropBottom.top
+    margin-top: -6
+    image-source: /images/game/banners/backdrop-infobanner-mid
+    image-smooth: true
+    image-fixed-ratio: true
+    visible: false
+
+  UIWidget
+    id: backdropTop
+    size: 10 25
+    anchors.left: backdropBottom.left
+    anchors.bottom: backdropBottom.bottom
+    margin-left: 47
+    margin-bottom: 19
+    image-source: /images/game/banners/backdrop-infobanner-top
+    image-smooth: true
+    image-fixed-ratio: true
+    visible: false
+
+  UIWidget
+    id: backdropOrnaments
+    size: 130 38
+    anchors.horizontalCenter: backdropBottom.horizontalCenter
+    anchors.top: backdropBottom.top
+    margin-top: 6
+    image-source: /images/game/banners/backdrop-infobanner-ornaments
+    image-smooth: true
+    image-fixed-ratio: true
+    visible: false
+
+  Label
+    id: bannerTitle
+    anchors.horizontalCenter: backdropOrnaments.horizontalCenter
+    anchors.verticalCenter: backdropOrnaments.verticalCenter
+    font: terminus-14px-bold
+    text-align: center
+    color: #ffe1b5
+    text-auto-resize: true
+    text-offset: 25 4
+    opacity: 0
+    visible: false
+
+  Panel
+    id: textPanel
+    anchors.verticalCenter: backdropBottom.verticalCenter
+    anchors.left: backdropBottom.left
+    anchors.right: backdropBottom.right
+    margin-top: 13
+    margin-left: 76
+    margin-right: 16
+    height: 24
+    clipping: true
+    phantom: true
+    opacity: 0
+    visible: false
+
+    Label
+      id: bannerDescription
+      anchors.fill: parent
+      font: $var-cip-font-new
+      text-align: center
+      color: #c0c0c0
+      text-auto-resize: false
+      text-wrap: true
+
+  UIWidget
+    id: rollAnim
+    size: 21 105
+    anchors.left: bannerIcon.right
+    anchors.verticalCenter: bannerIcon.verticalCenter
+    margin-left: -95
+    margin-top: 23
+    image-smooth: true
+    image-fixed-ratio: true
+    visible: false

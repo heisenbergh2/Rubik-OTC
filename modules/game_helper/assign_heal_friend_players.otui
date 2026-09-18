@@ -1,0 +1,196 @@
+HealFriendPlayerListRow < Panel
+  height: 36
+  focusable: true
+  background-color: #414141
+
+  $focus:
+    background-color: #585858
+
+  $!focus:
+    background-color: #414141
+
+  UICreature
+    id: playerOutfit
+    size: 32 32
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 3
+    phantom: true
+    focusable: false
+
+  Label
+    id: playerName
+    anchors.left: playerOutfit.right
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 6
+    margin-right: 4
+    font: $var-cip-font-new
+    color: #c0c0c0
+    text-auto-resize: true
+    phantom: true
+    focusable: false
+
+MainWindowHigh
+  id: healFriendPlayersWindow
+  !text: tr('Player List')
+  size: 500 390
+  font: $var-cip-font-new
+  color: #909090
+  text-offset: 0 2
+  @onEscape: modules.game_helper.closeHealFriendPlayersWindow()
+  @onEnter: modules.game_helper.addHealFriendTypedPlayer()
+
+  TextEdit
+    id: playerNameEdit
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: addPlayerButton.left
+    margin-right: 7
+    !placeholder: tr('Player name')
+    placeholder-color: #707070
+    padding: 3 4 1 4
+
+  Button
+    id: addPlayerButton
+    width: 64
+    height: 20
+    anchors.top: parent.top
+    anchors.right: parent.right
+    !text: tr('Add')
+    text-offset: 0 0
+    @onClick: modules.game_helper.addHealFriendTypedPlayer()
+
+  HorizontalSeparator
+    id: topSeparator
+    anchors.top: playerNameEdit.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 9
+    height: 2
+
+  Label
+    id: configuredPlayersLabel
+    !text: tr('Configured Players')
+    anchors.top: topSeparator.bottom
+    anchors.left: parent.left
+    margin-top: 7
+    font: $var-cip-font-new
+    color: #c0c0c0
+    text-auto-resize: true
+
+  Label
+    id: visiblePlayersLabel
+    !text: tr('Visible Players')
+    anchors.top: configuredPlayersLabel.top
+    anchors.left: visiblePlayersFrame.left
+    font: $var-cip-font-new
+    color: #c0c0c0
+    text-auto-resize: true
+
+  Panel
+    id: configuredPlayersFrame
+    width: 226
+    anchors.top: configuredPlayersLabel.bottom
+    anchors.left: parent.left
+    anchors.bottom: bottomSeparator.top
+    margin-top: 5
+    margin-bottom: 10
+    image-source: /images/ui/1pixel-down-frame
+    image-border: 3
+
+    TextList
+      id: configuredPlayersPanel
+      vertical-scrollbar: configuredPlayersScrollbar
+      anchors.fill: parent
+      padding: 1
+      padding-right: 12
+      border-width: 0
+      background-color: alpha
+
+    VerticalQtScrollBar
+      id: configuredPlayersScrollbar
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      anchors.right: parent.right
+      step: 36
+      pixels-scroll: true
+      margin: 1 1 1 0
+
+  Panel
+    id: visiblePlayersFrame
+    anchors.top: configuredPlayersFrame.top
+    anchors.left: configuredPlayersFrame.right
+    anchors.right: parent.right
+    anchors.bottom: configuredPlayersFrame.bottom
+    margin-left: 8
+    image-source: /images/ui/1pixel-down-frame
+    image-border: 3
+
+    TextList
+      id: visiblePlayersPanel
+      vertical-scrollbar: visiblePlayersScrollbar
+      anchors.fill: parent
+      padding: 1
+      padding-right: 12
+      border-width: 0
+      background-color: alpha
+
+    VerticalQtScrollBar
+      id: visiblePlayersScrollbar
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      anchors.right: parent.right
+      step: 36
+      pixels-scroll: true
+      margin: 1 1 1 0
+
+  HorizontalSeparator
+    id: bottomSeparator
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: removePlayerButton.top
+    margin-bottom: 10
+    height: 2
+
+  Button
+    id: removePlayerButton
+    width: 74
+    height: 20
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    !text: tr('Remove')
+    text-offset: 0 0
+    @onClick: modules.game_helper.removeHealFriendConfiguredPlayer()
+
+  Button
+    id: refreshPlayersButton
+    width: 90
+    height: 20
+    anchors.right: addSelectedPlayerButton.left
+    anchors.bottom: parent.bottom
+    margin-right: 7
+    !text: tr('Refresh Map')
+    text-offset: 0 0
+    @onClick: modules.game_helper.refreshHealFriendVisiblePlayers()
+
+  Button
+    id: addSelectedPlayerButton
+    width: 98
+    height: 20
+    anchors.right: closeButton.left
+    anchors.bottom: parent.bottom
+    margin-right: 7
+    !text: tr('Add Selected')
+    text-offset: 0 0
+    @onClick: modules.game_helper.addHealFriendVisiblePlayer()
+
+  Button
+    id: closeButton
+    width: 54
+    height: 20
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    !text: tr('Close')
+    text-offset: 0 0
+    @onClick: modules.game_helper.closeHealFriendPlayersWindow()

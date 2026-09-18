@@ -1,0 +1,4557 @@
+HelperMainToggleButton < UIButton
+  size: 20 20
+  focusable: false
+  image-source: /images/options/button_helper
+  image-clip: 0 0 20 20
+
+  $pressed:
+    image-clip: 20 0 20 20
+
+  $on:
+    image-clip: 20 0 20 20
+
+HelperMenuButton < Button
+  $on:
+    image-source: /images/ui/button-grey-down
+    text-offset: 1 1
+
+HelperMenuButtonFrame < OnePixelDownFrame
+  size: 106 24
+  padding: 1
+  anchors.left: parent.left
+  margin-left: 7
+  margin-top: 11
+
+HelperSideMenuButton < HelperMenuButton
+  anchors.fill: parent
+  height: 22
+  color: #c0c0c0
+  text-offset: 0 0
+
+HelperActionSlot < ActionSlot
+  visible: true
+  draggable: false
+  size: 34 34
+
+HelperPostureButton < UIWidget
+  size: 28 28
+  phantom: false
+  focusable: false
+
+  UIWidget
+    id: activeSpell
+    anchors.fill: parent
+    image-source: /assets/images/game/actionbar/border_activespell
+    image-size: 28 28
+    visible: false
+    phantom: true
+    focusable: false
+
+HelperItemIconBackground < UIWidget
+  phantom: true
+  focusable: false
+  size: 32 32
+  image-size: 32 32
+  image-source: /modules/game_helper/images/background-potions-foods
+
+HelperRuneIconBackground < UIWidget
+  phantom: true
+  focusable: false
+  size: 32 32
+  image-size: 32 32
+  image-source: /modules/game_helper/images/background-runes
+
+HelperHealingActionSlot < HelperActionSlot
+  HelperItemIconBackground
+    id: healingActionItemBackground
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.verticalCenter: parent.verticalCenter
+    visible: false
+
+  UIItem
+    id: healingActionItemIcon
+    size: 32 32
+    image-size: 32 32
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.verticalCenter: parent.verticalCenter
+    phantom: true
+    virtual: true
+    visible: false
+
+HelperToolsActionSlot < HelperActionSlot
+  anchors.verticalCenter: parent.verticalCenter
+
+HelperTrainingItemSlot < UIWidget
+  size: 34 34
+  image-source: /images/game/actionbar/slot-actionbar-empty
+  focusable: true
+
+  UIWidget
+    id: trainingSlotFrame
+    anchors.centerIn: parent
+    size: 34 34
+    image-source: /images/game/actionbar/slot-actionbar-filled
+    image-clip: 0 0 34 34
+    visible: false
+
+  HelperItemIconBackground
+    id: trainingItemBackground
+    anchors.centerIn: parent
+    image-source: /modules/game_helper/images/background-exercises
+    visible: false
+
+  UIItem
+    id: trainingItemIcon
+    size: 32 32
+    anchors.centerIn: parent
+    virtual: true
+    phantom: true
+
+HelperAmmoItemSlot < UIWidget
+  size: 34 34
+  image-source: /images/game/actionbar/slot-actionbar-empty
+  focusable: true
+
+  UIWidget
+    id: ammoSlotFrame
+    anchors.centerIn: parent
+    size: 34 34
+    image-source: /images/game/actionbar/slot-actionbar-filled
+    image-clip: 0 0 34 34
+    visible: false
+
+  HelperItemIconBackground
+    id: ammoItemBackground
+    anchors.centerIn: parent
+    image-source: /modules/game_helper/images/background-ammunition
+    visible: false
+
+  UIItem
+    id: ammoItemIcon
+    size: 32 32
+    anchors.centerIn: parent
+    virtual: true
+    phantom: true
+
+HelperConditionsCheckBox < QtCheckBox
+  size: 14 14
+  anchors.verticalCenter: parent.verticalCenter
+  anchors.left: parent.left
+  margin-left: 4
+
+PriorityTextEdit < TextEdit
+  cursor-visible: false
+  @onTextChange: modules.game_helper.autoSave()
+
+HealFriendVocationThresholdPercent < Label
+  text: %
+  font: $var-cip-font
+  color: #c0c0c0
+  text-auto-resize: true
+  phantom: true
+  focusable: false
+
+HealFriendClassCheckBox < QtCheckBox
+  size: 14 14
+  anchors.top: parent.top
+  anchors.left: parent.left
+  margin-left: 4
+
+HelperListColumnSeparator < UIWidget
+  phantom: true
+  image-source: /images/ui/separator_vertical
+
+HealFriendPlayerSettingsRow < Panel
+  height: 36
+  focusable: true
+  background-color: #414141
+  draggable: true
+
+  UIWidget
+    size: 23 36
+    anchors.top: parent.top
+    anchors.left: parent.left
+
+    QtCheckBox
+      id: friendPlayerEnabledCheckBox
+      size: 14 14
+      checked: true
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.verticalCenter: parent.verticalCenter
+      margin-left: -1
+
+  HelperListColumnSeparator
+    anchors.left: prev.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+
+  UICreature
+    id: playerOutfit
+    size: 32 32
+    anchors.left: prev.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 5
+    phantom: true
+    focusable: false
+
+  Label
+    id: playerName
+    width: 125
+    anchors.left: playerOutfit.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 6
+    font: $var-cip-font-new
+    color: #c0c0c0
+    clipping: true
+    phantom: true
+    focusable: false
+
+HealFriendPlayerDragGhost < Panel
+  height: 36
+  width: 260
+  background-color: #585858
+  border-width: 1
+  border-color: #808080
+  opacity: 0.92
+  phantom: true
+  focusable: false
+  draggable: false
+
+  UICreature
+    id: playerOutfit
+    size: 32 32
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 3
+    phantom: true
+    focusable: false
+
+  Label
+    id: playerName
+    anchors.left: playerOutfit.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 6
+    font: $var-cip-font-new
+    color: #ffffff
+    text-auto-resize: true
+    phantom: true
+    focusable: false
+
+  Label
+    !text: tr('Higher priority')
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-right: 8
+    font: $var-cip-font
+    color: #c0c0c0
+    text-auto-resize: true
+    phantom: true
+    focusable: false
+
+HelperPriorityQtyButton < UIButton
+  size: 16 16
+  image-source: /game_rewardwall/images/buttons_pick_rewards
+  image-size: 16 16
+  image-auto-resize: false
+  focusable: false
+
+HelperPriorityQtyButtonBackOne < HelperPriorityQtyButton
+  image-clip: 0 48 16 16
+  $disabled:
+    image-clip: 0 16 16 16
+  $hover !disabled:
+    image-clip: 0 48 16 16
+  $pressed:
+    image-clip: 0 80 16 16
+
+HelperPriorityQtyButtonForwardOne < HelperPriorityQtyButton
+  image-clip: 16 48 16 16
+  $disabled:
+    image-clip: 16 16 16 16
+  $hover !disabled:
+    image-clip: 16 48 16 16
+  $pressed:
+    image-clip: 16 80 16 16
+
+HealFriendPriorityStepper < Panel
+  size: 58 17
+  focusable: false
+  phantom: true
+
+  HelperPriorityQtyButtonBackOne
+    id: btnDec
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    @onClick: modules.game_helper.onHealFriendPriorityClick(self, 'dec')
+
+  UIWidget
+    id: numberBox
+    size: 20 17
+    anchors.left: btnDec.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 3
+    background-color: #2a2a2aff
+    border-width-top: 1
+    border-width-left: 1
+    border-width-right: 1
+    border-width-bottom: 1
+    border-color-bottom: #808080
+    border-color-right: #808080
+    border-color-left: #131313
+    border-color-top: #131313
+
+    Label
+      id: numberValue
+      anchors.fill: parent
+      font: $var-cip-font-new
+      color: #FFFFFF
+      text-align: center
+      text: 0
+      phantom: true
+      focusable: false
+
+  HelperPriorityQtyButtonForwardOne
+    id: btnInc
+    anchors.left: numberBox.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 3
+    @onClick: modules.game_helper.onHealFriendPriorityClick(self, 'inc')
+
+HelperShooterPriorityStepper < Panel
+  size: 58 17
+  focusable: false
+  phantom: true
+
+  HelperPriorityQtyButtonBackOne
+    id: btnDec
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    @onClick: modules.game_helper.onShooterPriorityClick(self, 'dec')
+
+  UIWidget
+    id: numberBox
+    size: 20 17
+    anchors.left: btnDec.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 3
+    background-color: #2a2a2aff
+    border-width-top: 1
+    border-width-left: 1
+    border-width-right: 1
+    border-width-bottom: 1
+    border-color-bottom: #808080
+    border-color-right: #808080
+    border-color-left: #131313
+    border-color-top: #131313
+
+    Label
+      id: numberValue
+      anchors.fill: parent
+      font: $var-cip-font-new
+      color: #FFFFFF
+      text-align: center
+      text: 0
+      phantom: true
+      focusable: false
+
+  HelperPriorityQtyButtonForwardOne
+    id: btnInc
+    anchors.left: numberBox.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 3
+    @onClick: modules.game_helper.onShooterPriorityClick(self, 'inc')
+
+ProfileListItem < Panel
+  height: 18
+  focusable: true
+
+  Label
+    id: itemLabel
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-left: 6
+    margin-top: 2
+    font: $var-cip-font
+    color: #c0c0c0
+    text-auto-resize: false
+    phantom: true
+
+ProfileListItemOdd < ProfileListItem
+  background-color: #484848
+
+  $focus:
+    background-color: #585858
+
+  $!focus:
+    background-color: #484848
+
+ProfileListItemEven < ProfileListItem
+  background-color: #414141
+
+  $focus:
+    background-color: #585858
+
+  $!focus:
+    background-color: #414141
+
+HelperStatsToggleRow < Panel
+  height: 31
+  focusable: true
+
+  $hover:
+    background-color: #ffffff12
+
+  Label
+    id: titleLabel
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: -2
+    margin-left: 0
+    height: 14
+    font: $var-cip-font-new
+    color: #f0f0f0
+    text-auto-resize: true
+    phantom: true
+
+  UIWidget
+    id: statusIcon
+    size: 12 9
+    anchors.top: titleLabel.bottom
+    anchors.left: parent.left
+    margin-top: 3
+    margin-left: 1
+    image-source: /images/icons/icon-no
+    phantom: true
+
+  Label
+    id: statusLabel
+    anchors.top: titleLabel.bottom
+    anchors.left: statusIcon.right
+    margin-top: 1
+    margin-left: 4
+    height: 14
+    font: $var-cip-font-new
+    color: #ff3030
+    text: Disabled
+    text-auto-resize: true
+    phantom: true
+
+HelperStatsWindow < MiniWindow
+  id: helperStatsWindow
+  height: 285
+  &save: true
+  &moveOnlyToSideBars: true
+
+  UIWidget
+    id: miniwindowIcon
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 2
+    margin-left: 4
+    size: 12 12
+    image-source: /images/icons/icon-helper
+    image-size: 12 12
+    phantom: true
+    image-smooth: true
+
+  Label
+    id: miniwindowTitle
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 1
+    margin-left: 20
+    font: verdana-11px-monochrome
+    height: 13
+    !text: tr('Helper Stats')
+    color: #909090
+
+  MiniWindowContents
+    id: contentsPanel
+    anchors.top: miniwindowTopBar.bottom
+    anchors.left: parent.left
+    anchors.right: miniwindowScrollBar.left
+    anchors.bottom: parent.bottom
+    margin-left: 5
+    margin-right: 1
+    margin-bottom: 5
+    vertical-scrollbar: miniwindowScrollBar
+
+    Panel
+      id: helperStatsRows
+      width: 150
+      anchors.top: parent.top
+      anchors.left: parent.left
+      layout:
+        type: verticalBox
+        fit-children: true
+
+      Button
+        id: helperStatsOpenHelperButton
+        size: 118 20
+        margin-top: 1
+        margin-bottom: 4
+        margin-left: 16
+        !text: tr('Open Helper')
+        text-offset: 0 0
+
+      HelperStatsToggleRow
+        id: helperStatsHealingRow
+
+      HelperStatsToggleRow
+        id: helperStatsHealFriendRow
+
+      HelperStatsToggleRow
+        id: helperStatsTargetRow
+
+      HelperStatsToggleRow
+        id: helperStatsShooterRow
+
+      HelperStatsToggleRow
+        id: helperStatsAutoInviteRow
+
+      HelperStatsToggleRow
+        id: helperStatsAutoAcceptRow
+
+      HelperStatsToggleRow
+        id: helperStatsAutoHasteRow
+
+      HelperStatsToggleRow
+        id: helperStatsAutoTrainingRow
+
+      HelperStatsToggleRow
+        id: helperStatsAntiIdleRow
+
+      HelperStatsToggleRow
+        id: helperStatsManaTrainingRow
+
+      HelperStatsToggleRow
+        id: helperStatsChangeGoldRow
+
+      HelperStatsToggleRow
+        id: helperStatsEatFoodRow
+
+      HelperStatsToggleRow
+        id: helperStatsReconnectRow
+
+  UIWidget
+    id: miniborder
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    image-source: /images/ui/miniborder-bottom-left
+    size: 14 14
+    margin-left: 3
+    margin-bottom: 3
+
+  ResizeBorder
+    id: bottomResizeBorder
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 3
+    minimum: 80
+    maximum: 456
+    margin-left: 3
+    margin-right: 3
+
+HelperPopupSection < Panel
+  color: $var-text-color-disabled
+  font: $var-cip-font-new
+  text-offset: 1 2
+  text-align: top
+  image-source: /images/ui/popupwindow-sem-borda-interna
+  image-border: 6
+  image-border-top: 27
+  padding: 15 7 7 7
+
+HelperSectionHelpIcon < UIWidget
+  image-source: /images/icons/show_gui_help_grey
+  size: 12 12
+  focusable: false
+  margin-top: 3
+  margin-right: 3
+  @onSetup: self:raise()
+
+PainelHealing < Panel
+  anchors.top: presetBar.bottom
+  anchors.left: MainMenuLeft.right
+  anchors.right: parent.right
+  anchors.bottom: botSeparator.top
+  margin-top: 5
+  margin-left: 10
+  margin-bottom: 10
+
+  HelperPopupSection
+    id: healingSection
+    !text: tr('Healing')
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+
+    Panel
+      id: activeHealingPanel
+      width: 132
+      height: 20
+      anchors.bottom: parent.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+
+      OnePixelDownFrame
+        id: enableHealingFrame
+        width: 122
+        height: 20
+        anchors.top: parent.top
+        anchors.left: parent.left
+        padding: 4
+
+        OptionCheckBox
+          id: enableHealingCheckBox
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          @onCheckChange: modules.game_helper.onEnableHealingChange(self, self:isChecked())
+
+        Label
+          !text: tr('Enable Healing')
+          font: $var-cip-font
+          color: #c0c0c0
+          anchors.top: parent.top
+          anchors.left: parent.left
+          text-offset: 16 -1
+
+    Panel
+      id: healingGroupsPanel
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: activeHealingPanel.top
+      margin-top: 7
+      margin-bottom: 6
+
+      VerticalSeparator
+        id: healingGroupsSeparator
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+
+      Panel
+        id: healingSpellPanel
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: healingGroupsSeparator.left
+        anchors.bottom: parent.bottom
+        margin-right: 6
+
+        Label
+          !text: tr('Spell Healing')
+          anchors.top: parent.top
+          anchors.left: parent.left
+          margin-left: 1
+          margin-top: 2
+          font: $var-cip-font-new
+          color: #c0c0c0
+          text-auto-resize: true
+
+        OnePixelDownFrame
+          id: healingSpellListFrame
+          anchors.top: parent.top
+          anchors.left: parent.left
+          anchors.right: parent.right
+          anchors.bottom: addHealingSpellButton.top
+          margin-top: 20
+          margin-bottom: 6
+          padding: 1
+
+          ScrollablePanel
+            id: healingSpellEntriesPanel
+            anchors.fill: parent
+            margin-right: 12
+            padding-top: 17
+            vertical-scrollbar: healingSpellScrollBar
+            background-color: #404040
+            clipping: true
+            layout:
+              type: verticalBox
+              spacing: 0
+
+          VerticalQtScrollBar
+            id: healingSpellScrollBar
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.right: parent.right
+            step: 50
+            pixels-scroll: true
+
+          HealingListHeader
+            id: healingSpellListHeader
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            margin-left: 1
+            margin-top: 0
+            margin-right: 12
+            @onSetup: self:raise()
+
+          HorizontalSeparator
+            anchors.top: healingSpellListHeader.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            margin-top: -1
+            margin-right: 12
+            @onSetup: self:raise()
+
+        CipsoftButton
+          id: addHealingSpellButton
+          anchors.bottom: parent.bottom
+          anchors.right: parent.right
+          size: 72 20
+          text: Add Spell
+          text-offset: 0 1
+          @onClick: modules.game_helper.openAddHealingSpellWindow()
+
+      Panel
+        id: healingPotionPanel
+        anchors.top: parent.top
+        anchors.left: healingGroupsSeparator.right
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        margin-left: 6
+
+        Label
+          !text: tr('Potion Healing')
+          anchors.top: parent.top
+          anchors.left: parent.left
+          margin-left: 1
+          margin-top: 2
+          font: $var-cip-font-new
+          color: #c0c0c0
+          text-auto-resize: true
+
+        OnePixelDownFrame
+          id: healingPotionListFrame
+          anchors.top: parent.top
+          anchors.left: parent.left
+          anchors.right: parent.right
+          anchors.bottom: addHealingPotionButton.top
+          margin-top: 20
+          margin-bottom: 6
+          padding: 1
+
+          ScrollablePanel
+            id: healingPotionEntriesPanel
+            anchors.fill: parent
+            margin-right: 12
+            padding-top: 17
+            vertical-scrollbar: healingPotionScrollBar
+            background-color: #404040
+            clipping: true
+            layout:
+              type: verticalBox
+              spacing: 0
+
+          VerticalQtScrollBar
+            id: healingPotionScrollBar
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.right: parent.right
+            step: 50
+            pixels-scroll: true
+
+          HealingListHeader
+            id: healingPotionListHeader
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            margin-left: 1
+            margin-top: 0
+            margin-right: 12
+            @onSetup: self:raise()
+
+          HorizontalSeparator
+            anchors.top: healingPotionListHeader.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            margin-top: -1
+            margin-right: 12
+            @onSetup: self:raise()
+
+        CipsoftButton
+          id: addHealingPotionButton
+          anchors.bottom: parent.bottom
+          anchors.right: parent.right
+          size: 76 20
+          text: Add Potion
+          text-offset: 0 1
+          @onClick: modules.game_helper.openAddHealingPotionWindow()
+
+  HelperSectionHelpIcon
+    id: healingPriorityHelp
+    anchors.top: healingSection.top
+    anchors.right: healingSection.right
+    !tooltip: tr('Healing actions are checked by their configured HP/MP percent, not by their visual position.')
+
+PainelHealFriend < Panel
+  anchors.top: presetBar.bottom
+  anchors.left: MainMenuLeft.right
+  anchors.right: parent.right
+  anchors.bottom: botSeparator.top
+  font: $var-cip-font-new
+  color: #929292
+  text-offset: 0 2
+  text-align: top
+  !text: tr('Heal Friend')
+  margin-top: 5
+  margin-left: 10
+  margin-bottom: 10
+  image-source: /images/ui/popupwindow-sem-borda-interna
+  image-border: 20
+  padding: 7
+
+  Panel
+    id: mainPanel1
+    text: Exura Sio
+    color: $var-text-color-disabled
+    font: $var-cip-font-new
+    text-align: top
+    text-offset: 1 2
+    image-source: /images/ui/popupwindow-sem-borda-interna
+    image-border: 6
+    image-border-top: 27
+    padding-top: 15
+    focusable: false
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 3
+    margin-left: 5
+    margin-right: 5
+    height: 130
+
+    UIWidget
+      id: exuraSioWidget
+      size: 34 34
+      anchors.top: parent.top
+      anchors.right: parent.right
+      margin-top: 45
+      margin-right: 33
+      image-source: /modules/game_helper/images/heal-friend
+      image-clip: 0 0 34 34
+      !tooltip: tr("Action: Cast Heal Friend\nFormula: exura sio\nCooldown: 1s\nMana: 120")
+
+    Panel
+      id: friendHeaderRow1
+      height: 18
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 3
+      margin-left: 4
+      margin-right: 4
+
+      Label
+        !text: tr('When HP')
+        font: $var-cip-font
+        color: #c0c0c0
+        text-auto-resize: true
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+
+      QtComboBox
+        id: friendConditionComboBox1
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: prev.right
+        margin-left: 5
+        size: 42 17
+        @onSetup: |
+          self:addOption('<')
+          self:addOption('<=')
+          self:setCurrentOption('<')
+        @onOptionChange: modules.game_helper.onHealFriendClassToggle(self)
+
+      PriorityTextEdit
+        id: friendThresholdEdit1
+        visible: false
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: prev.right
+        margin-left: 5
+        color: #FFFFFF
+        font: $var-cip-font-new
+        text-align: left
+        !text: 80
+        max-length: 3
+        size: 28 17
+        @onTextChange: modules.game_helper.onHealFriendThresholdChange(self)
+        @onFocusChange: modules.game_helper.onHealFriendThresholdFocusChange(self, self:isFocused())
+
+      Label
+        text: %
+        visible: false
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: prev.right
+        margin-left: 3
+
+    Panel
+      id: sioKnightPanel1
+      width: 200
+      height: 20
+      anchors.top: friendHeaderRow1.bottom
+      anchors.left: parent.left
+      margin-top: 3
+      margin-left: 2
+      
+      HealFriendClassCheckBox
+        id: enableHealFriendKnightCheckBox1
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 4
+        @onCheckChange: modules.game_helper.onHealFriendClassToggle(self)
+
+      Label
+        !text: tr('Knight')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 19
+        text-align: center
+      
+      Label
+        !text: tr('Priority: ')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: prev.right
+        text-align: center
+        margin-left: 25
+
+      HealFriendPriorityStepper
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 5
+        @onSetup: |
+          modules.game_helper.setupHealFriendPriorityStepper(self, 'priorityKnightEdit1', 5)
+
+    Panel
+      id: sioPaladinPanel1
+      width: 200
+      height: 20
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-left: 2
+      
+      HealFriendClassCheckBox
+        id: enableHealFriendPaladinCheckBox1
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 4
+        @onCheckChange: modules.game_helper.onHealFriendClassToggle(self)
+
+      Label
+        !text: tr('Paladin')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 19
+        text-align: center
+      
+      Label
+        !text: tr('Priority: ')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: prev.right
+        text-align: center
+        margin-left: 19
+      
+      HealFriendPriorityStepper
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 5
+        @onSetup: |
+          modules.game_helper.setupHealFriendPriorityStepper(self, 'priorityPaladinEdit1', 4)
+
+    Panel
+      id: sioSorcererPanel1
+      width: 200
+      height: 20
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-left: 2
+      
+      HealFriendClassCheckBox
+        id: enableHealFriendSorcererCheckBox1
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 4
+        @onCheckChange: modules.game_helper.onHealFriendClassToggle(self)
+
+      Label
+        !text: tr('Sorcerer')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 19
+        text-align: center
+
+      Label
+        !text: tr('Priority: ')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: prev.right
+        text-align: center
+        margin-left: 7
+      
+      HealFriendPriorityStepper
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 5
+        @onSetup: |
+          modules.game_helper.setupHealFriendPriorityStepper(self, 'prioritySorcererEdit1', 3)
+
+    Panel
+      id: sioDruidPanel1
+      width: 200
+      height: 20
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-left: 2
+      
+      HealFriendClassCheckBox
+        id: enableHealFriendDruidCheckBox1
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 4
+        @onCheckChange: modules.game_helper.onHealFriendClassToggle(self)
+
+      Label
+        !text: tr('Druid')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 19
+        text-align: center
+      
+      Label
+        !text: tr('Priority: ')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: prev.right
+        text-align: center
+        margin-left: 31
+    
+      HealFriendPriorityStepper
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 5
+        @onSetup: |
+          modules.game_helper.setupHealFriendPriorityStepper(self, 'priorityDruidEdit1', 2)
+
+    Panel
+      id: sioMonkPanel1
+      width: 200
+      height: 20
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-left: 2
+      
+      HealFriendClassCheckBox
+        id: enableHealFriendMonkCheckBox1
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 4
+        @onCheckChange: modules.game_helper.onHealFriendClassToggle(self)
+
+      Label
+        !text: tr('Monk')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 19
+        text-align: center
+      
+      Label
+        !text: tr('Priority: ')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: prev.right
+        text-align: center
+        margin-left: 33
+
+      HealFriendPriorityStepper
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 5
+        @onSetup: |
+          modules.game_helper.setupHealFriendPriorityStepper(self, 'priorityMonkEdit1', 1)
+
+  Panel
+    id: mainPanel2
+    text: Exura Gran Sio
+    color: $var-text-color-disabled
+    font: $var-cip-font-new
+    text-align: top
+    text-offset: 1 2
+    image-source: /images/ui/popupwindow-sem-borda-interna
+    image-border: 6
+    image-border-top: 27
+    padding-top: 15
+    focusable: false
+    anchors.top: mainPanel1.bottom
+    anchors.left: mainPanel1.left
+    anchors.right: mainPanel1.right
+    margin-top: 3
+    height: 130
+
+    UIWidget
+      id: exuraGranSioWidget
+      size: 34 34
+      anchors.top: parent.top
+      anchors.right: parent.right
+      margin-top: 45
+      margin-right: 33
+      image-source: /modules/game_helper/images/heal-friend
+      image-clip: 34 0 34 34
+      !tooltip: tr("Action: Cast Nature's Embrace\nFormula: exura gran sio\nCooldown: 1min\nMana: 400")
+
+    Panel
+      id: friendHeaderRow2
+      height: 18
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 3
+      margin-left: 4
+      margin-right: 4
+
+      Label
+        !text: tr('When HP')
+        font: $var-cip-font
+        color: #c0c0c0
+        text-auto-resize: true
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+
+      QtComboBox
+        id: friendConditionComboBox2
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: prev.right
+        margin-left: 5
+        size: 42 17
+        @onSetup: |
+          self:addOption('<')
+          self:addOption('<=')
+          self:setCurrentOption('<')
+        @onOptionChange: modules.game_helper.onHealFriendClassToggle(self)
+
+      PriorityTextEdit
+        id: friendThresholdEdit2
+        visible: false
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: prev.right
+        margin-left: 5
+        color: #FFFFFF
+        font: $var-cip-font-new
+        text-align: left
+        !text: 80
+        max-length: 3
+        size: 28 17
+        @onTextChange: modules.game_helper.onHealFriendThresholdChange(self)
+        @onFocusChange: modules.game_helper.onHealFriendThresholdFocusChange(self, self:isFocused())
+
+      Label
+        text: %
+        visible: false
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: prev.right
+        margin-left: 3
+
+    Panel
+      id: sioKnightPanel2
+      width: 200
+      height: 20
+      anchors.top: friendHeaderRow2.bottom
+      anchors.left: parent.left
+      margin-top: 3
+      margin-left: 2
+      
+      HealFriendClassCheckBox
+        id: enableHealFriendKnightCheckBox2
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 4
+        @onCheckChange: modules.game_helper.onHealFriendClassToggle(self)
+
+      Label
+        !text: tr('Knight')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 19
+        text-align: center
+      
+      Label
+        !text: tr('Priority: ')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: prev.right
+        text-align: center
+        margin-left: 25
+
+      HealFriendPriorityStepper
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 5
+        @onSetup: |
+          modules.game_helper.setupHealFriendPriorityStepper(self, 'priorityKnightEdit2', 5)
+
+    Panel
+      id: sioPaladinPanel2
+      width: 200
+      height: 20
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-left: 2
+      
+      HealFriendClassCheckBox
+        id: enableHealFriendPaladinCheckBox2
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 4
+        @onCheckChange: modules.game_helper.onHealFriendClassToggle(self)
+
+      Label
+        !text: tr('Paladin')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 19
+        text-align: center
+      
+      Label
+        !text: tr('Priority: ')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: prev.right
+        text-align: center
+        margin-left: 19
+      
+      HealFriendPriorityStepper
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 5
+        @onSetup: |
+          modules.game_helper.setupHealFriendPriorityStepper(self, 'priorityPaladinEdit2', 4)
+
+    Panel
+      id: sioSorcererPanel2
+      width: 200
+      height: 20
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-left: 2
+      
+      HealFriendClassCheckBox
+        id: enableHealFriendSorcererCheckBox2
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 4
+        @onCheckChange: modules.game_helper.onHealFriendClassToggle(self)
+
+      Label
+        !text: tr('Sorcerer')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 19
+        text-align: center
+
+      Label
+        !text: tr('Priority: ')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: prev.right
+        text-align: center
+        margin-left: 7
+      
+      HealFriendPriorityStepper
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 5
+        @onSetup: |
+          modules.game_helper.setupHealFriendPriorityStepper(self, 'prioritySorcererEdit2', 3)
+
+    Panel
+      id: sioDruidPanel2
+      width: 200
+      height: 20
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-left: 2
+      
+      HealFriendClassCheckBox
+        id: enableHealFriendDruidCheckBox2
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 4
+        @onCheckChange: modules.game_helper.onHealFriendClassToggle(self)
+
+      Label
+        !text: tr('Druid')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 19
+        text-align: center
+      
+      Label
+        !text: tr('Priority: ')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: prev.right
+        text-align: center
+        margin-left: 31
+    
+      HealFriendPriorityStepper
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 5
+        @onSetup: |
+          modules.game_helper.setupHealFriendPriorityStepper(self, 'priorityDruidEdit2', 2)
+
+    Panel
+      id: sioMonkPanel2
+      width: 200
+      height: 20
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-left: 2
+      
+      HealFriendClassCheckBox
+        id: enableHealFriendMonkCheckBox2
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 4
+        @onCheckChange: modules.game_helper.onHealFriendClassToggle(self)
+
+      Label
+        !text: tr('Monk')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 19
+        text-align: center
+      
+      Label
+        !text: tr('Priority: ')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: prev.right
+        text-align: center
+        margin-left: 33
+
+      HealFriendPriorityStepper
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 5
+        @onSetup: |
+          modules.game_helper.setupHealFriendPriorityStepper(self, 'priorityMonkEdit2', 1)
+
+  Panel
+    id: mainPanel3
+    text: Exura Tio Sio
+    color: $var-text-color-disabled
+    font: $var-cip-font-new
+    text-align: top
+    text-offset: 1 2
+    image-source: /images/ui/popupwindow-sem-borda-interna
+    image-border: 6
+    image-border-top: 27
+    padding-top: 15
+    focusable: false
+    anchors.top: parent.top
+    anchors.left: mainPanel1.left
+    anchors.right: mainPanel1.right
+    margin-top: 3
+    height: 130
+
+    UIWidget
+      id: exuraTioSioWidget
+      size: 34 34
+      anchors.top: parent.top
+      anchors.right: parent.right
+      margin-top: 45
+      margin-right: 33
+      image-source: /modules/game_helper/images/heal-friend
+      image-clip: 68 0 34 34
+      !tooltip: tr("Action: Restore Balance\nFormula: exura tio sio\nCooldown: 2s\nMana: 120")
+
+    Panel
+      id: friendHeaderRow3
+      height: 18
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 3
+      margin-left: 4
+      margin-right: 4
+
+      Label
+        !text: tr('When HP')
+        font: $var-cip-font
+        color: #c0c0c0
+        text-auto-resize: true
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+
+      QtComboBox
+        id: friendConditionComboBox3
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: prev.right
+        margin-left: 5
+        size: 42 17
+        @onSetup: |
+          self:addOption('<')
+          self:addOption('<=')
+          self:setCurrentOption('<')
+        @onOptionChange: modules.game_helper.onHealFriendClassToggle(self)
+
+      PriorityTextEdit
+        id: friendThresholdEdit3
+        visible: false
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: prev.right
+        margin-left: 5
+        color: #FFFFFF
+        font: $var-cip-font-new
+        text-align: left
+        !text: 80
+        max-length: 3
+        size: 28 17
+        @onTextChange: modules.game_helper.onHealFriendThresholdChange(self)
+        @onFocusChange: modules.game_helper.onHealFriendThresholdFocusChange(self, self:isFocused())
+
+      Label
+        text: %
+        visible: false
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: prev.right
+        margin-left: 3
+
+    Panel
+      id: sioKnightPanel3
+      width: 200
+      height: 20
+      anchors.top: friendHeaderRow3.bottom
+      anchors.left: parent.left
+      margin-top: 3
+      margin-left: 2
+      
+      HealFriendClassCheckBox
+        id: enableHealFriendKnightCheckBox3
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 4
+        @onCheckChange: modules.game_helper.onHealFriendClassToggle(self)
+
+      Label
+        !text: tr('Knight')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 19
+        text-align: center
+      
+      Label
+        !text: tr('Priority: ')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: prev.right
+        text-align: center
+        margin-left: 25
+
+      HealFriendPriorityStepper
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 5
+        @onSetup: |
+          modules.game_helper.setupHealFriendPriorityStepper(self, 'priorityKnightEdit3', 5)
+
+    Panel
+      id: sioPaladinPanel3
+      width: 200
+      height: 20
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-left: 2
+      
+      HealFriendClassCheckBox
+        id: enableHealFriendPaladinCheckBox3
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 4
+        @onCheckChange: modules.game_helper.onHealFriendClassToggle(self)
+
+      Label
+        !text: tr('Paladin')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 19
+        text-align: center
+      
+      Label
+        !text: tr('Priority: ')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: prev.right
+        text-align: center
+        margin-left: 19
+      
+      HealFriendPriorityStepper
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 5
+        @onSetup: |
+          modules.game_helper.setupHealFriendPriorityStepper(self, 'priorityPaladinEdit3', 4)
+
+    Panel
+      id: sioSorcererPanel3
+      width: 200
+      height: 20
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-left: 2
+      
+      HealFriendClassCheckBox
+        id: enableHealFriendSorcererCheckBox3
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 4
+        @onCheckChange: modules.game_helper.onHealFriendClassToggle(self)
+
+      Label
+        !text: tr('Sorcerer')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 19
+        text-align: center
+
+      Label
+        !text: tr('Priority: ')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: prev.right
+        text-align: center
+        margin-left: 7
+      
+      HealFriendPriorityStepper
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 5
+        @onSetup: |
+          modules.game_helper.setupHealFriendPriorityStepper(self, 'prioritySorcererEdit3', 3)
+
+    Panel
+      id: sioDruidPanel3
+      width: 200
+      height: 20
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-left: 2
+      
+      HealFriendClassCheckBox
+        id: enableHealFriendDruidCheckBox3
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 4
+        @onCheckChange: modules.game_helper.onHealFriendClassToggle(self)
+
+      Label
+        !text: tr('Druid')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 19
+        text-align: center
+      
+      Label
+        !text: tr('Priority: ')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: prev.right
+        text-align: center
+        margin-left: 31
+    
+      HealFriendPriorityStepper
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 5
+        @onSetup: |
+          modules.game_helper.setupHealFriendPriorityStepper(self, 'priorityDruidEdit3', 2)
+
+    Panel
+      id: sioMonkPanel3
+      width: 200
+      height: 20
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-left: 2
+      
+      HealFriendClassCheckBox
+        id: enableHealFriendMonkCheckBox3
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 4
+        @onCheckChange: modules.game_helper.onHealFriendClassToggle(self)
+
+      Label
+        !text: tr('Monk')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-left: 19
+        text-align: center
+      
+      Label
+        !text: tr('Priority: ')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: prev.right
+        text-align: center
+        margin-left: 33
+
+      HealFriendPriorityStepper
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 5
+        @onSetup: |
+          modules.game_helper.setupHealFriendPriorityStepper(self, 'priorityMonkEdit3', 1)
+
+  Panel
+    id: healFriendPlayerModePanel
+    !text: tr('Party Players')
+    color: $var-text-color-disabled
+    font: $var-cip-font-new
+    text-align: top
+    text-offset: 1 2
+    image-source: /images/ui/popupwindow-sem-borda-interna
+    image-border: 6
+    image-border-top: 27
+    padding-top: 15
+    focusable: false
+    visible: false
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: activeHealFriendPanel.top
+    margin-top: 15
+    margin-left: 5
+    margin-right: 5
+    margin-bottom: 7
+
+    Panel
+      id: healFriendPlayerSettingsHeader
+      height: 16
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 3
+      margin-left: 4
+      margin-right: 4
+      background-color: #363636
+
+      Label
+        id: friendPlayerEnabledHeader
+        width: 18
+        !text: tr('...')
+        anchors.left: parent.left
+        anchors.verticalCenter: parent.verticalCenter
+        margin-left: 4
+        font: $var-cip-font
+        color: #c0c0c0
+        text-offset: 0 -1
+        text-align: center
+        text-auto-resize: false
+
+      HelperListColumnSeparator
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        margin-left: 23
+
+      Label
+        id: friendPlayerNameHeader
+        width: 160
+        !text: tr('Player')
+        anchors.left: parent.left
+        anchors.verticalCenter: parent.verticalCenter
+        margin-left: 28
+        font: $var-cip-font
+        color: #c0c0c0
+        text-offset: 0 -1
+        text-align: center
+        text-auto-resize: false
+
+      HelperListColumnSeparator
+        id: friendPlayerSpellHeaderSeparator1
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        margin-left: 191
+
+      Label
+        id: friendPlayerSpellHeader1
+        width: 100
+        anchors.left: parent.left
+        anchors.verticalCenter: parent.verticalCenter
+        margin-left: 194
+        font: $var-cip-font
+        color: #c0c0c0
+        text-offset: 0 -1
+        text-align: left
+        text-auto-resize: false
+
+      HelperListColumnSeparator
+        id: friendPlayerSpellHeaderSeparator2
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        margin-left: 301
+
+      Label
+        id: friendPlayerSpellHeader2
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.verticalCenter: parent.verticalCenter
+        margin-left: 304
+        margin-right: 4
+        font: $var-cip-font
+        color: #c0c0c0
+        text-offset: 0 -1
+        text-align: left
+        text-auto-resize: false
+
+    Panel
+      id: healFriendPlayerSettingsFrame
+      anchors.top: healFriendPlayerSettingsHeader.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: friendPlayerCountLabel.top
+      margin-top: 3
+      margin-left: 4
+      margin-right: 4
+      margin-bottom: 5
+      image-source: /images/ui/1pixel-down-frame
+      image-border: 3
+
+      ScrollablePanel
+        id: healFriendPlayerSettingsList
+        vertical-scrollbar: healFriendPlayerSettingsScrollbar
+        anchors.fill: parent
+        padding: 1
+        padding-right: 12
+        background-color: alpha
+        clipping: true
+        layout:
+          type: verticalBox
+          spacing: 0
+
+      VerticalQtScrollBar
+        id: healFriendPlayerSettingsScrollbar
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        step: 36
+        pixels-scroll: true
+        margin: 1 1 1 0
+
+      Label
+        id: friendPlayerSettingsEmptyLabel
+        height: 16
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.verticalCenter: parent.verticalCenter
+        margin-left: 6
+        margin-right: 18
+        font: $var-cip-font
+        color: #909090
+        text-align: center
+        !text: tr('No party players.')
+        phantom: true
+
+    Label
+      id: friendPlayerCountLabel
+      anchors.left: parent.left
+      anchors.bottom: parent.bottom
+      margin-left: 7
+      margin-bottom: 8
+      font: $var-cip-font
+      color: #909090
+      !text: tr('Party players: 0')
+      text-auto-resize: true
+
+  Panel
+    id: activeHealFriendPanel
+    width: 163
+    height: 20
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-left: 2
+
+    OnePixelDownFrame
+      id: enableHealFriendFrame
+      width: 163
+      height: 20
+      anchors.top: parent.top
+      anchors.left: parent.left
+      padding: 4
+
+      OptionCheckBox
+        id: enableHealFriendCheckBox
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        @onCheckChange: modules.game_helper.onEnableHealFriendChange(self, self:isChecked())
+
+      Label
+        !text: tr('Enable Heal Friend')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.top: parent.top
+        anchors.left: parent.left
+        text-offset: 16 -1
+
+      UIWidget
+        image-source: /images/icons/show_gui_help_grey
+        size: 12 12
+        anchors.top: parent.top
+        anchors.right: parent.right
+        margin-right: 1
+        !tooltip: tr('Heal Friend:<br><li>Only confirmed party members are added automatically.</li><li>Players at the top have higher healing priority than players below. Drag a player up or down to reorder.</li><li>Only party members visible on the map can be healed.</li>')
+
+HelperSectionTitle < Label
+  font: $var-cip-font-new
+  color: #909090
+  text-auto-resize: true
+
+HelperListItemOdd < ProfileListItemOdd
+HelperListItemEven < ProfileListItemEven
+
+HelperCreatureListRow < Panel
+  height: 34
+  focusable: true
+
+  UICreature
+    id: creatureSprite
+    size: 32 32
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 2
+    phantom: true
+
+  Label
+    id: creatureName
+    anchors.left: creatureSprite.right
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 6
+    margin-right: 4
+    font: $var-cip-font
+    color: #c0c0c0
+    text-auto-resize: true
+
+HelperCreatureListRowOdd < HelperCreatureListRow
+  background-color: #484848
+
+  $focus:
+    background-color: #585858
+
+  $!focus:
+    background-color: #484848
+
+HelperCreatureListRowEven < HelperCreatureListRow
+  background-color: #414141
+
+  $focus:
+    background-color: #585858
+
+  $!focus:
+    background-color: #414141
+
+TargetPriorityListHeader < UIWidget
+  height: 16
+  background-color: #363636
+  focusable: false
+
+  UIWidget
+    size: 23 16
+    anchors.top: parent.top
+    anchors.left: parent.left
+    background-color: #363636
+    !text: tr('...')
+    color: #c0c0c0
+    font: $var-cip-font
+    text-offset: 0 -1
+    text-align: center
+
+  UIWidget
+    anchors.left: prev.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    image-source: /images/ui/separator_vertical
+
+  UIWidget
+    id: targetHeaderCreature
+    size: 64 16
+    anchors.top: parent.top
+    anchors.left: prev.right
+    margin-left: 2
+    background-color: #363636
+    !text: tr('Creature')
+    color: #c0c0c0
+    font: $var-cip-font
+    text-offset: 0 -1
+    text-align: left
+
+  UIWidget
+    anchors.left: prev.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    image-source: /images/ui/separator_vertical
+
+  UIWidget
+    id: targetHeaderName
+    height: 16
+    anchors.top: parent.top
+    anchors.left: prev.right
+    anchors.right: parent.right
+    margin-left: 2
+    background-color: #363636
+    !text: tr('Name')
+    color: #c0c0c0
+    font: $var-cip-font
+    text-offset: 0 -1
+    text-align: left
+
+TargetPriorityListRow < UIWidget
+  height: 34
+  focusable: true
+
+  UIWidget
+    size: 23 34
+    anchors.top: parent.top
+    anchors.left: parent.left
+
+    QtCheckBox
+      id: targetRowEnabled
+      size: 14 14
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.verticalCenter: parent.verticalCenter
+      margin-left: -1
+
+  UIWidget
+    anchors.left: prev.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    image-source: /images/ui/separator_vertical
+
+  UIWidget
+    id: targetRowCreatureColumn
+    size: 64 34
+    anchors.top: parent.top
+    anchors.left: prev.right
+    margin-left: 2
+
+    UICreature
+      id: creatureSprite
+      phantom: true
+      size: 32 32
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.verticalCenter: parent.verticalCenter
+
+    UIWidget
+      id: creatureIcon
+      phantom: true
+      size: 32 32
+      image-size: 32 32
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.verticalCenter: parent.verticalCenter
+      visible: false
+
+  UIWidget
+    anchors.left: targetRowCreatureColumn.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    image-source: /images/ui/separator_vertical
+
+  Label
+    id: creatureName
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.left: prev.right
+    anchors.right: parent.right
+    margin-left: 2
+    margin-right: 8
+    font: $var-cip-font
+    color: #c0c0c0
+    text-auto-resize: true
+    text-align: left
+
+HelperShooterPriorityItem < Panel
+  height: 34
+  focusable: true
+  draggable: true
+
+  UIWidget
+    size: 23 34
+    anchors.top: parent.top
+    anchors.left: parent.left
+
+    QtCheckBox
+      id: shooterRowEnabled
+      size: 14 14
+      checked: true
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.verticalCenter: parent.verticalCenter
+      margin-left: -1
+      @onCheckChange: modules.game_helper.onShooterEntryEnabledChange(self)
+
+  UIWidget
+    anchors.left: prev.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    image-source: /images/ui/separator_vertical
+    phantom: true
+
+  UIWidget
+    id: spellIcon
+    phantom: true
+    size: 32 32
+    image-size: 32 32
+    anchors.left: prev.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 9
+
+  HelperRuneIconBackground
+    id: runeIconBackground
+    anchors.left: spellIcon.left
+    anchors.verticalCenter: parent.verticalCenter
+    visible: false
+
+  UIItem
+    id: runeIcon
+    phantom: true
+    visible: false
+    size: 32 32
+    image-size: 32 32
+    virtual: true
+    anchors.left: spellIcon.left
+    anchors.verticalCenter: parent.verticalCenter
+
+  UIWidget
+    anchors.left: spellIcon.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    margin-left: 7
+    image-source: /images/ui/separator_vertical
+    phantom: true
+
+  Label
+    id: shooterCondition
+    anchors.left: prev.right
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 2
+    margin-right: 6
+    font: $var-cip-font
+    color: #c0c0c0
+    phantom: true
+    text-auto-resize: true
+
+ShooterPriorityDragGhost < Panel
+  size: 220 40
+  focusable: false
+  phantom: true
+  draggable: false
+  background-color: #565656e6
+  border-width: 1
+  border-color: #8a8a8a
+  opacity: 0.92
+
+  UIWidget
+    id: dragGhostSpellIcon
+    phantom: true
+    size: 32 32
+    image-size: 32 32
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 5
+
+  HelperRuneIconBackground
+    id: dragGhostRuneIconBackground
+    anchors.left: dragGhostSpellIcon.left
+    anchors.verticalCenter: parent.verticalCenter
+    visible: false
+
+  UIItem
+    id: dragGhostRuneIcon
+    phantom: true
+    visible: false
+    size: 32 32
+    image-size: 32 32
+    virtual: true
+    anchors.left: dragGhostSpellIcon.left
+    anchors.verticalCenter: parent.verticalCenter
+
+  Label
+    id: dragGhostName
+    anchors.top: parent.top
+    anchors.left: dragGhostSpellIcon.right
+    anchors.right: parent.right
+    margin-left: 7
+    margin-right: 6
+    margin-top: 5
+    font: $var-cip-font
+    color: #ffffff
+    phantom: true
+    text-auto-resize: false
+    text-align: left
+
+  Label
+    id: dragGhostCondition
+    anchors.top: parent.top
+    anchors.left: dragGhostName.left
+    anchors.right: parent.right
+    margin-top: 22
+    margin-right: 6
+    font: $var-cip-font
+    color: #c0c0c0
+    phantom: true
+    text-auto-resize: false
+    text-align: left
+
+ShooterPriorityListHeader < UIWidget
+  height: 16
+  background-color: #363636
+  focusable: false
+
+  UIWidget
+    id: shooterHeaderEnabled
+    size: 23 16
+    anchors.top: parent.top
+    anchors.left: parent.left
+    background-color: #363636
+    !text: tr('...')
+    color: #c0c0c0
+    font: $var-cip-font
+    text-offset: 0 -1
+    text-align: center
+
+  UIWidget
+    id: shooterHeaderEnabledSeparator
+    anchors.left: prev.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    image-source: /images/ui/separator_vertical
+
+  UIWidget
+    id: shooterHeaderAction
+    size: 46 16
+    anchors.top: parent.top
+    anchors.left: prev.right
+    margin-left: 2
+    background-color: #363636
+    !text: tr('Action')
+    color: #c0c0c0
+    font: $var-cip-font
+    text-offset: 0 -1
+    text-align: left
+
+  UIWidget
+    anchors.left: prev.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    image-source: /images/ui/separator_vertical
+
+  UIWidget
+    id: shooterHeaderCondition
+    height: 16
+    anchors.top: parent.top
+    anchors.left: prev.right
+    anchors.right: parent.right
+    margin-left: 2
+    background-color: #363636
+    !text: tr('Condition')
+    color: #c0c0c0
+    font: $var-cip-font
+    text-offset: 0 -1
+    text-align: left
+
+HelperShooterPriorityItemOdd < HelperShooterPriorityItem
+  background-color: #484848
+
+  $focus:
+    background-color: #585858
+
+  $!focus:
+    background-color: #484848
+
+HelperShooterPriorityItemEven < HelperShooterPriorityItem
+  background-color: #414141
+
+  $focus:
+    background-color: #585858
+
+  $!focus:
+    background-color: #414141
+
+HealingPercentStepper < Panel
+  size: 56 20
+  focusable: false
+
+  HelperPriorityQtyButtonBackOne
+    id: btnDec
+    size: 16 16
+    image-size: 16 16
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+
+  UIWidget
+    id: numberBox
+    size: 20 18
+    anchors.left: btnDec.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 3
+    background-color: #2a2a2aff
+    border-width-top: 1
+    border-width-left: 1
+    border-width-right: 1
+    border-width-bottom: 1
+    border-color-bottom: #808080
+    border-color-right: #808080
+    border-color-left: #131313
+    border-color-top: #131313
+
+    Label
+      id: numberValue
+      anchors.fill: parent
+      font: $var-cip-font-new
+      color: #ffffff
+      text-align: center
+      text: 80
+      phantom: true
+      focusable: false
+
+  HelperPriorityQtyButtonForwardOne
+    id: btnInc
+    size: 16 16
+    image-size: 16 16
+    anchors.left: numberBox.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 3
+
+HealingMetricDropdown < UIWidget
+  size: 41 16
+  image-source: /images/ui/button-grey-up
+  image-border: 4
+  focusable: false
+
+  $pressed:
+    image-source: /images/ui/button-grey-down
+
+  Label
+    id: metricText
+    anchors.left: parent.left
+    anchors.right: metricArrow.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 1
+    margin-right: 1
+    margin-top: -1
+    font: $var-cip-font
+    color: #c0c0c0
+    text: HP%
+    text-auto-resize: false
+    text-align: left
+    phantom: true
+
+  UIWidget
+    id: metricArrow
+    size: 7 7
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-right: 1
+    image-source: /images/ui/icon-arrow7x7-down
+    phantom: true
+
+HealingListHeader < UIWidget
+  height: 16
+  background-color: #363636
+  focusable: false
+
+  UIWidget
+    size: 23 16
+    anchors.top: parent.top
+    anchors.left: parent.left
+    background-color: #363636
+    !text: tr('...')
+    color: #c0c0c0
+    font: $var-cip-font
+    text-offset: 0 -1
+    text-align: center
+
+  UIWidget
+    anchors.left: prev.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    image-source: /images/ui/separator_vertical
+
+  UIWidget
+    size: 46 16
+    anchors.top: parent.top
+    anchors.left: prev.right
+    margin-left: 2
+    background-color: #363636
+    !text: tr('Action')
+    color: #c0c0c0
+    font: $var-cip-font
+    text-offset: 0 -1
+    text-align: left
+
+  UIWidget
+    anchors.left: prev.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    image-source: /images/ui/separator_vertical
+
+  UIWidget
+    height: 16
+    anchors.top: parent.top
+    anchors.left: prev.right
+    anchors.right: parent.right
+    margin-left: 2
+    background-color: #363636
+    !text: tr('Value')
+    color: #c0c0c0
+    font: $var-cip-font
+    text-offset: 0 -1
+    text-align: left
+
+// Clean "X" remove button (same icon as the Manage Containers list), nicer than a CipsoftButton.
+HealingRowRemoveButton < UIWidget
+  size: 17 17
+  icon: /images/ui/button-clear-20x20-up.png
+  icon-size: 17 17
+  $pressed:
+    icon: /images/ui/button-clear-20x20-down.png
+
+HealingConditionRow < UIWidget
+  height: 48
+  focusable: true
+  draggable: true
+
+  QtCheckBox
+    id: healingConditionEnabled
+    size: 14 14
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 5
+
+  UIWidget
+    id: healingRowSeparator1
+    anchors.left: parent.left
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    margin-left: 23
+    image-source: /images/ui/separator_vertical
+    phantom: true
+
+  HelperHealingActionSlot
+    id: healingConditionActionSlot
+    anchors.left: healingRowSeparator1.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 7
+
+  UIWidget
+    id: healingRowSeparator2
+    anchors.left: healingConditionActionSlot.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    margin-left: 7
+    image-source: /images/ui/separator_vertical
+    phantom: true
+
+  HealingRowRemoveButton
+    id: healingConditionRemoveButton
+    anchors.right: parent.right
+    anchors.top: parent.top
+    margin-top: 26
+    margin-right: 6
+
+  HealingPercentStepper
+    id: healingConditionPercentStepper
+    anchors.right: healingConditionRemoveButton.left
+    anchors.top: parent.top
+    margin-right: 5
+    margin-top: 25
+
+  HealingMetricDropdown
+    id: healingConditionMetricCombo
+    anchors.top: parent.top
+    anchors.right: healingConditionPercentStepper.left
+    margin-right: 4
+    margin-top: 27
+    visible: false
+
+  Label
+    id: healingConditionName
+    anchors.top: parent.top
+    anchors.left: healingRowSeparator2.right
+    anchors.right: parent.right
+    margin-left: 6
+    margin-right: 6
+    margin-top: 6
+    font: $var-cip-font
+    color: #c0c0c0
+    phantom: true
+    text-auto-resize: false
+    text-align: left
+
+  Label
+    id: healingConditionMetricLabel
+    anchors.top: parent.top
+    anchors.left: healingConditionName.left
+    anchors.right: healingConditionPercentStepper.left
+    margin-top: 27
+    margin-right: 2
+    font: $var-cip-font
+    color: #a8a8a8
+    phantom: true
+    text-auto-resize: false
+    text-align: left
+
+HealingConditionDragGhost < Panel
+  size: 180 42
+  focusable: false
+  phantom: true
+  draggable: false
+  background-color: #565656e6
+  border-width: 1
+  border-color: #8a8a8a
+  opacity: 0.92
+
+  HelperHealingActionSlot
+    id: dragGhostActionSlot
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 5
+    phantom: true
+    focusable: false
+    draggable: false
+
+  Label
+    id: dragGhostName
+    anchors.top: parent.top
+    anchors.left: dragGhostActionSlot.right
+    anchors.right: parent.right
+    margin-left: 6
+    margin-right: 6
+    margin-top: 6
+    font: $var-cip-font
+    color: #ffffff
+    phantom: true
+    text-auto-resize: false
+    text-align: left
+
+  Label
+    id: dragGhostCondition
+    anchors.top: parent.top
+    anchors.left: dragGhostName.left
+    anchors.right: parent.right
+    margin-top: 25
+    margin-right: 6
+    font: $var-cip-font
+    color: #d0d0d0
+    phantom: true
+    text-auto-resize: false
+    text-align: left
+
+HelperAttackSpellListRow < Panel
+  height: 34
+  focusable: true
+  background-color: alpha
+
+  UIWidget
+    id: spellIcon
+    phantom: true
+    size: 32 32
+    image-size: 32 32
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 2
+
+  Panel
+    id: spellIconGray
+    size: 32 32
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 2
+    phantom: true
+    focusable: false
+    visible: false
+    image-source: /assets/images/game/actionbar/slot-disabled
+    image-size: 32 32
+
+  Label
+    id: spellName
+    anchors.left: spellIcon.right
+    anchors.right: parent.right
+    anchors.top: parent.top
+    margin-left: 4
+    margin-right: 6
+    margin-top: 4
+    font: $var-cip-font
+    color: #c0c0c0
+    text-auto-resize: true
+
+  Label
+    id: spellWords
+    anchors.left: spellName.left
+    anchors.right: parent.right
+    anchors.top: spellName.bottom
+    margin-right: 6
+    margin-top: -2
+    font: $var-cip-font
+    color: #c0c0c0
+    text-auto-resize: true
+
+  $focus:
+    background-color: #585858
+
+  $!focus:
+    background-color: alpha
+
+HelperAttackRuneListRow < Panel
+  height: 34
+  focusable: true
+  background-color: alpha
+
+  HelperRuneIconBackground
+    id: runeIconBackground
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 2
+    visible: false
+
+  UIItem
+    id: runeIcon
+    phantom: true
+    size: 32 32
+    image-size: 32 32
+    virtual: true
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 2
+
+  Panel
+    id: runeIconGray
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    phantom: true
+    focusable: false
+    visible: false
+    size: 32 32
+    image-size: 32 32
+    margin-left: 2
+    image-source: /assets/images/game/actionbar/slot-disabled
+
+  Label
+    id: runeName
+    anchors.left: runeIcon.right
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 4
+    margin-right: 6
+    font: $var-cip-font
+    color: #c0c0c0
+    text-auto-resize: true
+
+  $focus:
+    background-color: #585858
+
+  $!focus:
+    background-color: alpha
+
+HelperStdButton < Button
+  size: 43 20
+
+HelperProfileInputBox < InputBoxWindow
+  font: $var-cip-font-new
+  color: #909090
+  text-offset: 0 2
+
+HelperProfileInputLabel < InputBoxLabel
+  font: $var-cip-font
+  color: #c0c0c0
+  fixed-size: false
+  text-auto-resize: true
+
+HelperProfileInputLineEdit < InputBoxLineEdit
+  font: $var-cip-font
+  color: #ffffff
+
+HelperModuleFooter < Panel
+  height: 20
+  anchors.bottom: parent.bottom
+  anchors.left: parent.left
+  margin-left: 2
+  margin-bottom: 5
+
+PainelTarget < Panel
+  anchors.top: presetBar.bottom
+  anchors.left: MainMenuLeft.right
+  anchors.right: parent.right
+  anchors.bottom: botSeparator.top
+  margin-top: 5
+  margin-left: 10
+  margin-bottom: 10
+
+  Panel
+    id: targetContentArea
+    size: 459 417
+    anchors.top: parent.top
+    anchors.left: parent.left
+
+  HelperPopupSection
+    id: targetListWindow
+    !text: tr('Target List')
+    height: 243
+    anchors.top: targetContentArea.top
+    anchors.left: targetContentArea.left
+    anchors.right: targetContentArea.right
+
+    Panel
+      id: targetListButtonsRow
+      height: 20
+      anchors.bottom: parent.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-left: 2
+
+      HelperStdButton
+        id: targetRemoveBtn
+        anchors.top: parent.top
+        anchors.right: parent.right
+        size: 58 20
+        !text: tr('Remove')
+        visible: false
+        @onClick: modules.game_helper.onTargetRemoveClick()
+
+      HelperStdButton
+        id: targetEditBtn
+        anchors.top: parent.top
+        anchors.right: targetRemoveBtn.left
+        margin-right: 6
+        !text: tr('Edit')
+        visible: false
+        @onClick: modules.game_helper.openTargetEditWindow()
+
+      HelperStdButton
+        id: targetAddBtn
+        anchors.top: parent.top
+        anchors.right: parent.right
+        size: 58 20
+        !text: tr('Add')
+        @onClick: modules.game_helper.openTargetAssignWindow()
+
+    OnePixelDownFrame
+      id: targetListFrame
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: targetListButtonsRow.top
+      margin-top: 7
+      margin-bottom: 6
+      padding: 1
+
+      ScrollablePanel
+        id: targetPriorityList
+        anchors.fill: parent
+        vertical-scrollbar: targetPriorityListScrollbar
+        padding-top: 17
+        background-color: #414141
+        clipping: true
+        layout:
+          type: verticalBox
+          spacing: 0
+
+      VerticalQtScrollBar
+        id: targetPriorityListScrollbar
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        step: 34
+        pixels-scroll: true
+
+      TargetPriorityListHeader
+        id: targetPriorityListHeader
+        height: 16
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-right: 12
+        @onSetup: self:raise()
+
+      HorizontalSeparator
+        anchors.top: targetPriorityListHeader.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: -1
+        margin-right: 12
+        @onSetup: self:raise()
+
+  HelperSectionHelpIcon
+    id: targetListHelp
+    anchors.top: targetListWindow.top
+    anchors.right: targetListWindow.right
+    !tooltip: tr('The order of entries in the list is the primary targeting priority. Entries at the top are preferred first.<br><br><li>Right-click an entry to open a menu and change its order in the list.</li><li>Uncheck an entry to temporarily disable that target entry without removing it.</li>')
+
+  HelperPopupSection
+    id: targetSettingsWindow
+    !text: tr('Target Settings')
+    height: 142
+    anchors.top: targetListWindow.bottom
+    anchors.left: targetContentArea.left
+    anchors.right: targetContentArea.right
+    margin-top: 10
+
+    Panel
+      id: targetModeRow
+      height: 20
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 6
+      margin-left: -2
+
+      Label
+        id: targetModeLabel
+        width: 70
+        !text: tr('Mode:')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        text-auto-resize: false
+
+      QtComboBox
+        id: targetModeCombo
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: prev.right
+        margin-left: 6
+        size: 108 17
+        @onOptionChange: modules.game_helper.onTargetModeChange(self)
+
+    Panel
+      id: targetMinDistRow
+      height: 20
+      anchors.top: targetModeRow.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 3
+      margin-left: -2
+
+      Label
+        id: targetDistanceLabel
+        width: 70
+        !text: tr('Distance:')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        text-auto-resize: false
+
+      QtComboBox
+        id: targetDistanceCombo
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: prev.right
+        margin-left: 6
+        size: 108 17
+        @onOptionChange: modules.game_helper.onTargetDistanceChange(self)
+
+    Panel
+      id: targetPriorityRow
+      height: 20
+      anchors.top: targetMinDistRow.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 3
+      margin-left: -2
+
+      Label
+        id: targetPriorityLabel
+        width: 70
+        !text: tr('Priority:')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        text-auto-resize: false
+
+      QtComboBox
+        id: targetOperatingModeCombo
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: prev.right
+        margin-left: 6
+        size: 170 17
+        text-align: left
+        text-offset: 5 0
+        menu-scroll: true
+        menu-height: 72
+        menu-scroll-step: 16
+        @onOptionChange: modules.game_helper.onTargetPriorityChange(self)
+
+        $pressed !disabled:
+          text-offset: 5 1
+
+        $on:
+          text-offset: 5 1
+
+    Panel
+      id: targetPzAutoRow
+      height: 20
+      anchors.top: targetPriorityRow.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 3
+      margin-left: -2
+
+      Label
+        id: targetPzAutoLabel
+        width: 70
+        !text: tr('PZ Auto:')
+        !tooltip: tr('PZ Auto:<br><li>Enabled: pauses Target inside a protection zone and restores it after leaving.</li><li>Disabled: turns Target off in a protection zone. It stays off after leaving and cannot be enabled while you are inside.</li>')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        text-auto-resize: false
+
+      QtComboBox
+        id: targetPzAutoCombo
+        !tooltip: tr('PZ Auto:<br><li>Enabled: pauses Target inside a protection zone and restores it after leaving.</li><li>Disabled: turns Target off in a protection zone. It stays off after leaving and cannot be enabled while you are inside.</li>')
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: prev.right
+        margin-left: 6
+        size: 108 17
+        @onOptionChange: modules.game_helper.onTargetPzAutoChange(self)
+
+    Panel
+      id: activeTargetPanel
+      height: 20
+      anchors.bottom: parent.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+
+
+      OnePixelDownFrame
+        id: enableTargetFrame
+        width: 122
+        height: 20
+        anchors.top: parent.top
+        anchors.left: parent.left
+        padding: 4
+
+        OptionCheckBox
+          id: enableTargetCheckBox
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          @onCheckChange: modules.game_helper.onEnableTargetChange(self, self:isChecked())
+
+        Label
+          id: enableTargetLabel
+          !text: tr('Enable Target')
+          font: $var-cip-font
+          color: #c0c0c0
+          anchors.top: parent.top
+          anchors.left: parent.left
+          text-offset: 16 -1
+
+      Button
+        id: setTargetHotkeyButton
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: enableTargetFrame.right
+        size: 67 20
+        margin-left: 6
+        text: Key [NONE]
+        @onClick: modules.game_helper.openTargetHotkeyWindow()
+
+  HelperSectionHelpIcon
+    id: targetSettingsHelp
+    anchors.top: targetSettingsWindow.top
+    anchors.right: targetSettingsWindow.right
+    !tooltip: tr('Settings applied when auto-targeting is enabled:<br><li>Mode: Stand keeps your character in place; Chase makes your character follow the target.</li><li>Distance: Minimum and maximum distance in tiles between you and a creature for it to be auto-targeted.</li><li>PZ Auto enabled: pauses auto-target inside a protection zone and restores it after leaving.</li><li>PZ Auto disabled: turns auto-target off in a protection zone. It stays off after leaving and cannot be enabled while you are inside.</li><br>Priority:<br><li>Best Target: chooses the creature that would let an area attack hit the most monsters. This is mainly intended for paladins using diamond arrows.</li><li>Ascending: chooses by the primary parameter selected in \"by\", from lowest to highest, then uses the secondary parameter selected in \"and\" when needed.</li><li>Descending: chooses by the primary parameter selected in \"by\", from highest to lowest, then uses the secondary parameter selected in \"and\" when needed.</li>')
+
+PainelShooter < Panel
+  anchors.top: presetBar.bottom
+  anchors.left: MainMenuLeft.right
+  anchors.right: parent.right
+  anchors.bottom: botSeparator.top
+  margin-top: 5
+  margin-left: 10
+  margin-bottom: 10
+
+  Panel
+    id: shooterContentArea
+    size: 459 417
+    anchors.top: parent.top
+    anchors.left: parent.left
+
+  HelperPopupSection
+    id: shooterListWindow
+    !text: tr('Shooter List')
+    height: 287
+    anchors.top: shooterContentArea.top
+    anchors.left: shooterContentArea.left
+    anchors.right: shooterContentArea.right
+
+    Panel
+      id: shooterListButtonsRow
+      height: 20
+      anchors.bottom: parent.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-left: 2
+
+      HelperStdButton
+        id: shooterRemoveBtn
+        anchors.top: parent.top
+        anchors.right: parent.right
+        size: 58 20
+        !text: tr('Remove')
+        visible: false
+        @onClick: modules.game_helper.onShooterRemoveClick()
+
+      HelperStdButton
+        id: shooterEditBtn
+        anchors.top: parent.top
+        anchors.right: shooterRemoveBtn.left
+        margin-right: 6
+        !text: tr('Edit')
+        visible: false
+        @onClick: modules.game_helper.openShooterEditWindow()
+
+      HelperStdButton
+        id: shooterAddBtn
+        anchors.top: parent.top
+        anchors.right: parent.right
+        size: 58 20
+        !text: tr('Add')
+        @onClick: modules.game_helper.openShooterAssignWindow()
+
+    OnePixelDownFrame
+      id: shooterListFrame
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: shooterListButtonsRow.top
+      margin-top: 7
+      margin-bottom: 6
+      padding: 1
+
+      ScrollablePanel
+        id: shooterPriorityList
+        vertical-scrollbar: shooterPriorityListScrollbar
+        anchors.fill: parent
+        padding-top: 17
+        background-color: #414141
+        clipping: true
+        layout:
+          type: verticalBox
+          spacing: 0
+
+      VerticalQtScrollBar
+        id: shooterPriorityListScrollbar
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        step: 34
+        pixels-scroll: true
+
+      ShooterPriorityListHeader
+        id: shooterPriorityListHeader
+        height: 16
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-right: 12
+        @onSetup: self:raise()
+
+      HorizontalSeparator
+        anchors.top: shooterPriorityListHeader.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: -1
+        margin-right: 12
+        @onSetup: self:raise()
+
+  HelperSectionHelpIcon
+    id: shooterListHelp
+    anchors.top: shooterListWindow.top
+    anchors.right: shooterListWindow.right
+    !tooltip: tr('The order of entries in the list determines the shooter priority. Entries at the top are checked first.<br><br><li>Drag an entry up or down to reorder it.</li><li>Right-click an entry to open a menu and change its order in the list.</li><li>Uncheck an entry to temporarily disable that spell or rune without removing it.</li>')
+
+  HelperPopupSection
+    id: shooterControlWindow
+    !text: tr('Shooter Settings')
+    height: 98
+    anchors.top: shooterListWindow.bottom
+    anchors.left: shooterContentArea.left
+    anchors.right: shooterContentArea.right
+    margin-top: 10
+
+    Panel
+      id: shooterPresetsPanel
+      height: 20
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 6
+      margin-left: -2
+
+      Label
+        id: shooterPresetsLabel
+        width: 70
+        !text: tr('Presets:')
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        font: $var-cip-font
+        color: #c0c0c0
+        text-auto-resize: false
+
+      QtComboBox
+        id: shooterPresets
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: prev.right
+        margin-left: 6
+        size: 108 17
+        color: #c0c0c0
+        @onOptionChange: modules.game_helper.onShooterPresetChange(self)
+        @onMousePress: |
+          return modules.game_helper.onShooterPresetMenu(self)
+
+      HelperStdButton
+        id: shooterRenamePresetBtn
+        anchors.top: parent.top
+        anchors.left: prev.right
+        margin-left: 6
+        margin-top: 1
+        text-offset: 0 -1
+        size: 58 17
+        !text: tr('Rename')
+        @onClick: modules.game_helper.onShooterRenamePreset()
+
+      HelperStdButton
+        id: shooterNewPresetBtn
+        anchors.top: shooterRenamePresetBtn.top
+        anchors.left: shooterRenamePresetBtn.right
+        margin-left: 6
+        text-offset: 0 -1
+        size: 43 17
+        !text: tr('New')
+        @onClick: modules.game_helper.onShooterNewPreset()
+
+      HelperStdButton
+        id: shooterRemovePresetBtn
+        anchors.top: shooterNewPresetBtn.top
+        anchors.left: shooterNewPresetBtn.right
+        margin-left: 6
+        text-offset: 0 -1
+        size: 58 17
+        !text: tr('Remove')
+        @onClick: modules.game_helper.onShooterRemovePreset()
+
+    Panel
+      id: shooterPzAutoRow
+      height: 20
+      anchors.top: shooterPresetsPanel.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 3
+      margin-left: -2
+
+      Label
+        id: shooterPzAutoLabel
+        width: 70
+        !text: tr('PZ Auto:')
+        !tooltip: tr('PZ Auto:<br><li>Enabled: pauses Shooter inside a protection zone and restores it after leaving.</li><li>Disabled: turns Shooter off in a protection zone. It stays off after leaving and cannot be enabled while you are inside.</li>')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        text-auto-resize: false
+
+      QtComboBox
+        id: shooterPzAutoCombo
+        !tooltip: tr('PZ Auto:<br><li>Enabled: pauses Shooter inside a protection zone and restores it after leaving.</li><li>Disabled: turns Shooter off in a protection zone. It stays off after leaving and cannot be enabled while you are inside.</li>')
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: prev.right
+        margin-left: 6
+        size: 108 17
+        @onOptionChange: modules.game_helper.onShooterPzAutoChange(self)
+
+      Panel
+        id: comboModeUnit
+        width: 140
+        height: 20
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: shooterPzAutoCombo.right
+        margin-left: 14
+
+        OptionCheckBox
+          id: enableComboModeCheckBox
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          !tooltip: tr('Combo priority: when enabled, casts your enabled spells as a rotating combo (round-robin), reading the list from top to bottom, instead of always repeating the highest-priority ready spell.')
+          @onCheckChange: modules.game_helper.onShooterComboModeChange(self, self:isChecked())
+
+        Label
+          id: comboModeLabel
+          !text: tr('Combo priority')
+          font: $var-cip-font
+          color: #c0c0c0
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          text-offset: 18 0
+          text-auto-resize: true
+          phantom: true
+
+    Panel
+      id: activeShooterPanel
+      height: 28
+      anchors.bottom: parent.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+
+      OnePixelDownFrame
+        id: enableShooterFrame
+        width: 122
+        height: 20
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        padding: 4
+
+        OptionCheckBox
+          id: enableShooterCheckBox
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          @onCheckChange: modules.game_helper.onEnableShooterChange(self, self:isChecked())
+
+        Label
+          id: enableShooterLabel
+          !text: tr('Enable Shooter')
+          font: $var-cip-font
+          color: #c0c0c0
+          anchors.top: parent.top
+          anchors.left: parent.left
+          text-offset: 16 -1
+
+      Button
+        id: setShooterHotkeyButton
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: enableShooterFrame.right
+        size: 67 20
+        margin-left: 6
+        text: Key [NONE]
+        @onClick: modules.game_helper.openShooterEnableHotkeyWindow()
+
+      Label
+        id: postureLabel
+        width: 58
+        !text: tr('Posture:')
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: setShooterHotkeyButton.right
+        margin-left: 12
+        text-auto-resize: false
+
+      Panel
+        id: posturePanel
+        height: 28
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: postureLabel.right
+        anchors.right: parent.right
+        margin-left: 8
+        layout:
+          type: horizontalBox
+          spacing: 4
+
+  HelperSectionHelpIcon
+    id: shooterSettingsHelp
+    anchors.top: shooterControlWindow.top
+    anchors.right: shooterControlWindow.right
+    !tooltip: tr('Shooter settings:<br><li>Presets save independent shooter lists.</li><li>Use the pencil beside a preset to assign a hotkey that selects it.</li><li>PZ Auto enabled: pauses Shooter inside a protection zone and restores it after leaving.</li><li>PZ Auto disabled: turns Shooter off in a protection zone. It stays off after leaving and cannot be enabled while you are inside.</li>')
+
+PainelParty < Panel
+  anchors.top: presetBar.bottom
+  anchors.left: MainMenuLeft.right
+  anchors.right: parent.right
+  anchors.bottom: botSeparator.top
+  margin-top: 5
+  margin-left: 10
+  margin-bottom: 10
+
+  HelperPopupSection
+    id: autoInviteSection
+    !text: tr('Auto Invite')
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 151
+
+    Label
+      id: autoPartySendLabel
+      !text: tr('Send invite to (max 4 players):')
+      text-auto-resize: true
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-top: 9
+      margin-left: -2
+      font: $var-cip-font-new
+      color: #c0c0c0
+
+    Panel
+      id: autoPartySendPanel
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      height: 78
+      margin-top: 4
+
+      TextEdit
+        id: autoPartySend1
+        height: 16
+        cursor-visible: false
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        @onTextChange: modules.game_helper.onAutoPartySettingsTextChange()
+        @onMousePress: modules.game_helper.focusAutoPartyTextEdit(self)
+        @onFocusChange: |
+          if not self:isFocused() then self:setCursorVisible(false) end
+
+      TextEdit
+        id: autoPartySend2
+        height: 16
+        cursor-visible: false
+        anchors.top: prev.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 6
+        @onTextChange: modules.game_helper.onAutoPartySettingsTextChange()
+        @onMousePress: modules.game_helper.focusAutoPartyTextEdit(self)
+        @onFocusChange: |
+          if not self:isFocused() then self:setCursorVisible(false) end
+
+      TextEdit
+        id: autoPartySend3
+        height: 16
+        cursor-visible: false
+        anchors.top: prev.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 6
+        @onTextChange: modules.game_helper.onAutoPartySettingsTextChange()
+        @onMousePress: modules.game_helper.focusAutoPartyTextEdit(self)
+        @onFocusChange: |
+          if not self:isFocused() then self:setCursorVisible(false) end
+
+      TextEdit
+        id: autoPartySend4
+        height: 16
+        cursor-visible: false
+        anchors.top: prev.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 6
+        @onTextChange: modules.game_helper.onAutoPartySettingsTextChange()
+        @onMousePress: modules.game_helper.focusAutoPartyTextEdit(self)
+        @onFocusChange: |
+          if not self:isFocused() then self:setCursorVisible(false) end
+
+    Panel
+      id: toolsAutoPartyRow
+      height: 22
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 7
+
+      OnePixelDownFrame
+        id: toolsAutoPartyFrame
+        width: 445
+        height: 20
+        anchors.top: parent.top
+        anchors.left: parent.left
+        padding: 4
+
+        OptionCheckBox
+          id: toolsAutoPartyCheckBox
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          @onCheckChange: modules.game_helper.onToolsAutoPartyChange(self, self:isChecked())
+
+        Label
+          !text: tr('Enable Auto Invite')
+          font: $var-cip-font
+          color: #c0c0c0
+          anchors.top: parent.top
+          anchors.left: parent.left
+          text-offset: 16 -1
+
+  HelperSectionHelpIcon
+    id: autoInviteHelp
+    anchors.top: autoInviteSection.top
+    anchors.right: autoInviteSection.right
+    !tooltip: tr('Auto Invite:<br><li>Uses only the invite list above.</li><li>When enabled, the helper invites configured players when they are nearby and not already in party.</li><li>Fill up to four player names.</li>')
+
+  HelperPopupSection
+    id: autoAcceptSection
+    !text: tr('Auto Accept')
+    anchors.top: autoInviteSection.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 88
+    margin-top: 10
+
+    Label
+      id: autoPartyAcceptLabel
+      !text: tr('Leader (Accept Party):')
+      text-auto-resize: true
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-top: 9
+      margin-left: -2
+      font: $var-cip-font-new
+      color: #c0c0c0
+
+    TextEdit
+      id: autoPartyAcceptEdit
+      height: 16
+      cursor-visible: false
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 4
+      @onTextChange: modules.game_helper.onAutoPartySettingsTextChange()
+      @onMousePress: modules.game_helper.focusAutoPartyTextEdit(self)
+      @onFocusChange: |
+        if not self:isFocused() then self:setCursorVisible(false) end
+
+    Panel
+      id: toolsAutoPartyAcceptRow
+      height: 22
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 6
+
+      OnePixelDownFrame
+        id: toolsAutoPartyAcceptFrame
+        width: 445
+        height: 20
+        anchors.top: parent.top
+        anchors.left: parent.left
+        padding: 4
+
+        OptionCheckBox
+          id: toolsAutoPartyAcceptCheckBox
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          @onCheckChange: modules.game_helper.onToolsAutoPartyAcceptChange(self, self:isChecked())
+
+        Label
+          !text: tr('Enable Auto Accept')
+          font: $var-cip-font
+          color: #c0c0c0
+          anchors.top: parent.top
+          anchors.left: parent.left
+          text-offset: 16 -1
+
+  HelperSectionHelpIcon
+    id: autoAcceptHelp
+    anchors.top: autoAcceptSection.top
+    anchors.right: autoAcceptSection.right
+    !tooltip: tr('Auto Accept:<br><li>Uses only the leader field above.</li><li>When enabled, the helper accepts party invites from the configured leader.</li><li>The leader must be nearby or visible when the invite is detected.</li>')
+
+PainelTools < Panel
+  anchors.top: presetBar.bottom
+  anchors.left: MainMenuLeft.right
+  anchors.right: parent.right
+  anchors.bottom: botSeparator.top
+  margin-top: -2
+  margin-left: 3
+  margin-right: -7
+  margin-bottom: 3
+
+  Panel
+    id: toolsMainArea
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-top: 5
+    margin-left: 5
+    margin-right: 5
+    margin-bottom: 5
+
+    HelperPopupSection
+      id: toolsHasteSection
+      !text: tr('Haste')
+      anchors.top: parent.top
+      anchors.left: parent.left
+      width: 218
+      height: 73
+      margin-top: 2
+      margin-left: 2
+
+      Panel
+        id: toolsAutoHasteRow
+        height: 39
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 7
+        margin-left: 2
+        margin-right: 2
+
+        HelperToolsActionSlot
+          id: toolsAutoHasteSlot
+          anchors.left: parent.left
+          anchors.top: parent.top
+          margin-top: 5
+
+        HelperConditionsCheckBox
+          id: toolsAutoHasteCheckBox
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: toolsAutoHasteSlot.right
+          margin-left: 12
+          margin-top: -9
+          @onCheckChange: modules.game_helper.autoSave()
+
+        Label
+          id: toolsAutoHasteEnabledLabel
+          !text: tr('Enabled')
+          font: $var-cip-font
+          color: #c0c0c0
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: toolsAutoHasteCheckBox.right
+          margin-left: 5
+          margin-top: -9
+          text-auto-resize: true
+
+      Panel
+        id: toolsAutoHastePzCastRow
+        height: 22
+        anchors.top: toolsAutoHasteRow.bottom
+        anchors.left: toolsAutoHasteRow.left
+        anchors.right: toolsAutoHasteRow.right
+        margin-top: -16
+
+        OptionCheckBox
+          id: toolsAutoHastePzCastCheckBox
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          margin-left: 48
+          @onCheckChange: modules.game_helper.autoSave()
+
+        Label
+          !text: tr('PZ Cast')
+          font: $var-cip-font
+          color: #c0c0c0
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          margin-left: 66
+          text-auto-resize: true
+
+    HelperSectionHelpIcon
+      id: toolsHasteHelp
+      anchors.top: toolsHasteSection.top
+      anchors.right: toolsHasteSection.right
+      margin-right: 3
+      !tooltip: tr('Haste:<br><li>Left-click the action slot to select a learned haste spell; right-click to clear it.</li><li>Recasts the spell when its duration and cooldown allow it.</li><li>PZ Cast allows the spell to be cast inside protection zones.</li>')
+
+    HelperPopupSection
+      id: toolsAutoTrainingSection
+      !text: tr('Auto Training')
+      anchors.top: toolsHasteSection.top
+      anchors.left: toolsHasteSection.right
+      anchors.right: parent.right
+      height: 73
+      margin-left: 10
+      margin-right: 2
+
+      Panel
+        id: toolsAutoTrainingRow
+        height: 39
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 8
+        margin-left: 2
+        margin-right: 2
+
+        HelperTrainingItemSlot
+          id: toolsAutoTrainingSlot
+          anchors.left: parent.left
+          anchors.top: parent.top
+          margin-top: 5
+          margin-left: 3
+          margin-right: 2
+
+        OptionCheckBox
+          id: toolsAutoTrainingCheckBox
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: toolsAutoTrainingSlot.right
+          margin-left: 12
+          margin-top: 1
+          @onCheckChange: modules.game_helper.onToolsAutoTrainingChange(self, self:isChecked())
+
+        Label
+          id: toolsAutoTrainingEnabledLabel
+          !text: tr('Enabled')
+          font: $var-cip-font
+          color: #c0c0c0
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          margin-left: 67
+          margin-top: 1
+          text-auto-resize: true
+
+    HelperSectionHelpIcon
+      id: toolsAutoTrainingHelp
+      anchors.top: toolsAutoTrainingSection.top
+      anchors.right: toolsAutoTrainingSection.right
+      margin-right: 3
+      !tooltip: tr('Auto Training:<br><li>Left-click the slot to select an exercise weapon; right-click to clear it.</li><li>Uses the selected weapon every 10 seconds on the nearest visible exercise dummy within 5 tiles.</li><li>The weapon must be available in your inventory or accessible containers.</li>')
+
+    HelperPopupSection
+      id: toolsAntiIdleSection
+      !text: tr('Anti Idle')
+      anchors.top: toolsHasteSection.bottom
+      anchors.left: parent.left
+      width: 218
+      height: 73
+      margin-top: 10
+      margin-left: 2
+
+      Panel
+        id: toolsAntiIdleRow
+        height: 22
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 8
+        margin-left: 6
+
+        UICreature
+          id: toolsAntiIdleCreature
+          size: 32 32
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          margin-top: 10
+          phantom: true
+
+        OptionCheckBox
+          id: toolsAntiIdleCheckBox
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: toolsAntiIdleCreature.right
+          margin-left: 13
+          margin-top: 10
+          @onCheckChange: modules.game_helper.autoSave()
+
+        Label
+          id: toolsAntiIdleEnabledLabel
+          !text: tr('Enabled')
+          font: $var-cip-font
+          color: #c0c0c0
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          margin-left: 62
+          margin-top: 10
+          text-auto-resize: true
+
+    HelperSectionHelpIcon
+      id: toolsAntiIdleHelp
+      anchors.top: toolsAntiIdleSection.top
+      anchors.right: toolsAntiIdleSection.right
+      margin-right: 3
+      !tooltip: tr('Anti Idle:<br><li>After 5 minutes without walking or turning, rotates your character once every 15 seconds.</li><li>Manual walking or turning restarts the inactivity timer.</li>')
+
+    HelperPopupSection
+      id: toolsManaTrainingSection
+      !text: tr('Mana Training')
+      anchors.top: toolsAntiIdleSection.top
+      anchors.left: toolsAntiIdleSection.right
+      anchors.right: parent.right
+      height: 73
+      margin-left: 10
+      margin-right: 2
+
+      Panel
+        id: toolsManaTrainingRow
+        height: 39
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 7
+        margin-left: 2
+        margin-right: 2
+
+        HelperToolsActionSlot
+          id: toolsManaTrainingSlot
+          anchors.left: parent.left
+          anchors.top: parent.top
+          margin-top: 5
+
+        OptionCheckBox
+          id: toolsManaTrainingCheckBox
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: toolsManaTrainingSlot.right
+          margin-left: 12
+          margin-top: -9
+          @onCheckChange: modules.game_helper.autoSave()
+
+        Label
+          id: toolsManaTrainingEnabledLabel
+          !text: tr('Enabled')
+          font: $var-cip-font
+          color: #c0c0c0
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          margin-left: 67
+          margin-top: -9
+          text-auto-resize: true
+
+      Panel
+        id: toolsManaTrainingManaRow
+        height: 20
+        anchors.top: toolsManaTrainingRow.bottom
+        anchors.left: toolsManaTrainingRow.left
+        anchors.right: toolsManaTrainingRow.right
+        margin-top: -19
+
+        QtComboBox
+          id: toolsManaTrainingManaCombo
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          size: 70 20
+          color: #c0c0c0
+          margin-left: 49
+          menu-scroll: true
+          menu-height: 200
+          menu-scroll-step: 50
+          @onSetup: |
+            for i = 0, 100 do self:addOption(tostring(i) .. '%') end
+            self:setCurrentOption('50%')
+          @onOptionChange: modules.game_helper.autoSave()
+
+    HelperSectionHelpIcon
+      id: toolsManaTrainingHelp
+      anchors.top: toolsManaTrainingSection.top
+      anchors.right: toolsManaTrainingSection.right
+      margin-right: 3
+      !tooltip: tr('Mana Training:<br><li>Left-click the action slot to select a learned spell; right-click to clear it.</li><li>Casts when current mana is strictly above the selected percentage and the spell cooldown is ready.</li>')
+
+    HelperPopupSection
+      id: toolsChangeGoldSection
+      !text: tr('Change Gold')
+      anchors.top: toolsAntiIdleSection.bottom
+      anchors.left: parent.left
+      width: 218
+      height: 73
+      margin-top: 10
+      margin-left: 2
+
+      Panel
+        id: toolsChangeGoldRow
+        height: 22
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 8
+        margin-left: 6
+        margin-right: 2
+
+        UIItem
+          id: toolsChangeGoldIcon
+          size: 32 32
+          image-size: 32 32
+          show-count: false
+          always-show-count: false
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          margin-top: 10
+          virtual: true
+          phantom: true
+
+        OptionCheckBox
+          id: toolsChangeGoldCheckBox
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: toolsChangeGoldIcon.right
+          margin-left: 13
+          margin-top: 10
+          @onCheckChange: modules.game_helper.onToolsChangeGoldChange(self, self:isChecked())
+
+        Label
+          id: toolsChangeGoldEnabledLabel
+          !text: tr('Enabled')
+          font: $var-cip-font
+          color: #c0c0c0
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          margin-left: 62
+          margin-top: 10
+          text-auto-resize: true
+
+    HelperSectionHelpIcon
+      id: toolsChangeGoldHelp
+      anchors.top: toolsChangeGoldSection.top
+      anchors.right: toolsChangeGoldSection.right
+      margin-right: 3
+      !tooltip: tr('Change Gold:<br><li>Every second, converts a stack of 100 gold coins into platinum coins.</li><li>If no gold stack is available, converts a stack of 100 platinum coins into crystal coins.</li><li>The coins must be available in your inventory or accessible containers.</li>')
+
+    HelperPopupSection
+      id: toolsEatFoodSection
+      !text: tr('Eat Food')
+      anchors.top: toolsChangeGoldSection.top
+      anchors.left: toolsChangeGoldSection.right
+      anchors.right: parent.right
+      height: 73
+      margin-left: 10
+      margin-right: 2
+
+      Panel
+        id: toolsEatFoodRow
+        height: 22
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 8
+        margin-left: 6
+        margin-right: 2
+
+        UIItem
+          id: toolsEatFoodIcon
+          size: 32 32
+          image-size: 32 32
+          item-id: 3582
+          show-count: false
+          always-show-count: false
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          margin-top: 10
+          virtual: true
+          phantom: true
+
+        OptionCheckBox
+          id: toolsEatFoodCheckBox
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: toolsEatFoodIcon.right
+          margin-left: 13
+          margin-top: 10
+          @onCheckChange: modules.game_helper.onToolsEatFoodChange(self, self:isChecked())
+
+        Label
+          id: toolsEatFoodEnabledLabel
+          !text: tr('Enabled')
+          font: $var-cip-font
+          color: #c0c0c0
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          margin-left: 63
+          margin-top: 10
+          text-auto-resize: true
+
+    HelperSectionHelpIcon
+      id: toolsEatFoodHelp
+      anchors.top: toolsEatFoodSection.top
+      anchors.right: toolsEatFoodSection.right
+      margin-right: 3
+      !tooltip: tr('Eat Food:<br><li>Every 30 seconds, uses an available food item from the configured internal priority list.</li><li>The food must be available in your inventory or accessible containers.</li>')
+
+    HelperPopupSection
+      id: toolsReconnectSection
+      !text: tr('Reconnect')
+      anchors.top: toolsChangeGoldSection.bottom
+      anchors.left: parent.left
+      width: 218
+      height: 73
+      margin-top: 10
+      margin-left: 2
+
+      Panel
+        id: toolsReconnectRow
+        height: 22
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 8
+        margin-left: 6
+        margin-right: 2
+
+        UIItem
+          id: toolsReconnectIcon
+          size: 32 32
+          image-size: 32 32
+          item-id: 1949
+          show-count: false
+          always-show-count: false
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          margin-top: 10
+          virtual: true
+          phantom: true
+
+        OptionCheckBox
+          id: toolsReconnectCheckBox
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: toolsReconnectIcon.right
+          margin-left: 13
+          margin-top: 10
+          @onCheckChange: modules.game_helper.onToolsReconnectChange(self, self:isChecked())
+
+        Label
+          id: toolsReconnectEnabledLabel
+          !text: tr('Enabled')
+          font: $var-cip-font
+          color: #c0c0c0
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          margin-left: 63
+          margin-top: 10
+          text-auto-resize: true
+
+    HelperSectionHelpIcon
+      id: toolsReconnectHelp
+      anchors.top: toolsReconnectSection.top
+      anchors.right: toolsReconnectSection.right
+      margin-right: 3
+      !tooltip: tr('Reconnect:<br><li>Enables the client native auto-reconnect setting.</li><li>Attempts to log the same character back in after recoverable connection errors.</li><li>A recent manual logout is respected and does not trigger an immediate reconnect.</li>')
+
+    HelperPopupSection
+      id: toolsAutoAmmoSection
+      !text: tr('Auto Ammo')
+      anchors.top: toolsReconnectSection.top
+      anchors.left: toolsReconnectSection.right
+      anchors.right: parent.right
+      height: 73
+      margin-left: 10
+      margin-right: 2
+
+      Panel
+        id: toolsAutoAmmoRow
+        height: 39
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 7
+        margin-left: 2
+        margin-right: 2
+
+        HelperAmmoItemSlot
+          id: toolsAutoAmmoSlot
+          anchors.left: parent.left
+          anchors.top: parent.top
+          margin-top: 5
+
+        OptionCheckBox
+          id: toolsAutoAmmoCheckBox
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: toolsAutoAmmoSlot.right
+          margin-left: 12
+          margin-top: -9
+          @onCheckChange: modules.game_helper.onToolsAutoAmmoChange(self, self:isChecked())
+
+        Label
+          id: toolsAutoAmmoEnabledLabel
+          !text: tr('Enabled')
+          font: $var-cip-font
+          color: #c0c0c0
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          margin-left: 67
+          margin-top: -9
+          text-auto-resize: true
+
+      Panel
+        id: toolsAutoAmmoTargetRow
+        height: 20
+        anchors.top: toolsAutoAmmoRow.bottom
+        anchors.left: toolsAutoAmmoRow.left
+        anchors.right: toolsAutoAmmoRow.right
+        margin-top: -19
+
+        QtComboBox
+          id: toolsAutoAmmoTargetCombo
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.left: parent.left
+          size: 70 20
+          color: #c0c0c0
+          margin-left: 49
+          menu-scroll: true
+          menu-height: 200
+          menu-scroll-step: 50
+          @onSetup: |
+            for i = 10, 1000, 10 do self:addOption(tostring(i)) end
+            self:setCurrentOption('100')
+          @onOptionChange: modules.game_helper.onToolsAutoAmmoTargetChange()
+
+    HelperSectionHelpIcon
+      id: toolsAutoAmmoHelp
+      anchors.top: toolsAutoAmmoSection.top
+      anchors.right: toolsAutoAmmoSection.right
+      margin-right: 3
+      !tooltip: tr('Auto Ammo:<br><li>Left-click the slot to select arrows, bolts or stackable distance ammunition; right-click to clear it.</li><li>Every 20 seconds, when the amount is below Target, performs up to three moves one second apart into an equipped open quiver.</li><li>Stops the cycle early when Target is reached. Stackable hand ammunition is equipped directly from inventory or accessible containers.</li>')
+
+PainelConfigs < Panel
+  anchors.top: presetBar.bottom
+  anchors.left: MainMenuLeft.right
+  anchors.right: parent.right
+  anchors.bottom: botSeparator.top
+  margin-top: 5
+  margin-left: 10
+  margin-bottom: 10
+
+  HelperPopupSection
+    id: configsGeneralSection
+    !text: tr('General Settings')
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+
+    OnePixelDownFrame
+      id: configsSharedHotkeyFrame
+      height: 28
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 12
+      margin-left: 10
+      margin-right: 10
+      padding: 5
+
+      Label
+        id: configsSharedHotkeyLabel
+        !text: tr('Target + Shooter Hotkey')
+        height: 14
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.left: parent.left
+        anchors.right: configsSharedHotkeyButton.left
+        anchors.verticalCenter: parent.verticalCenter
+        margin-right: 8
+        text-align: left
+        text-auto-resize: false
+
+      Button
+        id: configsSharedHotkeyButton
+        !text: tr('Key [NONE]')
+        size: 94 20
+        anchors.right: configsSharedHotkeyHelp.left
+        anchors.verticalCenter: parent.verticalCenter
+        margin-right: 8
+        @onClick: modules.game_helper.openSharedCombatHotkeyWindow()
+
+      UIWidget
+        id: configsSharedHotkeyHelp
+        image-source: /images/icons/show_gui_help_grey
+        size: 12 12
+        anchors.right: parent.right
+        anchors.verticalCenter: parent.verticalCenter
+        !tooltip: tr('Target + Shooter hotkey:<br><li>Assigns an independent key that toggles Target and Shooter together.</li><li>Does not change the individual hotkeys in either tab.</li><li>The key must be available; occupied keys cannot be overwritten.</li>')
+
+    OnePixelDownFrame
+      id: configsAutoSaveFrame
+      height: 28
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 8
+      margin-left: 10
+      margin-right: 10
+      padding: 5
+
+      OptionCheckBox
+        id: configsAutoSaveCheckBox
+        checked: true
+        anchors.left: parent.left
+        anchors.verticalCenter: parent.verticalCenter
+        @onCheckChange: modules.game_helper.onConfigsAutoSaveChange(self, self:isChecked())
+
+      Label
+        id: configsAutoSaveLabel
+        !text: tr('Auto Save')
+        height: 14
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.verticalCenter: parent.verticalCenter
+        margin-left: 22
+        margin-right: 20
+        text-align: left
+        text-auto-resize: false
+
+      UIWidget
+        image-source: /images/icons/show_gui_help_grey
+        size: 12 12
+        anchors.right: parent.right
+        anchors.verticalCenter: parent.verticalCenter
+        !tooltip: tr('Auto Save:<br><li>Saves every change automatically in the active profile.</li><li>When disabled, changes remain temporary until you use Save.</li>')
+
+    OnePixelDownFrame
+      id: configsAutoSwitchHotkeyPresetFrame
+      height: 28
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 8
+      margin-left: 10
+      margin-right: 10
+      padding: 5
+
+      OptionCheckBox
+        id: configsAutoSwitchHotkeyPresetCheckBox
+        checked: false
+        anchors.left: parent.left
+        anchors.verticalCenter: parent.verticalCenter
+        @onCheckChange: modules.game_helper.onConfigsAutoSwitchHotkeyPresetChange(self, self:isChecked())
+
+      Label
+        id: configsAutoSwitchHotkeyPresetLabel
+        !text: tr('Auto-Switch Hotkey Preset')
+        height: 14
+        font: $var-cip-font
+        color: #c0c0c0
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.verticalCenter: parent.verticalCenter
+        margin-left: 22
+        margin-right: 20
+        text-align: left
+        text-auto-resize: false
+
+      UIWidget
+        image-source: /images/icons/show_gui_help_grey
+        size: 12 12
+        anchors.right: parent.right
+        anchors.verticalCenter: parent.verticalCenter
+        !tooltip: tr('Auto-Switch Hotkey Preset:<br><li>On login, selects the client hotkey preset and Helper preset whose name exactly matches the character name.</li><li>All Helper tabs, profiles and hotkeys are always stored separately for each character.</li><li>If there is no matching preset, each system keeps its current preset.</li>')
+
+// Janela do Helper
+HelperWindow < MainLogoWindow
+  id: helperWindow
+  !text: tr('Helper')
+  size: 620 511
+  text-offset: -1 1
+  clipping: false
+  @onEscape: modules.game_helper.onHelperClose()
+  @onSetup: |
+    local logo = self:getChildById('logoBackdropCrest')
+    if logo then
+      logo:setMarginTop(-68)
+      logo:raise()
+    end
+
+  // MENUS
+  Panel
+    id: MainMenuLeft
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.bottom: botSeparator.top
+    width: 120
+    image-source: /images/ui/2pixel_up_frame_borderimage_dark
+    image-border: 5
+    margin-top: -7
+    margin-bottom: 10
+
+    HelperMenuButtonFrame
+      id: healingFrame
+      anchors.top: parent.top
+      margin-top: 7
+
+      HelperSideMenuButton
+        id: healing
+        text: Healing
+        icon: /modules/game_helper/images/icon-hitpoints
+        icon-align: left
+        icon-width: 12
+        icon-height: 11
+        icon-offset: 8 6
+        @onClick: modules.game_helper.showTab('healing')
+
+    HelperMenuButtonFrame
+      id: healFriendFrame
+      anchors.top: prev.bottom
+
+      HelperSideMenuButton
+        id: healFriend
+        text: Heal Friend
+        icon: /modules/game_helper/images/icon-healing
+        icon-align: left
+        icon-width: 11
+        icon-height: 11
+        icon-offset: 8 6
+        @onClick: modules.game_helper.showTab('healFriend')
+
+    HelperMenuButtonFrame
+      id: targetButtonFrame
+      anchors.top: prev.bottom
+
+      HelperSideMenuButton
+        id: targetButton
+        text: Target
+        icon: /modules/game_helper/images/icon-battlelist
+        icon-align: left
+        icon-width: 12
+        icon-height: 12
+        icon-offset: 8 6
+        @onClick: modules.game_helper.showTab('target')
+
+    HelperMenuButtonFrame
+      id: shooterButtonFrame
+      anchors.top: prev.bottom
+
+      HelperSideMenuButton
+        id: shooterButton
+        text: Shooter
+        icon: /modules/game_helper/images/icon-spellcaster
+        icon-align: left
+        icon-width: 9
+        icon-height: 9
+        icon-offset: 8 7
+        @onClick: modules.game_helper.showTab('shooter')
+
+    HelperMenuButtonFrame
+      id: partyButtonFrame
+      anchors.top: prev.bottom
+
+      HelperSideMenuButton
+        id: partyButton
+        text: Party
+        icon: /modules/game_helper/images/icon-misc
+        icon-align: left
+        icon-width: 13
+        icon-height: 13
+        icon-offset: 8 7
+        @onClick: modules.game_helper.showTab('party')
+
+    HelperMenuButtonFrame
+      id: toolsButtonFrame
+      anchors.top: prev.bottom
+
+      HelperSideMenuButton
+        id: toolsButton
+        text: Tools
+        icon: /modules/game_helper/images/icon-interface
+        icon-align: left
+        icon-width: 13
+        icon-height: 10
+        icon-offset: 8 7
+        @onClick: modules.game_helper.showTab('tools')
+
+    HelperMenuButtonFrame
+      id: configsButtonFrame
+      anchors.top: prev.bottom
+
+      HelperSideMenuButton
+        id: configsButton
+        text: Configs
+        icon: /modules/game_helper/images/icon_options
+        icon-align: left
+        icon-width: 13
+        icon-height: 13
+        icon-offset: 8 5
+        @onClick: modules.game_helper.showTab('configs')
+
+    Panel
+      id: helperCharacterCard
+      anchors.top: configsButtonFrame.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      margin-top: 11
+      margin-left: 7
+      margin-right: 7
+      margin-bottom: 8
+      image-source: /images/ui/2pixel_up_frame_borderimage
+      image-border: 5
+
+      UICreature
+        id: helperCharacterOutfit
+        size: 64 64
+        anchors.top: parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
+        margin-top: 5
+        fixed-creature-size: true
+        base-scale: true
+        creature-center: true
+        ignore-displacement-shift: true
+        phantom: true
+
+      Label
+        id: helperCharacterName
+        height: 14
+        anchors.top: helperCharacterOutfit.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 2
+        margin-left: 4
+        margin-right: 4
+        font: $var-cip-font-new
+        color: #f0f0f0
+        text: Offline
+        text-align: center
+        text-auto-resize: false
+        clipping: true
+
+      Label
+        id: helperCharacterLevel
+        height: 14
+        anchors.top: helperCharacterName.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 1
+        font: $var-cip-font
+        color: #c0c0c0
+        text: "Level: -"
+        text-align: center
+        text-auto-resize: false
+
+      HorizontalSeparator
+        id: helperCharacterSeparator
+        anchors.top: helperCharacterLevel.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 6
+        margin-left: 5
+        margin-right: 5
+
+      Label
+        id: helperAccountCaption
+        height: 14
+        anchors.top: helperCharacterSeparator.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 4
+        margin-left: 2
+        margin-right: 2
+        font: verdana-bold-8px-antialiased
+        color: #c0c0c0
+        text: "Account Status:"
+        text-align: center
+        text-auto-resize: false
+
+      Panel
+        id: helperAccountRow
+        height: 36
+        anchors.top: helperAccountCaption.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 2
+        margin-left: 0
+        margin-right: 0
+
+        Label
+          id: helperAccountStatusIcon
+          size: 22 20
+          anchors.top: parent.top
+          anchors.horizontalCenter: parent.horizontalCenter
+          image-source: /images/game/entergame/nopremium
+          image-clip: 0 0 22 20
+
+        Label
+          id: helperAccountStatus
+          height: 14
+          anchors.top: helperAccountStatusIcon.bottom
+          anchors.left: parent.left
+          anchors.right: parent.right
+          margin-left: 2
+          margin-right: 2
+          font: verdana-bold-8px-antialiased
+          color: #c0c0c0
+          text: Offline
+          text-align: center
+          text-auto-resize: false
+
+      HelperMenuButton
+        id: helperLanguageButton
+        height: 22
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        margin-left: 5
+        margin-right: 5
+        margin-bottom: 6
+        font: verdana-bold-8px-antialiased
+        color: #c0c0c0
+        text: English
+        text-offset: 14 0
+        @onClick: modules.game_helper.onHelperLanguageToggle()
+
+        $pressed:
+          text-offset: 15 1
+
+        @onMousePress: |
+          self.helperLanguageFlagEn:setMarginLeft(6)
+          self.helperLanguageFlagEn:setMarginTop(1)
+          self.helperLanguageFlagPt:setMarginLeft(6)
+          self.helperLanguageFlagPt:setMarginTop(1)
+
+        @onMouseRelease: |
+          self.helperLanguageFlagEn:setMarginLeft(5)
+          self.helperLanguageFlagEn:setMarginTop(0)
+          self.helperLanguageFlagPt:setMarginLeft(5)
+          self.helperLanguageFlagPt:setMarginTop(0)
+
+        Panel
+          id: helperLanguageFlagEn
+          size: 18 12
+          anchors.left: parent.left
+          anchors.verticalCenter: parent.verticalCenter
+          margin-left: 5
+          background-color: #b22234
+          border-width: 1
+          border-color: #171717
+          phantom: true
+
+          UIWidget
+            height: 1
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            margin-top: 2
+            background-color: #ffffff
+            phantom: true
+
+          UIWidget
+            height: 1
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            margin-top: 4
+            background-color: #ffffff
+            phantom: true
+
+          UIWidget
+            height: 1
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            margin-top: 6
+            background-color: #ffffff
+            phantom: true
+
+          UIWidget
+            height: 1
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            margin-top: 8
+            background-color: #ffffff
+            phantom: true
+
+          UIWidget
+            size: 7 6
+            anchors.top: parent.top
+            anchors.left: parent.left
+            background-color: #3c3b6e
+            phantom: true
+
+        Panel
+          id: helperLanguageFlagPt
+          size: 18 12
+          anchors.left: parent.left
+          anchors.verticalCenter: parent.verticalCenter
+          margin-left: 5
+          image-source: /modules/game_helper/images/flag-brazil
+          image-size: 18 12
+          visible: false
+          phantom: true
+
+
+  Panel
+    id: presetBar
+    height: 26
+    anchors.top: parent.top
+    anchors.left: MainMenuLeft.right
+    anchors.right: parent.right
+    margin-top: -7
+    margin-left: 10
+    image-source: /images/ui/2pixel_up_frame_borderimage
+    image-border: 5
+
+    Label
+      id: quickProfileLabel
+      !text: tr('Preset:')
+      anchors.left: parent.left
+      anchors.verticalCenter: parent.verticalCenter
+      margin-left: 8
+      font: $var-cip-font
+      color: #c0c0c0
+      text-auto-resize: true
+
+    QtComboBox
+      id: quickProfileCombo
+      height: 20
+      anchors.left: quickProfileLabel.right
+      anchors.right: quickProfileNewButton.left
+      anchors.verticalCenter: parent.verticalCenter
+      margin-left: 6
+      margin-right: 6
+      menu-scroll: false
+      menu-height: 126
+      menu-scroll-step: 18
+
+    HelperStdButton
+      id: quickProfileNewButton
+      width: 52
+      anchors.right: quickProfileSaveButton.left
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 4
+      !text: tr('New')
+      @onClick: modules.game_helper.onQuickProfileNew()
+
+    HelperStdButton
+      id: quickProfileSaveButton
+      width: 52
+      anchors.right: quickProfileDeleteButton.left
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 4
+      !text: tr('Save')
+      @onClick: modules.game_helper.onQuickProfileSave()
+
+    HelperStdButton
+      id: quickProfileDeleteButton
+      width: 52
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 6
+      !text: tr('Delete')
+      @onClick: modules.game_helper.onQuickProfileDelete()
+
+  // PAINEIS
+  
+  PainelHealing
+    id: healingPanel
+    visible: false
+  PainelHealFriend
+    id: healFriendPanel
+    visible: false
+  PainelTarget
+    id: targetPanel
+    visible: false
+  PainelShooter
+    id: shooterPanel
+    visible: false
+  PainelParty
+    id: partyPanel
+    visible: false
+  PainelTools
+    id: toolsPanel
+    visible: false
+  PainelConfigs
+    id: configsPanel
+    visible: false
+  // Bottom Configuration Panel
+  HorizontalSeparator
+    id: botSeparator
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-bottom: 30
+  
+  OnePixelDownFrame
+    id: activeHelperPanel
+    width: 132
+    height: 20
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    padding: 4
+    
+    OptionCheckBox
+      id: checkbox
+      anchors.verticalCenter: parent.verticalCenter
+      anchors.left: parent.left
+      @onCheckChange: modules.game_helper.onEnableHelperChange(self, self:isChecked())
+
+    Label
+      !text: tr('Enable Helper')
+      font: $var-cip-font
+      color: #c0c0c0
+      anchors.top: parent.top
+      anchors.left: parent.left
+      text-offset: 16 -1
+
+    UIWidget
+      id: toolTipWidget
+      image-source: /images/icons/show_gui_help_grey
+      size: 12 12
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      !tooltip: tr('Check this box to activate the Helper.')
+
+  Button
+    id: setHotkeyButton
+    anchors.left: activeHelperPanel.right
+    anchors.bottom: parent.bottom
+    size: 67 20
+    margin-left: 6
+    text: Key
+    @onClick: modules.game_helper.openHelperHotkeyWindow()
+
+  Button
+    id: close
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    text: Close
+    size: 43 20
+    @onClick: modules.game_helper.onHelperClose() 

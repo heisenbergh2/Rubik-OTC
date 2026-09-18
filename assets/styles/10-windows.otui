@@ -1,0 +1,93 @@
+Window < UIWindow
+  font: $var-cip-font
+  size: 200 200
+  opacity: 1
+  color: $var-text-color-disabled
+  text-offset: 0 6
+  text-align: top
+  image-source: /images/ui/window
+  image-border: 6
+  image-border-top: 17
+  padding-top: 36
+  padding-left: 16
+  padding-right: 16
+  padding-bottom: 16
+
+  $disabled:
+    color: $var-text-color-disabled
+
+  $dragging:
+    opacity: 1
+
+HeadlessWindow < UIWindow
+  image-source: /images/ui/window_headless
+  image-border: 5
+  padding: 5
+
+MainWindow < Window
+  anchors.centerIn: parent
+
+WindowHigh < Window
+  image-source: /images/ui/window-high
+  image-border: 5
+
+MainWindowHigh < WindowHigh
+  anchors.centerIn: parent
+
+LogoWindow < Window
+  image-source: /images/ui/4pixel-frame-borderimage
+  image-border: 5
+  anchors.centerIn: parent
+
+  UIWidget
+    id: logoBackdropCrest
+    size: 145 56
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: -40
+    image-source: /images/game/tutorial/backdrop_crest
+    phantom: true
+
+MainLogoWindow < LogoWindow
+  anchors.centerIn: parent
+
+NewWindow < UIWindow
+  size: 200 200
+  color: #909090
+  text-offset: -2 1
+  image-source: /images/ui/popupwindow
+  image-border: 4
+  image-border-top: 17
+  padding-top: 17
+  padding-left: 4
+  padding-right: 4
+  padding-bottom: 4
+  display-sound: 2785
+
+NewMainWindow < NewWindow
+  anchors.centerIn: parent
+  
+StaticWindow < Window
+  draggable: false
+
+StaticMainWindow < StaticWindow
+  anchors.centerIn: parent
+
+NewWindow < UIWindow
+  font: $var-cip-font
+  size: 200 200
+  color: #909090
+  text-offset: -2 1
+  image-source: /images/ui/popupwindow
+  image-border: 4
+  image-border-top: 17
+  padding-top: 17
+  padding-left: 4
+  padding-right: 4
+  padding-bottom: 4
+  display-sound: 2785
+
+NewHeadlessWindow < UIWindow
+  image-source: /images/ui/3pixel-frame-borderimage
+  image-border: 5
+  anchors.centerIn: parent

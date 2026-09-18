@@ -1,0 +1,1411 @@
+// =============================================
+// =            Window 1                       =
+// =============================================
+AuctionCharacterCheckRow < UIWidget
+  height: 12
+  margin-left: 8
+  margin-top: -5
+  $first:
+    margin-top: 5
+  margin-bottom: 1
+
+  UIWidget
+    id: statusIcon
+    size: 12 9
+    fixed-size: true
+    image-fixed-ratio: true
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 1
+    margin-left: 2
+    focusable: false
+    phantom: true
+
+  Label
+    id: requirementText
+    anchors.top: parent.top
+    anchors.left: statusIcon.right
+    anchors.right: parent.right
+    margin-top: -3
+    margin-left: 5
+    margin-right: 10
+    font: $var-cip-font
+    color: #c0c0c0
+    text-wrap: true
+    text-auto-resize: true
+    focusable: false
+    phantom: true
+
+AuctionCharacterItemBox < UIItem
+  size: 36 36
+  margin: 0
+  focusable: true
+  checkable: true
+  padding: 1
+  image-source: /images/ui/item
+  border-width: 0
+  color: #aaaaaa
+
+  Item
+    id: item
+    phantom: true
+    virtual: true
+    always-show-count: true
+    text-offset: 0 20
+    text-align: right
+    anchors.fill: parent
+    margin: 1
+
+  UIWidget
+    id: selectionOverlay
+    anchors.fill: parent
+    phantom: true
+    focusable: false
+    border-width: 0
+
+  $hover !checked:
+    border-color: #aaaaaa
+
+RowAuctionCharacterArgumentEntry < UIWidget
+  margin-top: 1
+  $!first:
+    margin-top: 0
+  margin-left: 2
+  margin-right: -3
+  height: 16
+  focusable: true
+  background-color: #484848
+
+  UIWidget
+    id: entryIcon
+    size: 10 10
+    fixed-size: true
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-top: 0
+    margin-left: 1
+    focusable: false
+    phantom: true
+
+  Label
+    id: entryText
+    anchors.left: entryIcon.right
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-top: 1
+    margin-left: 5
+    margin-right: 4
+    font: $var-cip-font-new
+    color: #c0c0c0
+    text-auto-resize: true
+    text-wrap: true
+    text-align: left
+    focusable: false
+    phantom: true
+
+RowAuctionCharacterArgument < UIWidget
+  width: 718
+  focusable: false
+  phantom: true
+
+  Label
+    id: argumentTitle
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-right: 1
+    height: 16
+    background-color: #363636
+    text: "Argument Title"
+    text-align: center
+    font: $var-cip-font-new
+    color: #c0c0c0
+    text-auto-resize: true
+
+  HorizontalSeparator
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 7
+    margin-right: 1
+  
+  Panel
+    id: argumentEntries
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 4
+    margin-left: -3
+    margin-right: 1
+  
+    layout:
+      type: grid
+      cell-size: 718 17
+      spacing: 0 0
+      flow: true
+      auto-spacing: false
+
+ChecksAuctionCharacterWindow < MainWindowHigh
+  id: checksAuctionCharacterWindow
+  !text: tr('Character Auction Settings (1/3)')
+  size: 780 537
+  text-offset: 0 1
+
+  QtPanel
+    id: mainBody
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: -7
+    margin-left: 0
+    size: 748 460
+
+    Label
+      !text: tr('Here you can set up an auction to sell the character you are currently logged in with. The auction will be')
+      font: $var-cip-font-new
+      text-auto-resize: true
+      color: #c0c0c0
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 5
+      margin-left: 5
+      text-wrap: true
+ 
+    Label
+      !text: tr(' running on the Tibia website in the section Char Bazaar.')
+      font: $var-cip-font-new
+      text-auto-resize: true
+      color: #c0c0c0
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: -1
+      margin-left: 5
+      text-wrap: true
+ 
+    Label
+      !text: tr('If you like to put this character up for auction, the following conditions must be met:')
+      font: $var-cip-font-new
+      text-auto-resize: true
+      color: #c0c0c0
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 12
+      margin-left: 5
+      text-wrap: true
+
+    ScrollablePanel
+      id: auctionChecksList
+      size: 734 379
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 10
+      margin-left: 1
+      border-width-top: 1
+      border-width-left: 1
+      border-width-right: 1
+      border-width-bottom: 1
+      border-color-bottom: #808080
+      border-color-right: #808080
+      border-color-left: #131313
+      border-color-top: #131313
+      background-color: #414141
+      background-color: #363636
+      vertical-scrollbar: auctionChecksScrollBar
+      focusable: false
+      layout:
+        type: verticalBox
+
+    VerticalQtScrollBar
+      id: auctionChecksScrollBar
+      anchors.top: auctionChecksList.top
+      anchors.bottom: auctionChecksList.bottom
+      anchors.right: auctionChecksList.right
+      margin-right: 1
+      margin-top: 1
+      margin-bottom: 1
+      step: 20
+
+  HorizontalSeparator
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 6
+
+  Panel
+    id: balanceCoins
+    size: 104 20
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    margin-bottom: 0
+    focusable: false
+    image-source: /images/ui/button-verydarkgrey-down
+    image-border: 5
+    image-clip: 0 0 98 40
+    font: $var-cip-font-new
+
+    UIWidget
+      id: balanceCoinsIcon
+      size: 12 12
+      fixed-size: true
+      image-fixed-ratio: true
+      anchors.bottom: parent.bottom
+      anchors.right: parent.right
+      focusable: false
+      phantom: true
+      margin-right: 3
+      margin-bottom: 3
+      image-source: /images/icons/icon-tibiacointransferable
+
+    Label
+      id: balanceCoinsLabel
+      anchors.bottom: parent.bottom
+      anchors.right: prev.left
+      !text: tr('0')
+      text-auto-resize: true
+      focusable: false
+      phantom: true
+      margin-right: 2
+      margin-bottom: 3
+      font: $var-cip-font-new
+      color: #c0c0c0
+
+  Button
+    id: exitButton
+    !text: tr('Cancel')
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    height: 20
+    width: 64
+    @onClick: modules.game_store.toggleAuctionCharacter()
+    
+  Button
+    id: nextButton
+    !text: tr('Next')
+    anchors.bottom: parent.bottom
+    anchors.right: exitButton.left
+    margin-right: 6
+    height: 20
+    width: 64
+    enabled: false
+    @onClick: modules.game_store.sendNextAuctionCharacter()
+
+  Button
+    id: previousButton
+    !text: tr('Previous')
+    anchors.bottom: parent.bottom
+    anchors.right: nextButton.left
+    margin-right: 6
+    height: 20
+    width: 64
+    enabled: false
+    @onClick: modules.game_store.sendPreviousAuctionCharacter()
+
+// =============================================
+// =            Window 2                       =
+// =============================================
+PanelAuctionNone < QtPanel
+  anchors.top: headerWindow.bottom
+  anchors.left: parent.left
+  anchors.right: parent.right
+  margin-top: 6
+  height:271
+
+  Label
+    !text: tr('Select here the starting price for your character\'s auction and choose at which day and time your auction should end. Note that your local time is used here.')
+    font: $var-cip-font-new
+    text-auto-resize: true
+    color: #c0c0c0
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 5
+    margin-left: 5
+    text-wrap: true
+  
+  Label
+    !text: tr('Moreover, you can select here some sales arguments which should be displayed for your character. Show your rarest and most valuable items, your best skills, your greatest achievements or other outstanding features of your character!')
+    font: $var-cip-font-new
+    text-auto-resize: true
+    color: #c0c0c0
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 10
+    margin-left: 5
+    text-wrap: true
+
+  Label
+    !text: tr('All items and features you select here, will be displayed on the auction overview page on the Tibia website. Everything else can only be viewed by checking the details for your character.')
+    font: $var-cip-font-new
+    text-auto-resize: true
+    color: #c0c0c0
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 5
+    margin-left: 5
+    text-wrap: true
+
+PanelSelectItem < QtPanel
+  anchors.top: headerWindow.bottom
+  anchors.left: parent.left
+  anchors.right: parent.right
+  margin-top: 6
+  height:271
+
+  Label
+    !text: tr('Search:')
+    font: $var-cip-font-new
+    text-auto-resize: true
+    color: #c0c0c0
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 5
+    text-wrap: true
+  
+  Panel
+    id: searchPanel
+    anchors.top: parent.top
+    anchors.left: prev.right
+    margin-top: 1
+    margin-left: 6
+    width: 680
+    height: 20
+
+    TextEdit
+      id: searchEdit
+      anchors.fill: parent
+      font: verdana-11px-rounded
+      placeholder: "Type to search"
+      placeholder-color:#707068
+      @onTextChange: modules.game_store.searchItemsAuctionCharacter(self:getText())
+
+    Button
+      id: clearSearchButton
+      width: 18
+      height: 18
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 1
+      icon: /images/ui/button-erase-18x18-up.png
+      $pressed:
+        icon: /images/ui/button-erase-18x18-down.png
+
+      tooltip: Clear all text from the search field.
+      z-index: 1
+      @onClick: self:getParent().searchEdit:setText("")
+  
+  Panel
+    id: selectItemsPanelFrame
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 26
+    margin-left: 1
+    size: 734 232
+    padding: 1
+    padding-top: 4
+    border-width-top: 1
+    border-width-left: 1
+    border-width-right: 1
+    border-width-bottom: 1
+    border-color-bottom: #808080
+    border-color-right: #808080
+    border-color-left: #131313
+    border-color-top: #131313
+    background-color: #363636
+
+    VerticalQtScrollBar
+      id: selectItemsPanelScrollBar
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      anchors.right: parent.right
+      step: 37
+      margin-top: -3
+      
+    ScrollablePanel
+      id: selectItemsPanel
+      anchors.left: parent.left
+      anchors.right: prev.left
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      vertical-scrollbar: selectItemsPanelScrollBar
+      margin-top: -1
+      margin-left: 2
+ 
+      layout:
+        type: grid
+        cell-size: 36 36
+        spacing: 10 10
+        flow: true
+        auto-spacing: true
+
+PanelSelectDate < QtPanel
+  anchors.top: headerWindow.bottom
+  anchors.left: parent.left
+  anchors.right: parent.right
+  margin-top: 6
+  height:271
+
+  Label
+    !text: tr('Select the time and date your auction should end.')
+    font: $var-cip-font-new
+    text-auto-resize: true
+    color: #c0c0c0
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 6
+    margin-left: 205
+    text-wrap: true
+  
+  Label
+    !text: tr('The auction may and betwwen ')
+    font: $var-cip-font-new
+    text-auto-resize: true
+    color: #c0c0c0
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 19
+    margin-left: 129
+    text-wrap: true
+  
+  Label
+    id: dateConfigLabel
+    !text: tr('0000-00-00, 00:00 and 0000-00-00, 00:00.')
+    font: $var-cip-font-new
+    text-auto-resize: true
+    color: #c0c0c0
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 19
+    margin-left: 333
+    text-wrap: true
+  
+  Panel
+    id: calendarPanel
+    width: 249
+    height: 191
+    border-width-top: 1
+    border-width-left: 1
+    border-width-right: 1
+    border-width-bottom: 1
+    border-color-bottom: #808080
+    border-color-right: #808080
+    border-color-left: #131313
+    border-color-top: #131313
+    background-color: #484848
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 42
+    margin-left: 243
+
+    UIButton
+      id: backDate
+      size: 35 20
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-top: 1
+      margin-left: 1
+      image-source: /modules/game_store/images/select-date
+      image-clip: 0 0 35 20
+      change-cursor-image: false
+      @onClick: modules.game_store.onClickOnBackDate()
+      $pressed:
+        image-clip: 35 0 35 20
+
+    Label
+      id: mesEAnoLabel
+      !text: tr('May 2026')
+      font: $var-cip-font-new
+      text-auto-resize: true
+      color: #c0c0c0
+      anchors.top: parent.top
+      anchors.horizontalCenter: parent.horizontalCenter
+      margin-top: 5
+      text-wrap: true
+      text-offset: -1 0
+
+    UIButton
+      id: nextDate
+      size: 35 20
+      anchors.top: parent.top
+      anchors.right: parent.right
+      margin-top: 1
+      margin-right: 1
+      image-source: /modules/game_store/images/select-date
+      image-clip: 0 20 35 20
+      change-cursor-image: false
+      @onClick: modules.game_store.onClickOnNextDate()
+      $pressed:
+        image-clip: 35 20 35 20
+    
+    UIWidget
+      id: calendarHeaderBg
+      size: 247 169
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-top: 21
+      margin-left: 1
+      image-source: /modules/game_store/images/header-calendar
+      phantom: true
+
+    Panel
+      id: calendarDaysPanel
+      size: 247 168
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-top: 30
+      margin-left: -7
+      layout:
+        type: grid
+        cell-size: 35 28
+        num-columns: 7
+        flow: false
+
+  Label
+    !text: tr('End time:')
+    font: $var-cip-font-new
+    text-auto-resize: true
+    color: #c0c0c0
+    anchors.top: prev.bottom
+    anchors.left: prev.left
+    margin-top: 10
+    margin-left: 39
+    text-wrap: true
+  
+  QtComboBox
+    id: selectHourOption
+    !text: tr('10')
+    anchors.top: prev.top
+    anchors.left: prev.right
+    margin-top: -4
+    margin-left: 3
+    width: 50
+    height: 20
+    color: #c0c0c0
+    menu-scroll: true
+    menu-height: 200
+    menu-scroll-step: 50
+    
+  QtComboBox
+    id: selectMinuteOption
+    !text: tr('00')
+    anchors.top: prev.top
+    anchors.left: prev.right
+    margin-left: 9
+    width: 50
+    height: 20
+    color: #c0c0c0
+
+PanelSelectArgument < QtPanel
+  anchors.top: headerWindow.bottom
+  anchors.left: parent.left
+  anchors.right: parent.right
+  margin-top: 6
+  height:271
+
+  Label
+    !text: tr('Search:')
+    font: $var-cip-font-new
+    text-auto-resize: true
+    color: #c0c0c0
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 5
+    text-wrap: true
+  
+  Panel
+    id: searchPanelArg
+    anchors.top: parent.top
+    anchors.left: prev.right
+    margin-top: 1
+    margin-left: 6
+    width: 680
+    height: 20
+
+    TextEdit
+      id: searchEdit
+      anchors.fill: parent
+      font: verdana-11px-rounded
+      placeholder: "Type to search"
+      placeholder-color:#707068
+      @onTextChange: modules.game_store.searchArgumentsAuctionCharacter(self:getText())
+
+    Button
+      id: clearSearchButton
+      width: 18
+      height: 18
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 1
+      icon: /images/ui/button-erase-18x18-up.png
+      $pressed:
+        icon: /images/ui/button-erase-18x18-down.png
+
+      tooltip: Clear all text from the search field.
+      z-index: 1
+      @onClick: self:getParent().searchEdit:setText("")
+
+  Panel
+    id: selectArgumentsPanelFrame
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 26
+    margin-left: 1
+    size: 734 232
+    padding: 1
+    padding-top: 4
+    border-width-top: 1
+    border-width-left: 1
+    border-width-right: 1
+    border-width-bottom: 1
+    border-color-bottom: #808080
+    border-color-right: #808080
+    border-color-left: #131313
+    border-color-top: #131313
+    background-color: #363636
+
+    VerticalQtScrollBar
+      id: selectArgumentsPanelScrollBar
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      anchors.right: parent.right
+      step: 16
+      margin-top: -3
+      
+    ScrollablePanel
+      id: selectArgumentsPanel
+      anchors.left: parent.left
+      anchors.right: prev.left
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      vertical-scrollbar: selectArgumentsPanelScrollBar
+      margin-top: -1
+      margin-left: 2
+
+      layout:
+        type: verticalBox
+        spacing: 2
+
+PanelConfirmation < QtPanel
+  anchors.top: headerWindow.bottom
+  anchors.left: parent.left
+  anchors.right: parent.right
+  margin-top: 6
+  height:271
+
+  Label
+    !text: tr('If you have selected everything correctly and you are sure that you want to put up this character for auction, "Confirm" your choice.')
+    font: $var-cip-font-new
+    text-auto-resize: true
+    color: #c0c0c0
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 6
+    margin-left: 5
+    text-wrap: true 
+
+  Label
+    !text: tr('Go back to a "Previous" page to change your current set up. If you have changed your mind and do not want to sell this character anymore, simply "Cancel" this set up.')
+    font: $var-cip-font-new
+    text-auto-resize: true
+    color: #c0c0c0
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 14
+    margin-left: 5
+    text-wrap: true
+
+ChainTransparentPanel < UIWidget
+  image-source: /images/game/forge/malha
+  image-border: 2
+
+AuctionHeaderSelectItemButton < UIButton
+  size: 34 34
+  focusable: true
+  image-source: /modules/game_store/images/select-item
+  image-clip: 0 0 34 34
+  change-cursor-image: false
+
+  $hover:
+    image-clip: 0 0 34 34
+
+  $pressed:
+    image-clip: 0 34 34 34
+
+AuctionClearItemButton < UIButton
+  size: 12 12
+  focusable: true
+  image-source: /modules/game_store/images/clear-item
+  image-clip: 0 0 12 12
+  change-cursor-image: false
+
+  $hover:
+    image-clip: 0 0 12 12
+
+  $pressed:
+    image-clip: 0 12 12 12
+
+AuctionCalendarDayCell < UIWidget
+  size: 35 28
+  focusable: false
+  change-cursor-image: false
+
+  UIWidget
+    id: selectionOverlay
+    size: 33 24
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-left: 11
+    margin-top: 1
+    background-color: #585858
+    phantom: true
+    focusable: false
+    visible: false
+
+  Label
+    id: dayLabel
+    anchors.fill: parent
+    text-align: center
+    font: $var-cip-font-new
+    color: #c0c0c0
+    phantom: true
+    focusable: false
+  
+ConfigAuctionCharacterWindow < MainWindowHigh
+  id: configAuctionCharacterWindow
+  !text: tr('Character Auction Settings (2/3)')
+  size: 780 537
+  text-offset: 0 1
+
+  UIWindow
+    id: headerWindow
+    text: ""
+    text-align: top
+    image-source: /images/ui/popupwindow-sem-borda-interna
+    text-offset: 1 2    
+    image-border: 6
+    image-border-top: 27
+    draggable: false
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: -7
+    color: $var-text-color-disabled
+    font: verdana-11px-monochrome
+    height: 184
+    padding-top: 20
+
+    UICreature
+      id: Outfit
+      anchors.top: parent.top
+      anchors.left: parent.left
+      size: 36 36
+      margin-top: 28
+      margin-left: 23
+      phantom: true
+    
+    AuctionHeaderSelectItemButton
+      id: selectItem1
+      anchors.top: parent.top
+      anchors.left: prev.right
+      margin-top: 2
+      margin-left: 18
+      @onClick: modules.game_store.selectItemAuctionCharacter()
+      !tooltip: tr('Select an item which should be highlighted in the auction')
+
+      Item
+        id: headerItemDisplay1
+        size: 32 32
+        anchors.centerIn: parent
+        virtual: true
+        phantom: true
+        visible: false
+
+      AuctionClearItemButton
+        id: clearItemButton1
+        visible: false
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-top: 1
+        margin-left: 1
+        z-index: 2
+        @onClick: modules.game_store.clearAuctionCharacterItem(1)
+        !tooltip: tr('Remove item')
+    
+    AuctionHeaderSelectItemButton
+      id: selectItem2
+      anchors.top: parent.top
+      anchors.left: prev.right
+      margin-top: 2
+      margin-left: 3
+      @onClick: modules.game_store.selectItemAuctionCharacter()
+      !tooltip: tr('Select an item which should be highlighted in the auction')
+
+      Item
+        id: headerItemDisplay2
+        size: 32 32
+        anchors.centerIn: parent
+        virtual: true
+        phantom: true
+        visible: false
+
+      AuctionClearItemButton
+        id: clearItemButton2
+        visible: false
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-top: 1
+        margin-left: 1
+        z-index: 2
+        @onClick: modules.game_store.clearAuctionCharacterItem(2)
+        !tooltip: tr('Remove item')
+    
+    AuctionHeaderSelectItemButton
+      id: selectItem3
+      anchors.top: selectItem1.bottom
+      anchors.left: selectItem1.left
+      margin-top: 3
+      size: 34 34
+      image-source: /modules/game_store/images/select-item
+      image-clip: 0 0 34 34
+      @onClick: modules.game_store.selectItemAuctionCharacter()
+      !tooltip: tr('Select an item which should be highlighted in the auction')
+
+      $pressed:
+        image-clip: 0 34 34 34
+
+      Item
+        id: headerItemDisplay3
+        size: 32 32
+        anchors.centerIn: parent
+        virtual: true
+        phantom: true
+        visible: false
+
+      AuctionClearItemButton
+        id: clearItemButton3
+        visible: false
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-top: 1
+        margin-left: 1
+        z-index: 2
+        @onClick: modules.game_store.clearAuctionCharacterItem(3)
+        !tooltip: tr('Remove item')
+    
+    AuctionHeaderSelectItemButton
+      id: selectItem4
+      anchors.top: selectItem2.bottom
+      anchors.left: selectItem3.right
+      margin-top: 3
+      margin-left: 3
+      @onClick: modules.game_store.selectItemAuctionCharacter()
+      !tooltip: tr('Select an item which should be highlighted in the auction')
+
+      Item
+        id: headerItemDisplay4
+        size: 32 32
+        anchors.centerIn: parent
+        virtual: true
+        phantom: true
+        visible: false
+      
+      AuctionClearItemButton
+        id: clearItemButton4
+        visible: false
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-top: 1
+        margin-left: 1
+        z-index: 2
+        @onClick: modules.game_store.clearAuctionCharacterItem(4)
+        !tooltip: tr('Remove item')
+
+    Label
+      id: label1
+      !text: tr('The starting price for your auction lies at')
+      font: $var-cip-font-new
+      text-auto-resize: true
+      color: #c0c0c0
+      anchors.top: selectItem2.top
+      anchors.left: selectItem2.right
+      margin-top: 1
+      margin-left: 5
+      text-wrap: true
+    
+    TextEdit
+      id: offertPriceEdit
+      anchors.top: selectItem2.top
+      anchors.left: selectItem2.right
+      margin-left: 289
+      padding-top: 1
+      color: #FFFFFF
+      font: $var-cip-font-new
+      text-align: right
+      padding-right: 3
+      !text: 56
+      max-length: 9
+      size: 60 16
+      !tooltip: tr('The starting price must be equal or higher than 56.')
+
+    UIWidget
+      id: offertPriceIcon
+      size: 12 12
+      fixed-size: true
+      image-fixed-ratio: true
+      anchors.top: offertPriceEdit.top
+      anchors.left: offertPriceEdit.right
+      focusable: false
+      margin-top: 2
+      margin-left: 6
+      image-source: /images/icons/icon-tibiacointransferable
+      !tooltip: tr('The starting price must be equal or higher than 56.')
+
+    Label
+      id: label2
+      !text: tr('Your auction will end at')
+      font: $var-cip-font-new
+      text-auto-resize: true
+      color: #c0c0c0
+      anchors.top: selectItem2.top
+      anchors.left: selectItem2.right
+      margin-top: 20
+      margin-left: 5
+      text-wrap: true
+    
+    Label
+      id: label3
+      !text: tr('2026-05-28, 10:00')
+      font: $var-cip-font-new
+      text-auto-resize: true
+      color: #FFFFFF
+      anchors.top: selectItem2.top
+      anchors.left: prev.right
+      margin-top: 20
+      margin-left: 7
+
+    Label
+      id: label4
+      !text: tr('2026-05-28, 15:00 CEST')
+      font: $var-cip-font-new
+      text-auto-resize: true
+      color: #c0c0c0
+      anchors.top: selectItem2.top
+      anchors.left: prev.left
+      margin-top: 38
+  
+    UIButton
+      id: selectEndAuctionDateButton
+      anchors.top: offertPriceEdit.bottom
+      anchors.left: offertPriceEdit.left
+      margin-top: 7
+      size: 12 12
+      image-source: /modules/game_store/images/date-button
+      image-clip: 0 0 12 12
+      @onClick: modules.game_store.selectEndAuctionDate()
+
+      $pressed:
+        image-clip: 0 12 12 12
+
+    HorizontalSeparator
+      anchors.top: Outfit.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 14
+      margin-left: 7
+      margin-right: 7
+    
+    UIButton
+      id: selectArgument1
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 7
+      margin-left: 7
+      size: 12 12
+      image-source: /modules/game_store/images/select-item-12x12
+      image-clip: 0 0 12 12
+      @onClick: modules.game_store.selectArgument(1)
+      !tooltip: tr('Select an outstanding feature of your character')
+      
+      $pressed:
+        image-clip: 0 12 12 12
+      
+    UIWidget
+      id: selectArgument1Icon
+      size: 10 10
+      visible: false
+      fixed-size: true
+      anchors.top: selectArgument1.top
+      anchors.left: selectArgument1.right
+      margin-left: 5
+      focusable: false
+      phantom: true
+
+    Label
+      id: selectArgument1Label
+      !text: tr('Add sales argument #1')
+      font: $var-cip-font-new
+      text-auto-resize: true
+      color: #c0c0c0
+      anchors.top: selectArgument1.top
+      anchors.left: selectArgument1Icon.right
+      margin-top: -2
+      margin-left: 4
+
+    UIButton
+      id: selectArgument2
+      anchors.top: selectArgument1.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      margin-left: 7
+      size: 12 12
+      image-source: /modules/game_store/images/select-item-12x12
+      image-clip: 0 0 12 12
+      @onClick: modules.game_store.selectArgument(2)
+      !tooltip: tr('Select an outstanding feature of your character')
+
+      $pressed:
+        image-clip: 0 12 12 12
+    
+    UIWidget
+      id: selectArgument2Icon
+      size: 10 10
+      visible: false
+      fixed-size: true
+      anchors.top: selectArgument2.top
+      anchors.left: selectArgument2.right
+      margin-left: 5
+      focusable: false
+      phantom: true
+
+    Label
+      id: selectArgument2Label
+      !text: tr('Add sales argument #2')
+      font: $var-cip-font-new
+      text-auto-resize: true
+      color: #c0c0c0
+      anchors.top: selectArgument2.top
+      anchors.left: selectArgument2Icon.right
+      margin-top: -2
+      margin-left: 4
+      
+    UIButton
+      id: selectArgument3
+      anchors.top: selectArgument2.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      margin-left: 7
+      size: 12 12
+      image-source: /modules/game_store/images/select-item-12x12
+      image-clip: 0 0 12 12
+      @onClick: modules.game_store.selectArgument(3)
+      !tooltip: tr('Select an outstanding feature of your character')
+
+      $pressed:
+        image-clip: 0 12 12 12
+
+    UIWidget
+      id: selectArgument3Icon
+      size: 10 10
+      visible: false
+      fixed-size: true
+      anchors.top: selectArgument3.top
+      anchors.left: selectArgument3.right
+      margin-left: 5
+      focusable: false
+      phantom: true
+
+    Label
+      id: selectArgument3Label
+      !text: tr('Add sales argument #3')
+      font: $var-cip-font-new
+      text-auto-resize: true
+      color: #c0c0c0
+      anchors.top: selectArgument3.top
+      anchors.left: selectArgument3Icon.right
+      margin-top: -2
+      margin-left: 4
+
+    UIButton
+      id: selectArgument4
+      anchors.top: selectArgument3.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      margin-left: 7
+      size: 12 12
+      image-source: /modules/game_store/images/select-item-12x12
+      image-clip: 0 0 12 12
+      @onClick: modules.game_store.selectArgument(4)
+      !tooltip: tr('Select an outstanding feature of your character')
+
+      $pressed:
+        image-clip: 0 12 12 12
+    
+    UIWidget
+      id: selectArgument4Icon
+      size: 10 10
+      visible: false
+      fixed-size: true
+      anchors.top: selectArgument4.top
+      anchors.left: selectArgument4.right
+      margin-left: 5
+      focusable: false
+      phantom: true
+
+    Label
+      id: selectArgument4Label
+      !text: tr('Add sales argument #4')
+      font: $var-cip-font-new
+      text-auto-resize: true
+      color: #c0c0c0
+      anchors.top: selectArgument4.top
+      anchors.left: selectArgument4Icon.right
+      margin-top: -2
+      margin-left: 4
+
+    UIButton
+      id: selectArgument5
+      anchors.top: selectArgument4.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      margin-left: 7
+      size: 12 12
+      image-source: /modules/game_store/images/select-item-12x12
+      image-clip: 0 0 12 12
+      @onClick: modules.game_store.selectArgument(5)
+      !tooltip: tr('Select an outstanding feature of your character')
+
+      $pressed:
+        image-clip: 0 12 12 12
+
+    UIWidget
+      id: selectArgument5Icon
+      size: 10 10
+      visible: false
+      fixed-size: true
+      anchors.top: selectArgument5.top
+      anchors.left: selectArgument5.right
+      margin-left: 5
+      focusable: false
+      phantom: true
+
+    Label
+      id: selectArgument5Label
+      !text: tr('Add sales argument #5')
+      font: $var-cip-font-new
+      text-auto-resize: true
+      color: #c0c0c0
+      anchors.top: selectArgument5.top
+      anchors.left: selectArgument5Icon.right
+      margin-top: -2
+      margin-left: 4
+  
+    ChainTransparentPanel
+      id: chainSelectItem1
+      anchors.top: selectItem1.top
+      anchors.left: selectItem1.left
+      size: 34 34
+      visible: false
+
+    ChainTransparentPanel
+      id: chainSelectItem2
+      anchors.top: selectItem2.top
+      anchors.left: selectItem2.left
+      size: 34 34
+      visible: false
+
+    ChainTransparentPanel
+      id: chainSelectItem3
+      anchors.top: selectItem3.top
+      anchors.left: selectItem3.left
+      size: 34 34
+      visible: false
+
+    ChainTransparentPanel
+      id: chainSelectItem4
+      anchors.top: selectItem4.top
+      anchors.left: selectItem4.left
+      size: 34 34
+      visible: false
+
+    ChainTransparentPanel
+      id: chainSelectArgument1
+      anchors.top: selectArgument1.top
+      anchors.left: selectArgument1.left
+      size: 12 12
+      visible: false
+
+    ChainTransparentPanel
+      id: chainSelectArgument2
+      anchors.top: selectArgument2.top
+      anchors.left: selectArgument2.left
+      size: 12 12
+      visible: false
+
+    ChainTransparentPanel
+      id: chainSelectArgument3
+      anchors.top: selectArgument3.top
+      anchors.left: selectArgument3.left
+      size: 12 12
+      visible: false
+
+    ChainTransparentPanel
+      id: chainSelectArgument4
+      anchors.top: selectArgument4.top
+      anchors.left: selectArgument4.left
+      size: 12 12
+      visible: false
+
+    ChainTransparentPanel
+      id: chainSelectArgument5
+      anchors.top: selectArgument5.top
+      anchors.left: selectArgument5.left
+      size: 12 12
+      visible: false
+
+    ChainTransparentPanel
+      id: chainSelectEndAuctionDate
+      anchors.top: selectEndAuctionDateButton.top
+      anchors.left: selectEndAuctionDateButton.left
+      size: 12 12
+      visible: false
+
+  PanelAuctionNone
+    id: panelNone
+    visible: true
+
+  PanelSelectItem
+    id: panelSelectItem
+    visible: false
+
+  PanelSelectDate
+    id: panelSelectDate
+    visible: false
+
+  PanelSelectArgument
+    id: panelSelectArgument
+    visible: false
+
+  PanelConfirmation
+    id: panelConfirmation
+    visible: false
+  
+  HorizontalSeparator
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 6
+
+  Panel
+    id: balanceCoins
+    size: 104 20
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    margin-bottom: 0
+    focusable: false
+    image-source: /images/ui/button-verydarkgrey-down
+    image-border: 5
+    image-clip: 0 0 98 40
+    font: $var-cip-font-new
+
+    UIWidget
+      id: balanceCoinsIcon
+      size: 12 12
+      fixed-size: true
+      image-fixed-ratio: true
+      anchors.bottom: parent.bottom
+      anchors.right: parent.right
+      focusable: false
+      phantom: true
+      margin-right: 3
+      margin-bottom: 3
+      image-source: /images/icons/icon-tibiacointransferable
+
+    Label
+      id: balanceCoinsLabel
+      anchors.bottom: parent.bottom
+      anchors.right: prev.left
+      !text: tr('0')
+      text-auto-resize: true
+      focusable: false
+      phantom: true
+      margin-right: 2
+      margin-bottom: 3
+      font: $var-cip-font-new
+      color: #c0c0c0
+  
+  Button
+    id: exitButton
+    !text: tr('Cancel')
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    height: 20
+    width: 64
+    @onClick: modules.game_store.toggleAuctionCharacter()
+
+  Button
+    id: nextButton
+    !text: tr('Next')
+    anchors.bottom: parent.bottom
+    anchors.right: exitButton.left
+    margin-right: 6
+    height: 20
+    width: 64
+    @onClick: modules.game_store.sendNextAuctionCharacter()
+
+  Button
+    id: previousButton
+    !text: tr('Previous')
+    anchors.bottom: parent.bottom
+    anchors.right: nextButton.left
+    margin-right: 6
+    height: 20
+    width: 64
+    @onClick: modules.game_store.sendPreviousAuctionCharacter()
+  
+  Button
+    id: backButton
+    !text: tr('Cancel')
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    height: 20
+    width: 64
+    visible: false
+    @onClick: modules.game_store.showAuctionCharacterConfigPanel('none')
+
+  Button
+    id: OkButton
+    !text: tr('Ok')
+    anchors.bottom: parent.bottom
+    anchors.right: backButton.left
+    margin-right: 6
+    height: 20
+    width: 64
+    visible: false
+    @onClick: modules.game_store.confirmAuctionCharacterConfigOk()
+
+  Button
+    id: confirmationButton
+    !text: tr('Confirm')
+    anchors.bottom: parent.bottom
+    anchors.right: backButton.left
+    image-source: /images/ui/button-blue-up
+    image-clip: 0 0 98 40
+    image-border: 1
+    margin-right: 6
+    height: 20
+    width: 64
+    visible: false
+    @onClick: modules.game_store.confirmAuctionCharacter()
+
+    $pressed:
+      image-source: /images/ui/button-blue-down
+      image-clip: 0 0 98 40
+      image-border: 1

@@ -1,0 +1,68 @@
+TutorialStartWindow < MainLogoWindow
+  id: tutorialStartWindow
+  size: 886 419
+  !text: ''
+  clipping: false
+  @onEscape: modules.game_tutorial.hide()
+
+  Panel
+    id: startContent
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-top: -22
+
+    UIWidget
+      id: startBanner
+      size: 250 44
+      anchors.top: parent.top
+      anchors.horizontalCenter: parent.horizontalCenter
+      image-source: /images/game/tutorial/banner_tutorialpopup_theworldawaits
+      image-smooth: true
+      image-fixed-ratio: true
+
+    UIWidget
+      id: startContentFrame
+      size: 854 335
+      image-source: /images/ui/1pixel-down-frame
+      image-border: 5
+      anchors.top: startBanner.bottom
+      anchors.horizontalCenter: parent.horizontalCenter
+      margin-top: 11
+
+      UIWidget
+        id: startBackdrop
+        anchors.fill: parent
+        margin: 1
+        image-source: /images/game/tutorial/backdrop_popup_theworldawaits
+        image-smooth: true
+        image-fixed-ratio: true
+        phantom: true
+
+      UIWidget
+        id: startButtonBorder
+        size: 120 33
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        margin-left: 158
+        margin-bottom: 27
+        image-source: /images/game/tutorial/button_startplaying_idle
+        image-smooth: true
+        image-fixed-ratio: true
+        phantom: true
+
+        UIButton
+          id: buttonStart
+          size: 108 20
+          anchors.left: parent.left
+          anchors.bottom: parent.bottom
+          image-source: /images/game/tutorial/buttons/button-start
+          image-clip: 0 0 108 20
+          margin-left: 6
+          margin-bottom: 7
+          image-smooth: true
+          @onClick: modules.game_tutorial.hide()
+
+          $pressed:
+            image-clip: 0 20 108 20

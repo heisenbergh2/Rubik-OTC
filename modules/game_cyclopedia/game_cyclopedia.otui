@@ -1,0 +1,375 @@
+
+MainWindowHigh
+  size: 700 538
+  margin-top: -1
+  !text: tr('Cyclopedia')
+  visible: false
+  text-offset: -1 1
+  @onEscape: toggle()
+
+  UIWidget
+    id: buttonSelection
+    anchors.top: parent.top
+    anchors.left: parent.left
+    size: 668 36
+    margin-top: -7
+    image-source: /images/game/cyclopedia/background
+    image-repeated: true
+    border-width-top: 1
+    border-color-top: #141414
+    border-width-left: 1
+    border-color-left: #141414
+    border-width-bottom: 1
+    border-color-bottom: #747474
+    border-width-right: 1
+    border-color-right: #747474
+
+    UIButton
+      id: items
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-top: 1
+      margin-left: 1
+      size: 668 36
+      @onClick: SelectWindow("items")
+
+      $on:
+        size: 200 34
+        image-clip: 0 0 200 34
+        image-source: /images/game/cyclopedia/items_on
+
+      $!on:
+        size: 34 34
+        image-clip: 0 0 34 34
+        image-source: /images/game/cyclopedia/items_off
+
+      $pressed:
+        size: 34 34
+        image-clip: 0 34 34 34
+        image-source: /images/game/cyclopedia/items_off
+
+    UIButton
+      id: bestiary
+      anchors.top: prev.top
+      anchors.left: prev.right
+      margin-left: 1
+      @onClick: SelectWindow("bestiary")
+
+      $on:
+        size: 200 34
+        image-clip: 0 0 200 34
+        image-source: /images/game/cyclopedia/bestiary_on
+
+      $!on:
+        size: 34 34
+        image-clip: 0 0 34 34
+        image-source: /images/game/cyclopedia/bestiary_off
+
+      $pressed:
+        size: 34 34
+        image-clip: 0 34 34 34
+        image-source: /images/game/cyclopedia/bestiary_off
+
+    UIButton
+      id: charms
+      anchors.top: prev.top
+      anchors.left: prev.right
+      margin-left: 1
+      @onClick: SelectWindow("charms")
+
+      $on:
+        size: 200 34
+        image-clip: 0 0 200 34
+        image-source: /images/game/cyclopedia/charms_on
+
+      $!on:
+        size: 34 34
+        image-clip: 0 0 34 34
+        image-source: /images/game/cyclopedia/charms_off
+
+      $pressed:
+        size: 34 34
+        image-clip: 0 34 34 34
+        image-source: /images/game/cyclopedia/charms_off
+
+    UIButton
+      id: map
+      anchors.top: prev.top
+      anchors.left: prev.right
+      margin-left: 1
+      @onClick: SelectWindow("map")
+
+      $on:
+        size: 200 34
+        image-clip: 0 0 200 34
+        image-source: /images/game/cyclopedia/map_on
+
+      $!on:
+        size: 34 34
+        image-clip: 0 0 34 34
+        image-source: /images/game/cyclopedia/map_off
+
+      $pressed:
+        size: 34 34
+        image-clip: 0 34 34 34
+        image-source: /images/game/cyclopedia/map_off
+
+    UIButton
+      id: houses
+      anchors.top: prev.top
+      anchors.left: prev.right
+      margin-left: 1
+      @onClick: SelectWindow("houses")
+
+      $on:
+        size: 200 34
+        image-clip: 0 0 200 34
+        image-source: /images/game/cyclopedia/houses_on
+
+      $!on:
+        size: 34 34
+        image-clip: 0 0 34 34
+        image-source: /images/game/cyclopedia/houses_off
+
+      $pressed:
+        size: 34 34
+        image-clip: 0 34 34 34
+        image-source: /images/game/cyclopedia/houses_off
+
+    UIButton
+      id: character
+      anchors.top: prev.top
+      anchors.left: prev.right
+      margin-left: 1
+      @onClick: SelectWindow("character")
+
+      $on:
+        size: 200 34
+        image-clip: 0 0 200 34
+        image-source: /images/game/cyclopedia/character_on
+
+      $!on:
+        size: 34 34
+        image-clip: 0 0 34 34
+        image-source: /images/game/cyclopedia/character_off
+
+      $pressed:
+        size: 34 34
+        image-clip: 0 34 34 34
+        image-source: /images/game/cyclopedia/character_off
+
+    UIButton
+      id: bosstiary
+      anchors.top: prev.top
+      anchors.left: prev.right
+      margin-left: 1
+      @onClick: SelectWindow("bosstiary")
+
+      $on:
+        size: 200 34
+        image-clip: 0 0 200 34
+        image-source: /images/game/cyclopedia/bosstiary_on
+
+      $!on:
+        size: 34 34
+        image-clip: 0 0 34 34
+        image-source: /images/game/cyclopedia/bosstiary_off
+
+      $pressed:
+        size: 34 34
+        image-clip: 0 34 34 34
+        image-source: /images/game/cyclopedia/bosstiary_off
+
+    UIButton
+      id: bossSlot
+      anchors.top: prev.top
+      anchors.left: prev.right
+      margin-left: 1
+      @onClick: SelectWindow("bossSlot")
+
+      $on:
+        size: 200 34
+        image-clip: 0 0 200 34
+        image-source: /images/game/cyclopedia/bossSlot_on
+
+      $!on:
+        size: 34 34
+        image-clip: 0 0 34 34
+        image-source: /images/game/cyclopedia/bossSlot_off
+
+      $pressed:
+        size: 34 34
+        image-clip: 0 34 34 34
+        image-source: /images/game/cyclopedia/bossSlot_off
+
+    UIButton
+      id: magicalArchives
+      anchors.top: prev.top
+      anchors.left: prev.right
+      margin-left: 1
+      @onClick: SelectWindow("magicalArchives")
+
+      $on:
+        size: 200 34
+        image-clip: 0 0 200 34
+        image-source: /images/game/cyclopedia/magical_on
+
+      $!on:
+        size: 34 34
+        image-clip: 0 0 34 34
+        image-source: /images/game/cyclopedia/magical_off
+
+      $pressed:
+        size: 34 34
+        image-clip: 0 34 34 34
+        image-source: /images/game/cyclopedia/magical_off
+        
+  UIWidget
+    id: contentContainer
+    anchors.top: prev.bottom
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: -4
+
+  Button
+    id: CloseButton
+    size: 43 20
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    !text: tr('Close')
+    font: cipsoftFont
+    text-offset: -1 1
+    color: #ffffff
+    @onClick: toggle()
+
+  Button
+    id: BackButton
+    size: 43 20
+    anchors.bottom: parent.bottom
+    anchors.right: CloseButton.left
+    margin-right: 6
+    !text: tr('Back')
+    font: cipsoftFont
+    text-offset: -1 1
+    color: #ffffff
+    enabled: false
+    @onClick: toggleBack()
+
+  Button
+    id: RefreshButton
+    size: 43 20
+    anchors.bottom: parent.bottom
+    anchors.right: BackButton.left
+    margin-right: 6
+    !text: tr('Refresh')
+    font: cipsoftFont
+    text-offset: -1 1
+    color: #ffffff
+    visible: false
+    @onClick: modules.game_cyclopedia.Cyclopedia.houseRefresh()
+
+  HorizontalSeparator
+    id: BottomSep
+    anchors.bottom: CloseButton.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-bottom: 11
+
+  UIWidget
+    id: GoldBase
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    image-source: /images/ui/item66
+    image-border: 10
+    size: 130 20
+    UIWidget
+      id: Icon
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 3
+      margin-bottom: -1
+      image-source: /images/icons/icon-goldcoin
+      !tooltip: tr("Gold Coins")
+
+    Label
+      id: Value
+      anchors.right: Icon.left
+      anchors.verticalCenter: parent.verticalCenter
+      font: verdana-11px-monochrome
+      margin-right: 2
+      margin-bottom: -2
+      !text: tr('0')
+      text-auto-resize: true
+      color: #BDBDBD
+
+  UIWidget
+    id: MajorCharmsBase
+    anchors.bottom: parent.bottom
+    anchors.left: GoldBase.right
+    margin-left: 6
+    image-source: /images/ui/item66
+    image-border: 10
+    size: 130 20
+
+    UIWidget
+      id: Icon
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 4
+      margin-bottom: -1
+      image-source: /game_cyclopedia/images/major-charm-echoes
+      !tooltip: tr("Charm Points\n\nEarned by unlocking entries in the Bestiary.")
+
+    Label
+      id: Value
+      anchors.right: Icon.left
+      anchors.verticalCenter: parent.verticalCenter
+      font: verdana-11px-monochrome
+      margin-right: 2
+      margin-bottom: -2
+      !text: tr('0 / 0')
+      text-auto-resize: true
+      color: #BDBDBD
+
+  UIWidget
+    id: MinorCharmsBase
+    visible: false
+    anchors.bottom: parent.bottom
+    anchors.left: prev.right
+    margin-left: 6
+    image-source: /images/ui/item66
+    image-border: 10
+    size: 130 20
+
+    UIWidget
+      id: Icon
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 3
+      margin-bottom: -1
+      image-source: /game_cyclopedia/images/minor-charm-echoes
+      !tooltip: tr("Minor Charm Echoes\n\nEarned by unlocking or upgrading Major Charm and promoting your character.")
+
+    Label
+      id: Value
+      anchors.right: Icon.left
+      anchors.verticalCenter: parent.verticalCenter
+      font: verdana-11px-monochrome
+      margin-right: 2
+      margin-bottom: -2
+      !text: tr('0 / 0')
+      text-auto-resize: true
+      color: #BDBDBD
+
+  Button
+    id: BestiaryTrackerButton
+    size: 86 20
+    anchors.bottom: parent.bottom
+    anchors.left: prev.right
+    margin-left: 6
+    !text: tr('Bestiary Tracker')
+    font: cipsoftFont
+    @onClick: modules.game_cyclopedia.Cyclopedia.toggleBestiaryTracker()
+    text-offset: -1 1
+    color: #ffffff

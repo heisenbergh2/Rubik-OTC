@@ -1,0 +1,131 @@
+PassiveAssignPreview < Panel
+  height: 34
+  phantom: true
+  focusable: false
+
+  UIWidget
+    id: previewIcon
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    phantom: true
+    size: 32 32
+    margin-top: -1
+
+  Label
+    id: previewLabel
+    anchors.left: prev.right
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 5
+    margin-top: -1
+    font: $var-cip-font
+    color: #909090
+    text-align: left
+
+PassivePreview < UICheckBox
+  height: 34
+  focusable: true
+  text-offset: 36 10
+
+  change-cursor-image: false
+  font: $var-cip-font
+
+  $!checked:
+    background-color: alpha
+
+  $checked:
+    background-color: #ffffff22
+
+  $disabled:
+    image-color: #dfdfdf88
+    color: #dfdfdf88
+    opacity: 0.8
+
+  UIWidget
+    id: image
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    phantom: true
+    margin-left: 2
+    size: 32 32
+
+NewMainWindow
+  id: assignPassiveWindow
+  size: 275 261
+  font: $var-cip-font-new
+  color: #909090
+  text-offset: 0 2
+  @onEscape: self:destroy()
+
+  Panel
+    id: contentPanel
+    anchors.fill: parent
+    margin: 12 12 12 12
+
+    PassiveAssignPreview
+      id: preview
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+
+    HorizontalSeparator
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 9
+
+    TextList
+      id: passiveList
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 11
+      height: 120
+      padding: 1
+      focusable: false
+      vertical-scrollbar: listScrollBar
+      image-source: /images/ui/1pixel-down-frame
+      image-border: 3
+      border-width: 0
+      background-color: #404040
+
+    VerticalQtScrollBar
+      id: listScrollBar
+      anchors.top: passiveList.top
+      anchors.right: passiveList.right
+      margin: 1 1 1 0
+      anchors.bottom: passiveList.bottom
+      step: 14
+      pixels-scroll: true
+
+    HorizontalSeparator
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 12
+
+    Button
+      id: buttonOk
+      size: 43 20
+      anchors.right: buttonApply.left
+      anchors.bottom: parent.bottom
+      margin-right: 6
+      text: Ok
+      text-offset: 0 0
+
+    Button
+      id: buttonApply
+      size: 43 20
+      anchors.right: buttonClose.left
+      anchors.bottom: parent.bottom
+      margin-right: 6
+      text: Apply
+      text-offset: 0 0
+
+    Button
+      id: buttonClose
+      size: 43 20
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      text: Cancel
+      text-offset: 0 0

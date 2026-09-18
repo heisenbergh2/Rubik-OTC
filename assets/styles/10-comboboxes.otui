@@ -1,0 +1,185 @@
+ComboBoxPopupScrollMenuButton < UIButton
+  height: 17
+  font: $var-cip-font
+  text-align: left
+  text-offset: 4 0
+  color: #c0c0c0
+  background-color: alpha
+
+  $hover !disabled:
+    color: #f4f4f4
+    background-color: #c0c0c033
+
+  $disabled:
+    color: #dfdfdf88
+
+ComboBoxPopupScrollMenu < UIPopupScrollMenu
+  image-source: /images/ui/combobox_square
+  image-clip: 0 60 98 20
+  image-border: 1
+
+ComboBoxPopupMenuButton < UIButton
+  height: 17
+  font: $var-cip-font
+  text-align: left
+  text-offset: 4 0
+  color: #c0c0c0
+  background-color: alpha
+
+  $hover !disabled:
+    color: #f4f4f4
+    background-color: #c0c0c033
+
+  $disabled:
+    color: #dfdfdf88
+
+ComboBoxPopupMenu < UIPopupMenu
+  image-source: /images/ui/combobox_square
+  image-clip: 0 60 98 20
+  image-border: 1
+
+ComboBox < UIComboBox
+  font: $var-cip-font
+  color: $var-text-cip-color
+  text-offset: -15 0
+  size: 91 20
+  image-source: /images/ui/combobox_square
+  image-border: 3
+  image-border-right: 21
+  image-clip: 0 0 91 20
+
+  $hover !disabled:
+    image-clip: 0 0 91 20
+
+  $on:
+    image-clip: 0 40 91 20
+
+  $disabled:
+    color: #dfdfdf88
+    opacity: 0.8
+  
+  $checked:
+    image-clip: 0 20 91 20
+
+ComboBoxRoundedPopupScrollMenuButton < UIButton
+  height: 23
+  font: $var-cip-font
+  text-align: left
+  text-offset: 4 0
+  color: #c0c0c0
+  background-color: alpha
+
+  $hover !disabled:
+    color: #f4f4f4
+    background-color: #c0c0c033
+
+  $disabled:
+    color: #dfdfdf88
+
+ComboBoxRoundedPopupScrollMenu < UIPopupScrollMenu
+  image-source: /images/ui/combobox_rounded
+  image-clip: 0 69 91 23
+  image-border: 3
+  font: $var-cip-font
+
+ComboBoxRoundedPopupMenuButton < UIButton
+  height: 23
+  font: $var-cip-font
+  text-align: left
+  text-offset: 4 0
+  color: #c0c0c0
+  background-color: alpha
+  font: $var-cip-font
+
+  $hover !disabled:
+    color: #f4f4f4
+    background-color: #c0c0c033
+
+  $disabled:
+    color: #dfdfdf88
+
+ComboBoxRoundedPopupMenu < UIPopupMenu
+  image-source: /images/ui/combobox_rounded
+  image-clip: 0 69 91 23
+  image-border: 3
+  font: $var-cip-font
+
+ComboBoxRounded < ComboBox
+  image-source: /images/ui/combobox_rounded
+  image-border: 3
+  font: $var-cip-font
+
+QtComboBoxPopupScrollMenuButton < UIButton
+  height: 17
+  font: $var-cip-font
+  text-align: left
+  text-offset: 5 0
+  color: #c0c0c0
+  background-color: #ffffff00
+  font: $var-cip-font
+
+  $hover !disabled:
+    color: #f4f4f4
+    background-color: #c0c0c033
+
+  $!hover !disabled:
+    color: #c0c0c0
+    background-color: #ffffff00
+
+  $disabled:
+    color: #888888
+    background-color: #ffffff00
+
+QtComboBoxPopupScrollMenu < UIPopupScrollMenu
+  image-source: /images/ui/combobox_new
+  image-clip: 0 60 91 20
+  image-border: 2
+  font: $var-cip-font
+
+QtComboBoxPopupMenuButton < UIButton
+  height: 17
+  text-align: left
+  text-offset: 5 0
+  color: #c0c0c0
+  background-color: #ffffff00
+  font: $var-cip-font
+
+  $hover !disabled:
+    color: #f4f4f4
+    background-color: #c0c0c033
+
+  $!hover !disabled:
+    color: #c0c0c0
+    background-color: #ffffff00
+
+  $disabled:
+    color: #888888
+    background-color: #ffffff00
+
+QtComboBoxPopupMenu < UIPopupMenu
+  image-source: /images/ui/combobox_new
+  image-clip: 0 60 91 20
+  image-border: 2
+  font: $var-cip-font
+
+QtComboBox < UIComboBox
+  color: #c0c0c0ff
+  size: 91 20
+  text-offset: -11 0
+  text-align: center
+  image-source: /images/ui/combobox_new
+  image-border: 2
+  image-border-right: 22
+  image-clip: 0 0 91 20
+  font: $var-cip-font
+
+  $pressed !disabled:
+    image-clip: 0 20 91 20
+    text-offset: -10 1
+
+  $on:
+    image-clip: 0 20 91 20
+    text-offset: -10 1
+
+  $disabled:
+    image-clip: 0 40 91 20

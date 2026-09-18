@@ -1,0 +1,416 @@
+MiniWindow
+  id: huntingAnalyserMiniWindow
+  height: 225
+
+  &save: true
+  @onSetup: |
+    do
+      for _, id in ipairs({ 'newWindowButton', 'toggleFilterButton' }) do
+        local w = self:recursiveGetChildById(id)
+        if w then
+          w:setVisible(false)
+          w:setOn(false)
+        end
+      end
+
+      local contextMenuButton = self:recursiveGetChildById("contextMenuButton")
+      if contextMenuButton then
+        contextMenuButton:setMarginRight(-7)
+        contextMenuButton.onMousePress = function(widget, mousePosition, mouseButton)
+          if mouseButton == MouseLeftButton then
+            onHuntingExtra(mousePosition)
+            return true
+          end
+        end
+      end
+    end
+
+  UIWidget
+    id: miniwindowIcon
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 2
+    margin-left: 4
+    size: 12 12
+    image-source: /modules/game_analysers/images/icon-huntingsessionanalyser-widget
+    image-smooth: false
+  
+  Label
+    id: miniwindowTitle
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 1
+    margin-left: 20
+    font: verdana-11px-monochrome
+    height: 13
+    !text: tr('Hunt Analyser')
+    color: #909090
+
+  ScrollablePanel
+    id: contentsPanel
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: miniwindowScrollBar.left
+    anchors.bottom: parent.bottom
+    margin-left: 5
+    margin-top: 16
+    margin-right: 1
+    margin-bottom: 5
+    vertical-scrollbar: miniwindowScrollBar
+    
+    Label
+      id: sessionLabel
+      !text: tr('Session:')
+      anchors.top: parent.top
+      anchors.left: parent.left
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: session
+      !text: tr('00:00h')
+      anchors.top: parent.top
+      anchors.right: parent.right
+      margin-right: 5
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: rawXpLabel
+      !text: tr('Raw XP Gain:')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+      visible: false
+
+    Label
+      id: rawXpGain
+      !text: tr('0')
+      anchors.top: prev.top
+      anchors.right: parent.right
+      margin-right: 5
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+      visible: false
+
+    Label
+      id: xpLabel
+      !text: tr('XP Gain:')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: xpGain
+      !text: tr('0')
+      anchors.top: rawXpGain.bottom
+      anchors.right: parent.right
+      margin-top: 4
+      margin-right: 5
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: rawXpHourLabel
+      !text: tr('Raw XP/h:')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+      visible: false
+
+    Label
+      id: rawXpHour
+      !text: tr('0')
+      anchors.top: prev.top
+      anchors.right: parent.right
+      margin-right: 5
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+      visible: false
+
+    Label
+      id: xpHourLabel
+      !text: tr('XP/h:')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: xpHour
+      !text: tr('0')
+      anchors.top: prev.top
+      anchors.right: parent.right
+      margin-top: 4
+      margin-right: 5
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: lootLabel
+      !text: tr('Loot:')
+      anchors.top: xpHourLabel.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    UIWidget
+      size: 9 9
+      image-auto-resize: true
+      image-source: /images/icons/icon-goldcoin
+      anchors.top: xpHourLabel.bottom
+      anchors.right: parent.right
+      margin-top: 7
+      margin-right: 4
+
+    Label
+      id: loot
+      !text: tr('0')
+      anchors.top: xpHourLabel.bottom
+      anchors.right: prev.left
+      margin-top: 4
+      margin-right: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: suppliesLabel
+      !text: tr('Supplies:')
+      anchors.top: lootLabel.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    UIWidget
+      size: 9 9
+      image-auto-resize: true
+      image-source: /images/icons/icon-goldcoin
+      anchors.top: lootLabel.bottom
+      anchors.right: parent.right
+      margin-top: 7
+      margin-right: 4
+
+    Label
+      id: supplies
+      !text: tr('0')
+      anchors.top: lootLabel.bottom
+      anchors.right: prev.left
+      margin-top: 4
+      margin-right: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: balanceLabel
+      !text: tr('Balance:')
+      anchors.top: suppliesLabel.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    UIWidget
+      size: 9 9
+      image-auto-resize: true
+      image-source: /images/icons/icon-goldcoin
+      anchors.top: suppliesLabel.bottom
+      anchors.right: parent.right
+      margin-top: 7
+      margin-right: 4
+
+    Label
+      id: balance
+      !text: tr('0')
+      anchors.top: suppliesLabel.bottom
+      anchors.right: prev.left
+      margin-top: 4
+      margin-right: 4
+      text-auto-resize: true
+      color: $var-text-cip-color-green
+      font: $var-cip-font
+
+    Label
+      id: damageLabel
+      !text: tr('Damage:')
+      anchors.top: balanceLabel.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: damage
+      !text: tr('0')
+      anchors.top: balanceLabel.bottom
+      anchors.right: parent.right
+      margin-top: 4
+      margin-right: 5
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: damageHourLabel
+      !text: tr('Damage/h:')
+      anchors.top: damageLabel.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: damageHour
+      !text: tr('0')
+      anchors.top: damageLabel.bottom
+      anchors.right: parent.right
+      margin-top: 4
+      margin-right: 5
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: healLabel
+      !text: tr('Healing:')
+      anchors.top: damageHourLabel.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: healing
+      !text: tr('0')
+      anchors.top: damageHourLabel.bottom
+      anchors.right: parent.right
+      margin-top: 4
+      margin-right: 5
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: healHourLabel
+      !text: tr('Healing/h:')
+      anchors.top: healLabel.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: healHour
+      !text: tr('0')
+      anchors.top: healLabel.bottom
+      anchors.right: parent.right
+      margin-top: 4
+      margin-right: 5
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Label
+      id: killedMonstersLabel
+      !text: tr('Killed Monsters:')
+      anchors.top: healHourLabel.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Panel
+      size: 145 15
+      id: killedMonsters
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 5
+      margin-left: 7
+
+      Label
+        id: monster
+        !text: tr('None')
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-top: -1
+        margin-left: 1
+        text-auto-resize: true
+        color: $var-text-cip-color
+        font: $var-cip-font
+
+    Label
+      id: lootedItemsLabel
+      !text: tr('Looted Items:')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 3
+      text-auto-resize: true
+      color: $var-text-cip-color
+      font: $var-cip-font
+
+    Panel
+      size: 145 15
+      id: lootedItems
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      margin-top: 5
+      margin-left: 7
+
+      Label
+        id: loot
+        !text: tr('None')
+        anchors.top: parent.top
+        anchors.left: parent.left
+        margin-top: -1
+        margin-left: 1
+        text-auto-resize: true
+        color: $var-text-cip-color
+        font: $var-cip-font
+
+  UIWidget
+    id: miniborder
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    image-source: /images/ui/miniborder-bottom-left
+    size: 14 14
+    margin-left: 3
+    margin-bottom: 3
+
+  ResizeBorder
+    id: bottomResizeBorder
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 3
+    minimum: 60
+    margin-left: 3
+    margin-right: 3

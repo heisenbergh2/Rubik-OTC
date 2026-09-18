@@ -1,0 +1,201 @@
+MiniWindowNoScroll < UIMiniWindow
+  font: $var-cip-font-new
+  width: 192
+  height: 200
+  image-source: /images/ui/miniwindow_body
+  image-border: 4
+  image-border-top: 4
+  image-border-bottom: 4
+  focusable: false
+  &minimizedHeight: 19
+  
+  $on:
+    image-border-bottom: 4
+
+  UIWidget
+    id: miniwindowHeader
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.left: parent.left
+    height: 14
+    image-source: /images/ui/miniwindow_header
+    image-border: 4
+    image-border-top: 4
+    image-border-bottom: 4
+    phantom: true
+
+  UIWidget
+    id: miniwindowHeaderBevel
+    anchors.top: miniwindowHeader.bottom
+    anchors.right: parent.right
+    anchors.left: parent.left
+    height: 2
+    margin-left: 3
+    margin-right: 3
+    phantom: true
+
+    UIWidget
+      id: bevelHighlight
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      height: 1
+      background-color: #66666640
+      phantom: true
+
+    UIWidget
+      id: bevelShadow
+      anchors.bottom: parent.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      height: 1
+      background-color: #31313160
+      phantom: true
+
+  UIWidget
+    id: miniwindowHeaderBorder
+    anchors.top: miniwindowHeaderBevel.bottom
+    anchors.right: parent.right
+    anchors.left: parent.left
+    height: 1
+    margin-left: 3
+    margin-right: 3
+    background-color: #2a2a2a
+    phantom: true
+
+  UIWidget
+    id: miniwindowTopBar
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.left: parent.left
+    margin-right: 3 
+    margin-left: 3
+    margin-top: 3
+    size: 258 15
+    phantom: true
+
+  UIButton
+    id: closeButton
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin-top: 2
+    margin-right: 3
+    size: 12 12
+    image-size: 12 12
+    image-source: /images/ui/miniwindow_buttons
+    image-clip: 72 0 12 12
+
+    $hover:
+      image-clip: 72 0 12 12
+
+    $pressed:
+      image-clip: 72 12 12 12
+
+  UIButton
+    id: minimizeButton
+    anchors.top: closeButton.top
+    anchors.right: closeButton.left
+    margin-right: 1
+    size: 12 12
+    image-size: 12 12
+    image-source: /images/ui/miniwindow_buttons
+    image-clip: 48 0 12 12
+
+    $hover:
+      image-clip: 48 0 12 12
+
+    $pressed:
+      image-clip: 48 12 12 12
+
+    $on:
+      image-clip: 60 0 12 12
+
+    $on hover:
+      image-clip: 60 0 12 12
+
+    $on pressed:
+      image-clip: 60 12 12 12
+
+  UIButton
+    id: toggleFilterButton
+    anchors.top: minimizeButton.top
+    anchors.right: minimizeButton.left
+    margin-right: 1
+    margin-top: 0
+    size: 12 12
+    image-size: 12 12
+    image-source: /images/ui/miniwindow_buttons
+    image-clip: 24 0 12 12
+
+    $hover:
+      image-clip: 24 0 12 12
+
+    $pressed:
+      image-clip: 24 12 12 12
+
+    $on:
+      image-clip: 24 12 12 12
+
+    $on hover:
+      image-clip: 24 12 12 12
+
+    $on pressed:
+      image-clip: 24 12 12 12
+
+  UIButton
+    id: contextMenuButton
+    anchors.top: prev.top
+    anchors.right: prev.left
+    margin-right: 1
+    margin-top: 0
+    size: 12 12
+    image-size: 12 12
+    image-source: /images/ui/miniwindow_buttons
+    image-clip: 12 0 12 12
+
+    $hover:
+      image-clip: 12 0 12 12
+
+    $pressed:
+      image-clip: 12 12 12 12
+
+  UIButton
+    id: newWindowButton
+    anchors.top: prev.top
+    anchors.right: prev.left
+    margin-right: 1
+    margin-top: 0
+    size: 12 12
+    image-size: 12 12
+    image-source: /images/ui/miniwindow_buttons
+    image-clip: 0 0 12 12
+
+    $hover:
+      image-clip: 0 0 12 12
+
+    $pressed:
+      image-clip: 0 12 12 12
+
+  ResizeBorder
+    id: bottomResizeBorder
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 3
+    minimum: 48
+    margin-left: 3
+    margin-right: 3
+    background: #00000000
+    disable-hover-fade: true
+
+
+MiniWindowNoScrollContents < UIWidget
+  id: contentsPanel
+  anchors.top: miniwindowHeader.bottom
+  anchors.left: parent.left
+  anchors.right: parent.right
+  anchors.bottom: parent.bottom
+  margin-left: 3
+  margin-bottom: 3
+  margin-top: 2
+  margin-right: 4

@@ -1,0 +1,182 @@
+UIWidget
+  anchors.fill: parent
+  visible: false
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+
+    height: 98
+
+    OptionCheckBox
+      id: enableLights
+      !text: tr('Show Light Effects')
+
+    OptionScaleScroll
+      id: ambientLight
+      anchors.top: prev.bottom
+      margin-top: 5
+      &minimumScrollValue: 0
+      &maximumScrollValue: 100
+      &scrollSize: 21
+      @onSetup: |
+        local value = modules.client_options.getOption('ambientLight')
+        self:setText(string.format('Ambient Light: %s%%', value))
+
+    OptionScaleScroll
+      id: levelSeparator
+      anchors.top: prev.bottom
+      margin-top: 5
+      &minimumScrollValue: 0
+      &maximumScrollValue: 100
+      &scrollSize: 21
+      @onSetup: |
+        local value = modules.client_options.getOption('levelSeparator')
+        self:setText(string.format('Level Separator: %s%%', value))
+
+    OptionScaleScroll
+      id: cloudsLabel
+      anchors.top: prev.bottom
+      margin-top: 5
+      &minimumScrollValue: 0
+      &maximumScrollValue: 100
+      &scrollSize: 21
+      @onSetup: |
+        local value = modules.client_options.getOption('cloudsLabel')
+        self:setText(string.format('Clouds & Indoor Effect: %s%%', value))
+
+    OptionScaleScroll
+      id: floorFading
+      anchors.top: prev.bottom
+      margin-top: 5
+      &minimumScrollValue: 0
+      &maximumScrollValue: 1000
+      &scrollSize: 21
+      @onSetup: |
+        local value = modules.client_options.getOption('floorFading')
+        self:setText(tr('Level Fading: %s ms', value))
+
+    UIWidget
+      size: 12 12
+      anchors.top: parent.top
+      anchors.right: parent.right
+      margin-right: 3
+      image-source: /images/icons/show_gui_help_grey
+      !tooltip: tr('Not all graphics cards are capable of drawing light effects fast\nenough for PTC to run smoothly. If your system is working with\nsuch a graphics card, it may be a good idea to deactivate the light\neffects in order to improve overall game performance. Note that \nthis option will be disabled if your graphics card is not able to draw\nlight effects at all.\n\nThe following options are only available if Show Light Effects are enabled:\n\n      * Ambient Light: Here you can determine the brightness of\n        your ambience. If you prefer to play in a mysterious and\n        dark surrounding, you should set the ambient light slider as\n        low as possible. Players that rather like to see everything in\n        a bright light, should position the bar at 100%%.\n      * Level Separator: By using this slider, you can determine how\n        dark or bright lower levels will be displayed for your\n        character.')
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 7
+    height: 96
+
+    UIWidget
+      size: 12 12
+      anchors.top: parent.top
+      anchors.right: parent.right
+      margin-right: 3
+      image-source: /images/icons/show_gui_help_grey
+      !tooltip: tr("Adjust the opacity of spell effects cast by yourself, other players, \nregular creatures and boss area creature separately.\n\nNote that some effects, such as long-lasting map effects, spawn\neffects, and others, are not affected by these settings.")
+
+    Label
+      anchors.top: parent.top
+      anchors.left: parent.left
+      font: $var-cip-font
+      color: #b9b9b9ff
+      !text: tr("Opacity of Spell Effects")
+
+    OptionScaleScroll
+      id: ownSpellEffectOpacity
+      anchors.top: prev.bottom
+      margin-top: 5
+      &minimumScrollValue: 0
+      &maximumScrollValue: 100
+      &scrollSize: 21
+      @onSetup: |
+        local value = modules.client_options.getOption('ownSpellEffectOpacity')
+        self:setText(tr('Own Spell Effects: %s%%', value))
+
+    OptionScaleScroll
+      id: othersPlayersEffectOpacity
+      anchors.top: prev.bottom
+      margin-top: 5
+      &minimumScrollValue: 0
+      &maximumScrollValue: 100
+      &scrollSize: 21
+      @onSetup: |
+        local value = modules.client_options.getOption('othersPlayersEffectOpacity')
+        self:setText(tr('Other Players\' Effects: %s%%', value))
+
+    OptionScaleScroll
+      id: creatureSpellEffectsOpacity
+      anchors.top: prev.bottom
+      margin-top: 5
+      &minimumScrollValue: 0
+      &maximumScrollValue: 100
+      &scrollSize: 21
+      @onSetup: |
+        local value = modules.client_options.getOption('creatureSpellEffectsOpacity')
+        self:setText(tr('Creature Spell Effects: %s%%', value))
+
+    OptionScaleScroll
+      id: bossAreaCreatureSpellEffectOpacity
+      anchors.top: prev.bottom
+      margin-top: 5
+      &minimumScrollValue: 0
+      &maximumScrollValue: 100
+      &scrollSize: 21
+      @onSetup: |
+        local value = modules.client_options.getOption('bossAreaCreatureSpellEffectOpacity')
+        self:setText(tr('Boss Area Creature Spell Effects: %s%%', value))
+
+  SmallReversedQtPanel
+    id: clientMissileOpacity
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 7
+    height: 22
+
+    OptionScaleScroll
+      id: setMissileAlphaScroll
+      anchors.fill: parent
+      &minimumScrollValue: 10
+      &maximumScrollValue: 100
+      &scrollSize: 21
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 7
+    height: 22
+
+    OptionCheckBoxMarked
+      id: drawEffectOnTop
+      !text: tr('Draw Effect On Top')
+      !tooltip: tr('Draw effect after drawing the entire level.')
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 7
+    height: 22
+
+    OptionCheckBoxMarked
+      id: limitVisibleDimension
+      !text: tr('Limit Visible Dimension')
+      !tooltip: tr('The limit is based on your maximum range.')
+
+  SmallReversedQtPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 7
+    height: 22
+
+    OptionCheckBox
+      id: floatingEffect
+      !text: 'Draw Floating Effects'

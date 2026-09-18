@@ -1,0 +1,8 @@
+Module
+  name: game_tutorial
+  author: Rokam
+  sandboxed: true
+  dependencies: [ game_interface ]
+  scripts: [ game_tutorial ]
+  @onLoad: init()
+  @onUnload: terminate()

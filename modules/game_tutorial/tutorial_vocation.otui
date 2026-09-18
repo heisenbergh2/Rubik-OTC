@@ -1,0 +1,455 @@
+VocationHighlightPanel < UIWidget
+  anchors.fill: parent
+  image-source: /images/game/tutorial/vocation-highlight
+  image-smooth: true
+  image-fixed-ratio: true
+  visible: false
+  phantom: true
+
+VocationInfoSlideContainer < Panel
+  size: 179 227
+  anchors.bottom: parent.bottom
+  anchors.horizontalCenter: parent.horizontalCenter
+  visible: false
+  phantom: true
+  clipping: true
+
+VocationInfoPanel < UIWidget
+  size: 179 227
+  anchors.bottom: parent.bottom
+  anchors.horizontalCenter: parent.horizontalCenter
+  image-smooth: true
+  image-fixed-ratio: true
+  phantom: true
+
+VocationActionButton < UIButton
+  size: 108 20
+  anchors.left: parent.left
+  anchors.bottom: parent.bottom
+  margin-left: 6
+  margin-bottom: 7
+  image-clip: 0 0 108 20
+  image-smooth: true
+
+  $pressed:
+    image-clip: 0 20 108 20
+
+VocationSelectButton < VocationActionButton
+  $checked:
+    image-clip: 0 40 108 20
+
+  $checked pressed:
+    image-clip: 0 40 108 20
+
+VocationButtonRow < UIWidget
+  size: 120 33
+  image-source: /images/game/tutorial/button_startplaying_idle
+  image-smooth: true
+  phantom: true
+
+  VocationActionButton
+
+TutorialVocationWindow < MainLogoWindow
+  id: tutorialVocationWindow
+  size: 960 445
+  !text: ''
+  clipping: false
+
+  Panel
+    id: vocationStage1
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom 
+    margin-top: -22
+
+    UIWidget
+      id: welcomeBanner
+      size: 307 44
+      anchors.top: parent.top
+      anchors.left: parent.left
+      image-source: /images/game/tutorial/banner_tutorialpopup_welcometonewhaven
+      margin-left: 311
+      image-smooth: true
+      image-fixed-ratio: true
+
+    UIWidget
+      id: contentFrame
+      size: 928 361
+      image-source: /images/ui/1pixel-down-frame
+      image-border: 5
+      anchors.top: welcomeBanner.bottom
+      anchors.horizontalCenter: parent.horizontalCenter
+      margin-top: 11
+
+      UIWidget
+        id: stageBackdrop
+        anchors.fill: parent
+        margin: 1
+        image-source: /images/game/tutorial/backdrop-infobanner-anim6
+        image-smooth: true
+        image-fixed-ratio: true
+
+      UIWidget
+        size: 120 33
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        margin-left: 124
+        margin-bottom: 39
+        image-source: /images/game/tutorial/button_startplaying_idle
+        image-smooth: true
+        image-fixed-ratio: true
+        phantom: true
+
+        UIButton
+          id: buttonJourney
+          size: 108 20
+          anchors.left: parent.left
+          anchors.bottom: parent.bottom
+          image-source: /images/game/tutorial/buttons/button-journey
+          image-clip: 0 0 108 20
+          margin-left: 6
+          margin-bottom: 7
+          image-smooth: true
+          @onClick: modules.game_tutorial.showVocationStage(2)
+
+          $pressed:
+            image-clip: 0 20 108 20
+
+          UIWidget
+            id: buttonJourneyAnimation
+            anchors.fill: parent
+            phantom: true
+            focusable: false
+            image-source: /images/animations/button-tutorial-animation
+            opacity: 0.6
+
+  Panel
+    id: vocationStage2
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-top: -22
+    visible: false
+
+    UIWidget
+      id: vocationSelectBanner
+      size: 299 44
+      anchors.top: parent.top
+      anchors.left: parent.left
+      image-source: /images/game/tutorial/banner_tutorialpopup01
+      margin-left: 313
+      image-smooth: true
+      image-fixed-ratio: true
+
+    Panel
+      id: vocationFramesRow
+      size: 929 361
+      anchors.top: vocationSelectBanner.bottom
+      anchors.left: parent.left
+      margin-top: 11
+
+      UIWidget
+        id: vocationKnight
+        size: 181 361
+        image-source: /images/ui/1pixel-down-frame
+        image-border: 5
+        anchors.top: parent.top
+        anchors.left: parent.left
+
+        UIWidget
+          id: vocationKnightBackground
+          anchors.fill: parent
+          margin: 1
+          image-smooth: true
+          image-fixed-ratio: true
+          image-source: /images/game/tutorial/backdrop_knight
+
+        VocationInfoSlideContainer
+          id: vocationKnightHover
+
+          VocationInfoPanel
+            id: vocationKnightInfo
+            image-source: /images/game/tutorial/backdrop-vocationinfo-knight
+
+        VocationHighlightPanel
+          id: vocationKnightHighlight
+
+        UIWidget
+          id: vocationKnightBanner
+          size: 168 57
+          anchors.top: parent.top
+          anchors.right: parent.right
+          margin-top: 2
+          margin-right: 1
+          image-source: /images/game/tutorial/banner_vocation_knight
+          image-smooth: true
+          image-fixed-ratio: true
+
+        VocationButtonRow
+          id: vocationKnightConfirmBorder
+          anchors.bottom: parent.bottom
+          anchors.left: parent.left
+          margin-left: 31
+          margin-bottom: 9
+          visible: false
+
+          VocationActionButton
+            id: buttonConfirmKnight
+            image-source: /images/game/tutorial/buttons/button-confirm
+
+        VocationButtonRow
+          id: vocationKnightSelectBorder
+          anchors.bottom: parent.bottom
+          anchors.left: parent.left
+          margin-left: 31
+          margin-bottom: 45
+
+          VocationSelectButton
+            id: buttonSelectKnight
+            image-source: /images/game/tutorial/buttons/button-select-knight
+
+      UIWidget
+        id: vocationSorcerer
+        size: 181 361
+        image-source: /images/ui/1pixel-down-frame
+        image-border: 5
+        anchors.top: parent.top
+        anchors.left: vocationKnight.right
+        margin-left: 6
+
+        UIWidget
+          id: vocationSorcererBackground
+          anchors.fill: parent
+          margin: 1
+          image-smooth: true
+          image-fixed-ratio: true
+          image-source: /images/game/tutorial/backdrop_sorcerer
+
+        VocationInfoSlideContainer
+          id: vocationSorcererHover
+
+          VocationInfoPanel
+            id: vocationSorcererInfo
+            image-source: /images/game/tutorial/backdrop-vocationinfo-sorcerer
+
+        VocationHighlightPanel
+          id: vocationSorcererHighlight
+
+        UIWidget
+          id: vocationSorcererBanner
+          size: 168 51
+          anchors.top: parent.top
+          anchors.right: parent.right
+          margin-top: 1
+          margin-right: 1
+          image-source: /images/game/tutorial/banner_vocation_sorcerer
+          image-smooth: true
+          image-fixed-ratio: true
+
+        VocationButtonRow
+          id: vocationSorcererConfirmBorder
+          anchors.bottom: parent.bottom
+          anchors.left: parent.left
+          margin-left: 31
+          margin-bottom: 9
+          visible: false
+
+          VocationActionButton
+            id: buttonConfirmSorcerer
+            image-source: /images/game/tutorial/buttons/button-confirm
+
+        VocationButtonRow
+          id: vocationSorcererSelectBorder
+          anchors.bottom: parent.bottom
+          anchors.left: parent.left
+          margin-left: 31
+          margin-bottom: 45
+
+          VocationSelectButton
+            id: buttonSelectSorcerer
+            image-source: /images/game/tutorial/buttons/button-select-sorcerer
+
+      UIWidget
+        id: vocationDruid
+        size: 181 361
+        image-source: /images/ui/1pixel-down-frame
+        image-border: 5
+        anchors.top: parent.top
+        anchors.left: vocationSorcerer.right
+        margin-left: 6
+
+        UIWidget
+          id: vocationDruidBackground
+          anchors.fill: parent
+          margin: 1
+          image-smooth: true
+          image-fixed-ratio: true
+          image-source: /images/game/tutorial/backdrop_druid
+
+        VocationInfoSlideContainer
+          id: vocationDruidHover
+
+          VocationInfoPanel
+            id: vocationDruidInfo
+            image-source: /images/game/tutorial/backdrop-vocationinfo-druid
+
+        VocationHighlightPanel
+          id: vocationDruidHighlight
+
+        UIWidget
+          id: vocationDruidBanner
+          size: 168 55
+          anchors.top: parent.top
+          anchors.right: parent.right
+          margin-top: 4
+          margin-right: 1
+          image-source: /images/game/tutorial/banner_vocation_druid
+          image-smooth: true
+          image-fixed-ratio: true
+
+        VocationButtonRow
+          id: vocationDruidConfirmBorder
+          anchors.bottom: parent.bottom
+          anchors.left: parent.left
+          margin-left: 31
+          margin-bottom: 9
+          visible: false
+
+          VocationActionButton
+            id: buttonConfirmDruid
+            image-source: /images/game/tutorial/buttons/button-confirm
+
+        VocationButtonRow
+          id: vocationDruidSelectBorder
+          anchors.bottom: parent.bottom
+          anchors.left: parent.left
+          margin-left: 31
+          margin-bottom: 45
+
+          VocationSelectButton
+            id: buttonSelectDruid
+            image-source: /images/game/tutorial/buttons/button-select-druid
+
+      UIWidget
+        id: vocationPaladin
+        size: 181 361
+        image-source: /images/ui/1pixel-down-frame
+        image-border: 5
+        anchors.top: parent.top
+        anchors.left: vocationDruid.right
+        margin-left: 6
+
+        UIWidget
+          id: vocationPaladinBackground
+          anchors.fill: parent
+          margin: 1
+          image-smooth: true
+          image-fixed-ratio: true
+          image-source: /images/game/tutorial/backdrop_paladin
+
+        VocationInfoSlideContainer
+          id: vocationPaladinHover
+
+          VocationInfoPanel
+            id: vocationPaladinInfo
+            image-source: /images/game/tutorial/backdrop-vocationinfo-paladin
+
+        VocationHighlightPanel
+          id: vocationPaladinHighlight
+
+        UIWidget
+          id: vocationPaladinBanner
+          size: 171 56
+          anchors.top: parent.top
+          anchors.right: parent.right
+          margin-top: 2
+          margin-right: 1
+          image-source: /images/game/tutorial/banner_vocation_paladin
+          image-smooth: true
+          image-fixed-ratio: true
+
+        VocationButtonRow
+          id: vocationPaladinConfirmBorder
+          anchors.bottom: parent.bottom
+          anchors.left: parent.left
+          margin-left: 31
+          margin-bottom: 9
+          visible: false
+
+          VocationActionButton
+            id: buttonConfirmPaladin
+            image-source: /images/game/tutorial/buttons/button-confirm
+
+        VocationButtonRow
+          id: vocationPaladinSelectBorder
+          anchors.bottom: parent.bottom
+          anchors.left: parent.left
+          margin-left: 31
+          margin-bottom: 45
+
+          VocationSelectButton
+            id: buttonSelectPaladin
+            image-source: /images/game/tutorial/buttons/button-select-paladin
+
+      UIWidget
+        id: vocationMonk
+        size: 181 361
+        image-source: /images/ui/1pixel-down-frame
+        image-border: 5
+        anchors.top: parent.top
+        anchors.left: vocationPaladin.right
+        margin-left: 6
+
+        UIWidget
+          id: vocationMonkBackground
+          anchors.fill: parent
+          margin: 1
+          image-smooth: true
+          image-fixed-ratio: true
+          image-source: /images/game/tutorial/backdrop_monk
+
+        VocationInfoSlideContainer
+          id: vocationMonkHover
+
+          VocationInfoPanel
+            id: vocationMonkInfo
+            image-source: /images/game/tutorial/backdrop-vocationinfo-monk
+
+        VocationHighlightPanel
+          id: vocationMonkHighlight
+
+        UIWidget
+          id: vocationMonkBanner
+          size: 178 54
+          anchors.top: parent.top
+          anchors.right: parent.right
+          margin-top: 4
+          margin-right: 1
+          image-source: /images/game/tutorial/banner_vocation_monk
+          image-smooth: true
+          image-fixed-ratio: true
+
+        VocationButtonRow
+          id: vocationMonkConfirmBorder
+          anchors.bottom: parent.bottom
+          anchors.left: parent.left
+          margin-left: 31
+          margin-bottom: 9
+          visible: false
+
+          VocationActionButton
+            id: buttonConfirmMonk
+            image-source: /images/game/tutorial/buttons/button-confirm
+
+        VocationButtonRow
+          id: vocationMonkSelectBorder
+          anchors.bottom: parent.bottom
+          anchors.left: parent.left
+          margin-left: 31
+          margin-bottom: 45
+
+          VocationSelectButton
+            id: buttonSelectMonk
+            image-source: /images/game/tutorial/buttons/button-select-monk

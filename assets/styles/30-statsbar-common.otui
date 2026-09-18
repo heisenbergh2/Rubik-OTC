@@ -1,0 +1,550 @@
+// =============================================================================
+// 30-statsbar-common.otui — estilos partilhados da stats bar (carga antes de statsbar_*.otui)
+// Barras, fundos e grades usados por top/bottom e futuros placements laterais.
+// =============================================================================
+
+// --- Fundos (9-slice) ---
+
+StatsBarDarkBackground < UIWidget
+  UIWidget
+    anchors.fill: parent
+    image-source: /images/ui/button-verydarkgrey-down
+    image-border: 3
+
+StatsBarLightBackground < UIWidget
+  UIWidget
+    anchors.fill: parent
+    image-source: /images/ui/button-grey-down
+    image-border: 3
+
+// --- Grades (bordas / marcadores) ---
+
+StatsHorizontalBarGrade < UIWidget
+  UIWidget
+    id: grade_border_1
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    background-color: #ffffffff
+    height: 1
+    visible: false
+    phantom: false
+
+  UIWidget
+    id: grade_border_2
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    background-color: #ffffffff
+    height: 1
+    visible: false
+    phantom: false
+
+  UIWidget
+    id: grade_border_3
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.top: parent.top
+    background-color: #ffffffff
+    width: 1
+    visible: false
+    phantom: false
+
+  UIWidget
+    id: grade_border_4
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    anchors.top: parent.top
+    background-color: #ffffffff
+    width: 1
+    visible: false
+    phantom: false
+
+  UIWidget
+    id: grade_left_1
+    anchors.left: parent.left
+    anchors.top: parent.top
+    image-source: /images/bars/marker_top
+    size: 7 11
+    visible: false
+    phantom: false
+
+  UIWidget
+    id: grade_left_2
+    anchors.left: parent.left
+    anchors.top: parent.top
+    image-source: /images/bars/marker_top
+    size: 7 11
+    visible: false
+    phantom: false
+
+  UIWidget
+    id: grade_right_1
+    anchors.right: parent.right
+    anchors.top: parent.top
+    image-source: /images/bars/marker_top
+    size: 7 11
+    visible: false
+    phantom: false
+
+  UIWidget
+    id: grade_right_2
+    anchors.right: parent.right
+    anchors.top: parent.top
+    image-source: /images/bars/marker_top
+    size: 7 11
+    visible: false
+    phantom: false
+
+StatsVerticalLeftBarGrade < UIWidget
+  UIWidget
+    id: grade_border_1
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    background-color: #ffffffff
+    height: 1
+    visible: false
+    phantom: false
+
+  UIWidget
+    id: grade_border_2
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    background-color: #ffffffff
+    height: 1
+    visible: false
+    phantom: false
+
+  UIWidget
+    id: grade_border_3
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.top: parent.top
+    background-color: #ffffffff
+    width: 1
+    visible: false
+    phantom: false
+
+  UIWidget
+    id: grade_border_4
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    anchors.top: parent.top
+    background-color: #ffffffff
+    width: 1
+    visible: false
+    phantom: false
+
+  UIWidget
+    id: grade_top_1
+    anchors.left: parent.left
+    anchors.top: parent.top
+    image-source: /images/bars/marker_left
+    size: 11 7
+    visible: false
+    phantom: false
+
+  UIWidget
+    id: grade_top_2
+    anchors.left: parent.left
+    anchors.top: parent.top
+    image-source: /images/bars/marker_left
+    size: 11 7
+    visible: false
+    phantom: false
+
+  UIWidget
+    id: grade_bottom_1
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    image-source: /images/bars/marker_left
+    size: 11 7
+    visible: false
+    phantom: false
+
+  UIWidget
+    id: grade_bottom_2
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    image-source: /images/bars/marker_left
+    size: 11 7
+    visible: false
+    phantom: false
+
+// --- Barras de valor (horizontal) ---
+
+InvManaBar < UIStatsBar
+  size: 10 30
+  image-border: 1
+  clipping: true
+
+StatsBarUp < UIStatsBar
+  clipping: false
+  StatsBarDarkBackground
+    anchors.fill: parent
+    phantom: true
+
+  UIWidget
+    id: bar
+    width: 1
+    anchors.left: parent.left
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    margin: 1
+    image-repeated: true
+
+  StatsHorizontalBarGrade
+    id: horizontalGrade
+    anchors.fill: parent
+    visible: false
+
+  Label
+    id: text
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.horizontalCenter: parent.horizontalCenter
+    text-align: center
+    visible: false
+    !text: '9999999999/9999999999'
+    font: $var-cip-font-new
+
+StatsBarUpMana < UIStatsBar
+  clipping: false
+  StatsBarDarkBackground
+    anchors.fill: parent
+    phantom: true
+
+  UIWidget
+    id: bar
+    width: 1
+    anchors.right: parent.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    margin: 1
+    image-repeated: true
+
+  StatsHorizontalBarGrade
+    id: horizontalGrade
+    anchors.fill: parent
+    visible: false
+
+  StatsBarUpManaShieldOverlay
+    id: manashield
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 6
+    margin-bottom: 1
+    visible: false
+    !statsbar-type: 'manashield'
+    !statsbar-orientation: 'horizontal'
+    statsbar-text: false
+
+  Panel
+    id: textRow
+    height: 14
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 4
+    margin-right: 4
+    phantom: true
+
+    Panel
+      id: statsbarManaTextRowInner
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.verticalCenter: parent.verticalCenter
+      height: 14
+      phantom: true
+      layout:
+        type: horizontalBox
+        fit-children: true
+        spacing: 0
+
+      Label
+        id: statsbarManaValue
+        text-align: left
+        text-auto-resize: true
+        visible: true
+        color: #f0f0f0
+        !text: '9999/9999 (9999/9999'
+        font: $var-cip-font-new
+
+      UIWidget
+        id: statsbarManaShieldIcon
+        size: 9 9
+        fixed-size: true
+        phantom: true
+        visible: true
+        margin-left: 1
+        image-source: /images/game/creatures/player-state-flags
+        image-clip: 234 0 9 9
+
+      Label
+        id: statsbarManaEnd
+        text-align: left
+        visible: true
+        color: #f0f0f0
+        !text: ')'
+        font: $var-cip-font-new
+
+// StatsBarUpMana sem faixa aninhada de shield (layout LARGE: duas barras empilhadas).
+StatsBarUpManaPlain < UIStatsBar
+  clipping: false
+  StatsBarDarkBackground
+    anchors.fill: parent
+    phantom: true
+
+  UIWidget
+    id: bar
+    width: 1
+    anchors.right: parent.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    margin: 1
+    image-repeated: true
+
+  StatsHorizontalBarGrade
+    id: horizontalGrade
+    anchors.fill: parent
+    visible: false
+
+  Panel
+    id: textRow
+    height: 14
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 4
+    margin-right: 4
+    phantom: true
+
+    Panel
+      id: statsbarManaTextRowInner
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.verticalCenter: parent.verticalCenter
+      height: 14
+      phantom: true
+      layout:
+        type: horizontalBox
+        fit-children: true
+        spacing: 0
+
+      Label
+        id: statsbarManaValue
+        text-align: left
+        text-auto-resize: true
+        visible: true
+        color: #f0f0f0
+        !text: '9999/9999 (9999/9999'
+        font: $var-cip-font-new
+
+      UIWidget
+        id: statsbarManaShieldIcon
+        size: 9 9
+        fixed-size: true
+        phantom: true
+        visible: true
+        margin-left: 1
+        image-source: /images/game/creatures/player-state-flags
+        image-clip: 234 0 9 9
+
+      Label
+        id: statsbarManaEnd
+        text-align: left
+        visible: true
+        color: #f0f0f0
+        !text: ')'
+        font: $var-cip-font-new
+
+// Barra completa s� de mana shield (fundo + fill), para empilhar sob StatsBarUpManaPlain no LARGE.
+StatsBarUpManaShieldBar < UIStatsBar
+  clipping: false
+  StatsBarDarkBackground
+    anchors.fill: parent
+    phantom: true
+
+  UIWidget
+    id: bar
+    width: 1
+    anchors.right: parent.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    margin: 1
+    image-repeated: true
+
+  StatsHorizontalBarGrade
+    id: horizontalGrade
+    anchors.fill: parent
+    visible: false
+
+  Panel
+    id: textRow
+    height: 14
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 4
+    margin-right: 4
+    phantom: true
+
+    Panel
+      id: statsbarManaTextRowInner
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.verticalCenter: parent.verticalCenter
+      height: 14
+      phantom: true
+      layout:
+        type: horizontalBox
+        fit-children: true
+        spacing: 0
+
+      Label
+        id: statsbarManaValue
+        text-align: left
+        text-auto-resize: true
+        visible: true
+        color: #f0f0f0
+        !text: '9999/9999'
+        font: $var-cip-font-new
+
+      UIWidget
+        id: statsbarManaShieldIcon
+        size: 9 9
+        fixed-size: true
+        phantom: true
+        visible: true
+        margin-left: 3
+        image-source: /images/game/creatures/player-state-flags
+        image-clip: 234 0 9 9
+
+// Igual a StatsBarUpMana, mas o fill horizontal vai da esquerda para a direita (Parallel: mana sob a vida).
+StatsBarUpManaLtr < UIStatsBar
+  clipping: false
+  StatsBarDarkBackground
+    anchors.fill: parent
+    phantom: true
+
+  UIWidget
+    id: bar
+    width: 1
+    anchors.left: parent.left
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    margin: 1
+    image-repeated: true
+
+  StatsHorizontalBarGrade
+    id: horizontalGrade
+    anchors.fill: parent
+    visible: false
+
+  StatsBarUpManaShieldOverlay
+    id: manashield
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 6
+    margin-bottom: 1
+    visible: false
+    !statsbar-type: 'manashield'
+    !statsbar-orientation: 'horizontal'
+    statsbar-text: false
+
+  Panel
+    id: textRow
+    height: 14
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 4
+    margin-right: 4
+    phantom: true
+
+    Panel
+      id: statsbarManaTextRowInner
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.verticalCenter: parent.verticalCenter
+      height: 14
+      phantom: true
+      layout:
+        type: horizontalBox
+        fit-children: true
+        spacing: 0
+
+      Label
+        id: statsbarManaValue
+        text-align: left
+        text-auto-resize: true
+        visible: true
+        color: #f0f0f0
+        !text: '9999/9999 (9999/9999'
+        font: $var-cip-font-new
+
+      UIWidget
+        id: statsbarManaShieldIcon
+        size: 9 9
+        fixed-size: true
+        phantom: true
+        visible: true
+        margin-left: 1
+        image-source: /images/game/creatures/player-state-flags
+        image-clip: 234 0 9 9
+
+      Label
+        id: statsbarManaEnd
+        text-align: left
+        visible: true
+        color: #f0f0f0
+        !text: ')'
+        font: $var-cip-font-new
+
+// Faixa s� de progresso de mana shield (sem filhos com ids da mana ? evita texto duplicado).
+StatsBarUpManaShieldOverlay < UIStatsBar
+  clipping: true
+  phantom: true
+  focusable: false
+
+  UIWidget
+    id: bar
+    width: 1
+    anchors.right: parent.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    margin: 0 1
+    image-repeated: true
+
+  StatsHorizontalBarGrade
+    id: horizontalGrade
+    anchors.fill: parent
+    visible: false
+
+StatsBarUpSkill < UIStatsBar
+  clipping: false
+  StatsBarLightBackground
+    anchors.fill: parent
+    phantom: true
+
+  UIWidget
+    id: bar
+    width: 1
+    anchors.left: parent.left
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    margin: 1
+    image-repeated: true
+
+  StatsHorizontalBarGrade
+    id: horizontalGrade
+    anchors.fill: parent
+    visible: false
+
+  Label
+    id: text
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.horizontalCenter: parent.horizontalCenter
+    text-align: center
+    visible: false
+    !text: '9999999999/9999999999'
+    font: $var-cip-font-new

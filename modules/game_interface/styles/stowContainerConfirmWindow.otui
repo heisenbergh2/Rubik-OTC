@@ -1,0 +1,108 @@
+StowContainerConfirmModal < UIMessageBox
+  size: 400 128
+  image-source: /images/ui/window-high
+  image-border: 10
+  anchors.centerIn: parent
+  draggable: false
+
+  $on:
+    image-border-bottom: 2
+
+  UIWidget
+    id: miniwindowTopBar
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.left: parent.left
+    margin-right: 3
+    margin-left: 3
+    margin-top: 2
+    height: 18
+    phantom: true
+
+  Label
+    id: title
+    font: $var-cip-font-new
+    text-offset: 0 0
+    text-align: center
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 18
+    opacity: 0.5
+
+  UIWidget
+    id: footerRow
+    height: 26
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-left: 16
+    margin-right: 16
+    margin-bottom: 10
+
+    UIWidget
+      id: holder
+      size: 96 26
+      anchors.right: parent.right
+      anchors.top: parent.top
+      margin-top: 3
+
+      Button
+        id: buttonNo
+        size: 43 20
+        anchors.right: parent.right
+        anchors.top: parent.top
+        margin-top: -4
+        !text: tr('No')
+        text-offset: 0 0
+
+      Button
+        id: buttonYes
+        size: 43 20
+        anchors.right: prev.left
+        anchors.top: parent.top
+        margin-right: 6
+        margin-top: -4
+        !text: tr('Yes')
+        text-offset: 0 0
+
+    OnePixelDownFrame
+      id: doNotShowAgainPanel
+      size: 221 22
+      anchors.left: parent.left
+      anchors.top: parent.top
+      margin-top: -2
+ 
+      QtCheckBox
+        id: doNotShowAgain
+        !text: tr('Do not show this dialog again!')
+        font: $var-cip-font-lowspace
+        color: #c0c0c0
+        text-offset: 16 1
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        margin-left: 0
+        margin-top: -1
+
+  HorizontalSeparator
+    id: footerSep
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: footerRow.top
+    margin-left: 16
+    margin-right: 16
+    margin-bottom: 13
+
+  MessageBoxBodyCip
+    id: content
+    anchors.top: title.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: footerSep.top
+    margin-top: 12
+    margin-left: 15
+    margin-right: 18
+    margin-bottom: 10
+    text-wrap: true
+    text-align: left
